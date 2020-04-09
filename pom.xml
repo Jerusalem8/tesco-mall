@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jerusalem</groupId>
+    <artifactId>tesco</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <description>乐购商城-父工程</description>
+    <modules>
+        <module>tesco-common</module>
+        <module>tesco-dependency</module>
+        <module>tesco-goods</module>
+        <module>tesco-coupon</module>
+        <module>tesco-gateway</module>
+        <module>tesco-user</module>
+        <module>tesco-order</module>
+        <module>tesco-admin</module>
+        <module>tesco-ware</module>
+    </modules>
+
+    <!-- 引入SpringBoot的相关依赖 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.2.RELEASE</version>
+    </parent>
+
+    <!--跳过测试-->
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+
+    <dependencyManagement>
+        <!-- 引入SpringCloud的相关依赖 -->
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>0.9.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
