@@ -1,0 +1,17 @@
+package com.jerusalem.ware.dao;
+
+import com.jerusalem.ware.entity.WareSkuEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+/****
+ * 持久层
+ * 商品库存
+ * @author jerusalem
+ * @email 3276586184@qq.com
+ * @date 2020-04-09 17:54:29
+ */
+@Mapper
+public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
+	
+}

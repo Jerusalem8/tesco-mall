@@ -6,7 +6,7 @@ spring:
     name: goods-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.75.136:3306/gulimall_pms
+    url: jdbc:mysql://192.168.75.136:3306/tesco-goods?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
   cloud:

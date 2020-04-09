@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @Description: 启动类
  ****/
 @SpringBootApplication
-@EnableDiscoveryClient          // 开启Nacos客户端
+@EnableDiscoveryClient
 @MapperScan(basePackages = {"com.jerusalem.goods.dao"})
 public class GoodsApplication {
     public static void main(String[] args) {
