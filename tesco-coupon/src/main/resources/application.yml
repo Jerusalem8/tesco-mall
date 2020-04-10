@@ -15,6 +15,8 @@ spring:
         server-addr: 192.168.75.130:8848
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  main:
+    allow-bean-definition-overriding: true
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

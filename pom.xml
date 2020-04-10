@@ -19,6 +19,7 @@
         <module>tesco-order</module>
         <module>tesco-admin</module>
         <module>tesco-ware</module>
+        <module>tesco-api</module>
     </modules>
 
     <!-- 引入SpringBoot的相关依赖 -->
