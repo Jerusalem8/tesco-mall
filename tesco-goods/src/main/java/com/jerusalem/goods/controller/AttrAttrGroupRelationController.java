@@ -24,7 +24,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 14:48:19
  */
 @RestController
-@RequestMapping("goods/attr/group/relation")
+@RequestMapping("goods/attr/attr/group/relation")
 public class AttrAttrGroupRelationController {
 
     @Autowired

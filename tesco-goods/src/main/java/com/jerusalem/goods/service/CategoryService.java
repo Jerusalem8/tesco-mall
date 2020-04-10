@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.CategoryEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -14,6 +15,12 @@ import java.util.Map;
  * @date 2020-04-09 14:48:19
  */
 public interface CategoryService extends IService<CategoryEntity> {
+
+    /***
+     * 查询所有分类，并以树形结构组装
+     * @return
+     */
+    List<CategoryEntity> listWithTree();
 
     /**
     * 分页查询

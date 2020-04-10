@@ -1,6 +1,7 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,16 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    /***
+     * 查询所有分类，并以树形结构组装
+     * @return
+     */
+    @RequestMapping("/list/tree")
+    public R categoryListTree(){
+        List<CategoryEntity> categoryListTree = categoryService.listWithTree();
+        return R.ok().put("data", categoryListTree);
+    }
 
     /***
     * 分页查询
