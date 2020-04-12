@@ -15,7 +15,6 @@ import com.jerusalem.goods.service.BrandService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
-
 /****
  * 控制层
  * 品牌
@@ -38,7 +37,6 @@ public class BrandController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = brandService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -71,7 +69,6 @@ public class BrandController {
     @RequestMapping("/update")
     public R update(@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
-
         return R.ok();
     }
 

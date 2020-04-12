@@ -1,0 +1,16 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: oss-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.75.130:8848
+    alicloud:
+      access-key: LTAI4FibE9GHYLSkWS1caFsk
+      secret-key: 6fgpnYdXGiGgRrrzMjs4Z3xkXgCWpQ
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: tesco-mall
