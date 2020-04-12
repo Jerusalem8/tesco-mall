@@ -23,8 +23,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
-      logic-delete-value: 1
-      logic-not-delete-value: 0
+      logic-delete-value: 1     //已删除
+      logic-not-delete-value: 0     //未删除
 
 logging:
   level:

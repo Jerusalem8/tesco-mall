@@ -11,14 +11,14 @@ spring:
     gateway:
       routes:
         # 商品微服务
-        - id: goods-service-consumer
+        - id: goods-service-route
           uri: lb://goods-service
           predicates:
             - Path=/api/goods/**
           filters:
             - StripPrefix= 1
         # 后台管理系统（放在最后，低精确Url放于后，高精确Url放于前）
-        - id: admin-service-consumer
+        - id: admin-service-route
           uri: lb://admin-service
           predicates:
             - Path=/api/**

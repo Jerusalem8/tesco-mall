@@ -42,6 +42,52 @@ public class CategoryController {
     }
 
     /***
+     * 新增
+     * @return
+     */
+    @RequestMapping("/save")
+    public R save(@RequestBody CategoryEntity category){
+        categoryService.save(category);
+        return R.ok();
+    }
+
+    /***
+     * 修改
+     * @return
+     */
+    @RequestMapping("/update")
+    public R update(@RequestBody CategoryEntity category){
+        categoryService.updateById(category);
+        return R.ok();
+    }
+
+    /***
+     * 拖拽修改
+     * @param category
+     * @return
+     */
+    @RequestMapping("/update/sort")
+    public R updateSort(@RequestBody CategoryEntity[] category){
+        //批量修改
+        categoryService.updateBatchById(Arrays.asList(category));
+        return R.ok();
+    }
+
+    /***
+     * 批量、逻辑删除
+     * @RequestBody: 获取请求体，必须发送POST请求
+     * SpringMVC自动将请求体的数据（json），转为对应的对象
+     * @return
+     */
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Long[] categoryIds){
+        categoryService.removeMenuIds(Arrays.asList(categoryIds));
+        return R.ok();
+    }
+
+
+
+    /***
     * 分页查询
     * @param params
     * @return
@@ -49,7 +95,6 @@ public class CategoryController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = categoryService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -60,40 +105,6 @@ public class CategoryController {
     @RequestMapping("/info/{categoryId}")
     public R info(@PathVariable("categoryId") Long categoryId){
 		CategoryEntity category = categoryService.getById(categoryId);
-
         return R.ok().put("category", category);
-    }
-
-    /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
-
-        return R.ok();
-    }
-
-    /***
-    * 修改
-    * @return
-    */
-    @RequestMapping("/update")
-    public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
-
-        return R.ok();
-    }
-
-    /***
-    * 删除
-    * @return
-    */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] categoryIds){
-		categoryService.removeByIds(Arrays.asList(categoryIds));
-
-        return R.ok();
     }
 }
