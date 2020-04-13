@@ -1,7 +1,11 @@
 <template>
   <div>
     <el-upload
+<<<<<<< HEAD
       action="http://tesco-mall.oss-cn-beijing.aliyuncs.com"
+=======
+      action="http://gulimall-hello.oss-cn-beijing.aliyuncs.com"
+>>>>>>> 0169034b8c529c7a453a05a8ace5767c3f1acdb3
       :data="dataObj"
       :list-type="listType"
       :file-list="fileList"

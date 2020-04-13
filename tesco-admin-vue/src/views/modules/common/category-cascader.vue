@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
 <!-- 
+=======
+<!--
+>>>>>>> 0169034b8c529c7a453a05a8ace5767c3f1acdb3
 使用说明：
 1）、引入category-cascader.vue
 2）、语法：<category-cascader :catelogPath.sync="catelogPath"></category-cascader>
@@ -10,7 +14,11 @@
   <div>
     <el-cascader
       filterable
+<<<<<<< HEAD
       clearable 
+=======
+      clearable
+>>>>>>> 0169034b8c529c7a453a05a8ace5767c3f1acdb3
       placeholder="试试搜索：手机"
       v-model="paths"
       :options="categorys"
@@ -61,7 +69,11 @@ export default {
   methods: {
     getCategorys() {
       this.$http({
+<<<<<<< HEAD
         url: this.$http.adornUrl("/product/category/list/tree"),
+=======
+        url: this.$http.adornUrl("/goods/category/list/tree"),
+>>>>>>> 0169034b8c529c7a453a05a8ace5767c3f1acdb3
         method: "get"
       }).then(({ data }) => {
         this.categorys = data.data;
@@ -75,4 +87,8 @@ export default {
 };
 </script>
 <style scoped>
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> 0169034b8c529c7a453a05a8ace5767c3f1acdb3
