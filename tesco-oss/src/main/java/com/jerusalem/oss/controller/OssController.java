@@ -41,8 +41,8 @@ public class OssController {
     @RequestMapping("/oss/policy")
     public R policy() {
 
-        //https://tesco-mall.oss-cn-beijing.aliyuncs.com/picture.jpg
-        String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
+        //https://tesco-mall.oss-cn-beijing.aliyuncs.com
+        String host = "https://" + bucket + "." + endpoint;
         //callbackUrl为 上传回调服务器的URL
 //        String callbackUrl = "http://88.88.88.88:8888";
         //以日期为目录，对文件进行分别存储
