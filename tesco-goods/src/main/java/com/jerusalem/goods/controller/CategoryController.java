@@ -16,7 +16,6 @@ import com.jerusalem.goods.service.CategoryService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
-
 /****
  * 控制层
  * 商品三级分类
@@ -62,7 +61,7 @@ public class CategoryController {
     }
 
     /***
-     * 拖拽修改
+     * 拖拽排序
      * @param category
      * @return
      */
