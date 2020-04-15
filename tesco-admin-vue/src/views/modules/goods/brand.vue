@@ -31,10 +31,6 @@
       <el-table-column prop="name" header-align="center" align="center" label="品牌名"></el-table-column>
       <el-table-column prop="logo" header-align="center" align="center" label="品牌logo">
         <template slot-scope="scope">
-          <!-- <el-image
-              style="width: 100px; height: 80px"
-              :src="scope.row.logo"
-          fit="fill"></el-image>-->
           <img :src="scope.row.logo" style="width: 100px; height: 80px" />
         </template>
       </el-table-column>
@@ -170,7 +166,7 @@ export default {
         this.cateRelationTableData = data.data;
       });
     },
-    // 获取数据列表
+    // 获取品牌数据列表
     getDataList() {
       this.dataListLoading = true;
       this.$http({

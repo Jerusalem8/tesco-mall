@@ -1,9 +1,11 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import com.jerusalem.goods.entity.BrandEntity;
 import com.jerusalem.goods.service.BrandService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
+
+import javax.validation.Valid;
 
 /****
  * 控制层
@@ -46,19 +50,18 @@ public class BrandController {
     */
     @RequestMapping("/info/{brandId}")
     public R info(@PathVariable("brandId") Long brandId){
-		BrandEntity brand = brandService.getById(brandId);
-
+        BrandEntity brand = brandService.getById(brandId);
         return R.ok().put("brand", brand);
     }
 
     /***
     * 新增
+     * @Valid： 开启校验
     * @return
     */
     @RequestMapping("/save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
-
+    public R save(@Valid @RequestBody BrandEntity brand){
+        brandService.save(brand);
         return R.ok();
     }
 
@@ -79,7 +82,6 @@ public class BrandController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] brandIds){
 		brandService.removeByIds(Arrays.asList(brandIds));
-
         return R.ok();
     }
 }

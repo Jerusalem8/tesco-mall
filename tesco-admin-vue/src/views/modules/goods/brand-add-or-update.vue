@@ -57,7 +57,7 @@ export default {
         descript: "",
         showStatus: 1,
         firstLetter: "",
-        sort: 0
+        sort: ""
       },
       dataRule: {
         name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
@@ -80,7 +80,7 @@ export default {
               if (value == "") {
                 callback(new Error("首字母必须填写"));
               } else if (!/^[a-zA-Z]$/.test(value)) {
-                callback(new Error("首字母必须a-z或者A-Z之间"));
+                callback(new Error("首字母必须在a-z或者A-Z之间"));
               } else {
                 callback();
               }

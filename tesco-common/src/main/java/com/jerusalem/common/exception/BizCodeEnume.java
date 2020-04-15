@@ -12,10 +12,9 @@ package com.jerusalem.common.exception;
  *  12: 订单
  *  13: 购物车
  *  14: 物流
- *
- *
  */
 public enum BizCodeEnume {
+
     UNKNOW_EXCEPTION(10000,"系统未知异常"),
     VAILD_EXCEPTION(10001,"参数格式校验失败");
 
