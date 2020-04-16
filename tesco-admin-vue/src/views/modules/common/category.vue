@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
+    <el-input placeholder="输入关键字搜索" v-model="filterText"></el-input>
     <el-tree
       :data="menus"
       :props="defaultProps"
-      node-key="catId"
+      node-key="categoryId"
       ref="menuTree"
       @node-click="nodeclick"
       :filter-node-method="filterNode"
@@ -57,7 +57,7 @@ export default {
     },
     nodeclick(data, node, component) {
       console.log("子组件category的节点被点击", data, node, component);
-      //向父组件发送事件；
+      //向父组件发送事件
       this.$emit("tree-node-click", data, node, component);
     }
   },
@@ -77,5 +77,4 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>

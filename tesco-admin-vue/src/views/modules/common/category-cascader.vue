@@ -1,5 +1,5 @@
 <template>
-<!-- 
+<!--
 使用说明：
 1）、引入category-cascader.vue
 2）、语法：<category-cascader :catelogPath.sync="catelogPath"></category-cascader>
@@ -10,7 +10,7 @@
   <div>
     <el-cascader
       filterable
-      clearable 
+      clearable
       placeholder="试试搜索：手机"
       v-model="paths"
       :options="categorys"
@@ -27,7 +27,7 @@ export default {
   components: {},
   //接受父组件传来的值
   props: {
-    catelogPath: {
+    categoryPath: {
       type: Array,
       default(){
         return [];
@@ -43,17 +43,17 @@ export default {
         children: "children"
       },
       categorys: [],
-      paths: this.catelogPath
+      paths: this.categoryPath
     };
   },
   watch:{
-    catelogPath(v){
-      this.paths = this.catelogPath;
+    categoryPath(v){
+      this.paths = this.categoryPath;
     },
     paths(v){
-      this.$emit("update:catelogPath",v);
+      this.$emit("update:categoryPath",v);
       //还可以使用pubsub-js进行传值
-      this.PubSub.publish("catPath",v);
+      this.PubSub.publish("categoryPath",v);
     }
   },
   //方法集合
