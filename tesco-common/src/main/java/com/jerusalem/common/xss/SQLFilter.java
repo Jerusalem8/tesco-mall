@@ -1,21 +1,14 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.jerusalem.common.xss;
 
 import com.jerusalem.common.utils.RRException;
 import org.apache.commons.lang.StringUtils;
 
-/**
+/****
+ * @Author: jerusalem
+ * @Description: SQLFilter
  * SQL过滤
- *
- * @author Mark sunlightcs@gmail.com
- */
+ * @Date 2020/4/16 10:00
+ *****/
 public class SQLFilter {
 
     /**
@@ -44,7 +37,6 @@ public class SQLFilter {
                 throw new RRException("包含非法字符");
             }
         }
-
         return str;
     }
 }

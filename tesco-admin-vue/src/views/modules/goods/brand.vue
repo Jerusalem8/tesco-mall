@@ -193,7 +193,7 @@ export default {
       let { brandId, showStatus } = data;
       //发送请求修改状态
       this.$http({
-        url: this.$http.adornUrl("/goods/brand/update"),
+        url: this.$http.adornUrl("/goods/brand/update/status"),
         method: "post",
         data: this.$http.adornData({ brandId, showStatus }, false)
       }).then(({ data }) => {
@@ -233,7 +233,7 @@ export default {
             return item.brandId;
           });
       this.$confirm(
-        `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对【id=${ids.join(",")}】进行【${id ? "删除" : "批量删除"}】操作?`,
         "提示",
         {
           confirmButtonText: "确定",

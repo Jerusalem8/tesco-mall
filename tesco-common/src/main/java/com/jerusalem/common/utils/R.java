@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.jerusalem.common.utils;
 
 import org.apache.http.HttpStatus;
@@ -13,11 +5,12 @@ import org.apache.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 返回数据
- *
- * @author Mark sunlightcs@gmail.com
- */
+/****
+ * @Author: jerusalem
+ * @Description: R
+ * 返回结果信息数据封装
+ * @Date 2020/4/16 10:00
+ *****/
 public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 	

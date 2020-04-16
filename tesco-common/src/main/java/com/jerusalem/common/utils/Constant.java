@@ -1,19 +1,13 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.jerusalem.common.utils;
 
-/**
+/****
+ * @Author: jerusalem
+ * @Description: Constant
  * 常量
- *
- * @author Mark sunlightcs@gmail.com
- */
+ * @Date 2020/4/16 10:00
+ *****/
 public class Constant {
+
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;
     /**

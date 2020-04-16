@@ -10,16 +10,23 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.ElementType.TYPE_USE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/****
+ * @Author: jerusalem
+ * @Description: ListValue
+ * 自定义校验注解
+ * @Date 2020/4/16 10:36
+ *****/
 @Documented
 @Constraint(validatedBy = { ListValueConstraintValidator.class })
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 public @interface ListValue {
-    String message() default "{com.atguigu.common.valid.ListValue.message}";
+
+    String message() default "{com.jerusalem.common.valid.ListValue.message}";
 
     Class<?>[] groups() default { };
 
     Class<? extends Payload>[] payload() default { };
 
-    int[] vals() default { };
+    int[] values() default { };
 }

@@ -1,23 +1,15 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.jerusalem.common.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
 import java.io.Serializable;
 import java.util.List;
 
-/**
+/****
+ * @Author: jerusalem
+ * @Description: PageUtils
  * 分页工具类
- *
- * @author Mark sunlightcs@gmail.com
- */
+ * @Date 2020/4/16 10:00
+ *****/
 public class PageUtils implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/**
