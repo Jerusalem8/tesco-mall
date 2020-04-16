@@ -11,6 +11,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.goods.dao.AttrGroupDao;
 import com.jerusalem.goods.entity.AttrGroupEntity;
 import com.jerusalem.goods.service.AttrGroupService;
+import org.springframework.util.StringUtils;
 
 /****
  * 服务层接口实现类
@@ -21,6 +22,37 @@ import com.jerusalem.goods.service.AttrGroupService;
  */
 @Service("attrGroupService")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
+
+    /***
+     * 根据三级分类ID、搜索关键词（属性分组名）查询属性分组
+     * @param params
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public PageUtils queryPage(Map<String, Object> params, Long categoryId) {
+        //构造查询条件
+        String key = (String) params.get("key");
+        QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<AttrGroupEntity>();
+        if(!StringUtils.isEmpty(key)){
+            wrapper.and((obj)->{
+                obj.eq("attr_group_id",key).or().like("attr_group_name",key);
+            });
+        }
+        //查询
+        if( categoryId == 0){
+            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params),
+                    wrapper);
+            return new PageUtils(page);
+        }else {
+            wrapper.eq("category_id",categoryId);
+            IPage<AttrGroupEntity> page = this.page(new Query<AttrGroupEntity>().getPage(params),
+                    wrapper);
+            return new PageUtils(page);
+        }
+    }
+
+
 
     /**
     * 分页查询

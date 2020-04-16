@@ -16,6 +16,14 @@ import java.util.Map;
 public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     /**
+     * 根据三级分类ID、搜索关键词（属性分组名）查询属性分组
+     * @param params
+     * @param categoryId
+     * @return
+     */
+    PageUtils queryPage(Map<String, Object> params, Long categoryId);
+
+    /**
     * 分页查询
     * @param params
     * @return

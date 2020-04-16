@@ -2,6 +2,8 @@ package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,6 +61,21 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
+     * 根据第三级分类ID查询完整的三级分类ID路径
+     * 路径示例：[2,25,225]
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public Long[] findCategoryPath(Long categoryId) {
+        List<Long> paths = new ArrayList<>();
+        List<Long> parentPath = findParentPath(categoryId, paths);
+        //逆序转换
+        Collections.reverse(parentPath);
+        return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    /**
     * 分页查询
     * @param params
     * @return
@@ -92,4 +109,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return children;
     }
 
+    /***
+     * 递归查找所有分类的父分类
+     * 最终得到逆序[225,25,2]
+     * @param categoryId
+     * @param paths
+     * @return
+     */
+    private List<Long> findParentPath(Long categoryId,List<Long> paths){
+        //收集当前节点id
+        paths.add(categoryId);
+        CategoryEntity byId = this.getById(categoryId);
+        if(byId.getParentCid()!=0){
+            findParentPath(byId.getParentCid(),paths);
+        }
+        return paths;
+    }
 }
