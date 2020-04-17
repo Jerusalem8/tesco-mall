@@ -1,5 +1,7 @@
 package com.jerusalem.goods.service.impl;
 
+import com.jerusalem.goods.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.goods.dao.CategoryDao;
 import com.jerusalem.goods.entity.CategoryEntity;
 import com.jerusalem.goods.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 /****
  * 服务层接口实现类
@@ -27,6 +30,10 @@ import com.jerusalem.goods.service.CategoryService;
  */
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
+
 
     /***
      * 查询所有分类，并以树形结构组装
@@ -87,6 +94,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 new QueryWrapper<CategoryEntity>()
         );
         return new PageUtils(page);
+    }
+
+    /***
+     * 级联更新
+     * 更新分类表及其他关联表的关联数据
+     * @return
+     */
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCategoryId(),category.getName());
     }
 
     /***

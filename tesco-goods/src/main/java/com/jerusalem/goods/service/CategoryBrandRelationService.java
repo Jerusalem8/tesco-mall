@@ -21,5 +21,25 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 新增品牌分类关联
+     * @param categoryBrandRelation
+     */
+    void saveDetail(CategoryBrandRelationEntity categoryBrandRelation);
+
+    /**
+     * 根据品牌ID更新品牌名
+     * @param brandId
+     * @param name
+     */
+    void updateBrand(Long brandId, String name);
+
+    /**
+     * 根据分类ID更新分类名
+     * @param categoryId
+     * @param name
+     */
+    void updateCategory(Long categoryId, String name);
 }
 

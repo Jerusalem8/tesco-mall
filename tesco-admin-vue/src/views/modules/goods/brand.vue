@@ -71,7 +71,7 @@
 
     <el-dialog title="关联分类" :visible.sync="cateRelationDialogVisible" width="30%">
       <el-popover placement="right-end" v-model="popCatelogSelectVisible">
-        <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
+        <category-cascader :categoryPath.sync="categoryPath"></category-cascader>
         <div style="text-align: right; margin: 0">
           <el-button size="mini" type="text" @click="popCatelogSelectVisible = false">取消</el-button>
           <el-button type="primary" size="mini" @click="addCatelogSelect">确定</el-button>
@@ -79,9 +79,9 @@
         <el-button slot="reference">新增关联</el-button>
       </el-popover>
       <el-table :data="cateRelationTableData" style="width: 100%">
-        <el-table-column prop="id" label="#"></el-table-column>
+        <el-table-column prop="id" label="ID"></el-table-column>
         <el-table-column prop="brandName" label="品牌名"></el-table-column>
-        <el-table-column prop="catelogName" label="分类名"></el-table-column>
+        <el-table-column prop="categoryName" label="分类名"></el-table-column>
         <el-table-column fixed="right" header-align="center" align="center" label="操作">
           <template slot-scope="scope">
             <el-button
@@ -110,7 +110,7 @@ export default {
         key: ""
       },
       brandId: 0,
-      catelogPath: [],
+      categoryPath: [],
       dataList: [],
       cateRelationTableData: [],
       pageIndex: 1,
@@ -136,7 +136,7 @@ export default {
       this.$http({
         url: this.$http.adornUrl("/goods/category/brand/relation/save"),
         method: "post",
-        data: this.$http.adornData({brandId:this.brandId,catelogId:this.catelogPath[this.catelogPath.length-1]}, false)
+        data: this.$http.adornData({brandId:this.brandId,categoryId:this.categoryPath[this.categoryPath.length-1]}, false)
       }).then(({ data }) => {
         this.getCateRelation();
       });
@@ -157,7 +157,7 @@ export default {
     },
     getCateRelation() {
       this.$http({
-        url: this.$http.adornUrl("/goods/category/brand/relation/catelog/list"),
+        url: this.$http.adornUrl("/goods/category/brand/relation/category/list"),
         method: "get",
         params: this.$http.adornParams({
           brandId: this.brandId

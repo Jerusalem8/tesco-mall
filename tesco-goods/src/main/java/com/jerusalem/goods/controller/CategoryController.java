@@ -5,11 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.goods.entity.CategoryEntity;
 import com.jerusalem.goods.service.CategoryService;
@@ -34,38 +30,49 @@ public class CategoryController {
      * 查询所有分类，并以树形结构组装
      * @return
      */
-    @RequestMapping("/list/tree")
+    @GetMapping("/list/tree")
     public R categoryListTree(){
         List<CategoryEntity> categoryListTree = categoryService.listWithTree();
         return R.ok().put("data", categoryListTree);
     }
 
     /***
-     * 新增
+     * 查询分类（实现修改分类时数据的回显）
      * @return
      */
-    @RequestMapping("/save")
+    @GetMapping("/info/{categoryId}")
+    public R info(@PathVariable("categoryId") Long categoryId){
+        CategoryEntity category = categoryService.getById(categoryId);
+        return R.ok().put("category", category);
+    }
+
+    /***
+     * 新增分类
+     * @return
+     */
+    @PostMapping("/save")
     public R save(@RequestBody CategoryEntity category){
         categoryService.save(category);
         return R.ok();
     }
 
     /***
-     * 修改
+     * 级联更新
+     * 更新分类表及其他关联表的关联数据
      * @return
      */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody CategoryEntity category){
-        categoryService.updateById(category);
+        categoryService.updateCascade(category);
         return R.ok();
     }
 
     /***
-     * 拖拽排序
+     * 拖拽、排序更新
      * @param category
      * @return
      */
-    @RequestMapping("/update/sort")
+    @PostMapping("/update/sort")
     public R updateSort(@RequestBody CategoryEntity[] category){
         //批量修改
         categoryService.updateBatchById(Arrays.asList(category));
@@ -78,7 +85,7 @@ public class CategoryController {
      * SpringMVC自动将请求体的数据（json），转为对应的对象
      * @return
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] categoryIds){
         categoryService.removeMenuIds(Arrays.asList(categoryIds));
         return R.ok();
@@ -86,24 +93,16 @@ public class CategoryController {
 
 
 
+
     /***
-    * 分页查询
-    * @param params
-    * @return
-    */
-    @RequestMapping("/list")
+     * 分页查询
+     * @param params
+     * @return
+     */
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = categoryService.queryPage(params);
         return R.ok().put("page", page);
     }
 
-    /***
-    * 查询
-    * @return
-    */
-    @RequestMapping("/info/{categoryId}")
-    public R info(@PathVariable("categoryId") Long categoryId){
-		CategoryEntity category = categoryService.getById(categoryId);
-        return R.ok().put("category", category);
-    }
 }

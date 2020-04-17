@@ -11,4 +11,7 @@
         <result property="brandName" column="brand_name"/>
         <result property="categoryName" column="category_name"/>
     </resultMap>
+<!--    <update id="updateCategory">-->
+<!--        UPDATE `category_brand_relation` SET category_name=#{name} WHERE category_id=#{categoryId}-->
+<!--    </update>-->
 </mapper>

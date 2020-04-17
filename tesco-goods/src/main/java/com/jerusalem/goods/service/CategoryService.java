@@ -41,5 +41,12 @@ public interface CategoryService extends IService<CategoryEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 级联更新
+     * 更新分类表及其他关联表的关联数据
+     * @return
+     */
+    void updateCascade(CategoryEntity category);
 }
 
