@@ -35,7 +35,6 @@
         <skipTests>true</skipTests>
     </properties>
 
-
     <dependencyManagement>
         <!-- 引入SpringCloud的相关依赖 -->
         <dependencies>
