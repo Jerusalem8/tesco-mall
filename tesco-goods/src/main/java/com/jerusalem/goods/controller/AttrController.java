@@ -15,7 +15,6 @@ import com.jerusalem.goods.service.AttrService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
-
 /****
  * 控制层
  * 商品属性
