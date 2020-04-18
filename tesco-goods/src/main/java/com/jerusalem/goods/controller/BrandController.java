@@ -29,7 +29,7 @@ public class BrandController {
     private BrandService brandService;
 
     /***
-    * 分页查询、关键词查询品牌列表
+    * 根据关键词分页查询品牌列表
     * @param params
     * @return
     */
@@ -84,7 +84,7 @@ public class BrandController {
     }
 
     /***
-    * 品牌删除、批量删除
+    * 删除、批量删除品牌
     * @return
     */
     @PostMapping("/delete")

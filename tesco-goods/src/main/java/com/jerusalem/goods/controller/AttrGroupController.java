@@ -31,7 +31,7 @@ public class AttrGroupController {
     private CategoryService categoryService;
 
     /***
-     * 根据三级分类ID、搜索关键词（属性分组名）查询属性分组
+     * 根据三级分类ID、关键词分页查询属性分组
      * 分类ID为0，则默认查询全部
      * @param params
      * @param categoryId
@@ -88,19 +88,5 @@ public class AttrGroupController {
     public R delete(@RequestBody Long[] attrGroupIds){
 		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
         return R.ok();
-    }
-
-
-
-
-    /***
-     * 分页查询
-     * @param params
-     * @return
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrGroupService.queryPage(params);
-        return R.ok().put("page", page);
     }
 }

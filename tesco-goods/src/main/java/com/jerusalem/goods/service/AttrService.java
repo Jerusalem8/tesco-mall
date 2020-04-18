@@ -3,6 +3,8 @@ package com.jerusalem.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.AttrEntity;
+import com.jerusalem.goods.vo.AttrResponseVo;
+import com.jerusalem.goods.vo.AttrVo;
 
 import java.util.Map;
 
@@ -15,11 +17,32 @@ import java.util.Map;
  */
 public interface AttrService extends IService<AttrEntity> {
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    PageUtils queryPage(Map<String, Object> params);
+    /***
+     * 根据分类ID、关键词分页查询基本属性
+     * @param params
+     * @param categoryId
+     * @param attrType
+     * @return
+     */
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Long categoryId, String attrType);
+
+    /***
+     * 查询属性的信息（实现修改时数据的回显）
+     * @param attrId
+     * @return
+     */
+    AttrResponseVo getAttrInfo(Long attrId);
+
+    /***
+     * 新增属性
+     * @param attr
+     */
+    void saveAttr(AttrVo attr);
+
+    /***
+     * 修改属性的信息
+     * @param attr
+     */
+    void updateAttr(AttrVo attr);
 }
 

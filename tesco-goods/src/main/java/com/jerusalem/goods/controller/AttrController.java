@@ -3,14 +3,10 @@ package com.jerusalem.goods.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.goods.vo.AttrResponseVo;
+import com.jerusalem.goods.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.jerusalem.goods.entity.AttrEntity;
+import org.springframework.web.bind.annotation.*;
 import com.jerusalem.goods.service.AttrService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
@@ -30,46 +26,46 @@ public class AttrController {
     private AttrService attrService;
 
     /***
-    * 分页查询
-    * @param params
-    * @return
-    */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
+     * 根据分类ID、关键词分页查询基本属性和销售属性
+     * @param params
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/{attrType}/list/{categoryId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable(value = "categoryId") Long categoryId,
+                          @PathVariable(value = "attrType") String attrType){
+        PageUtils page = attrService.queryBaseAttrPage(params,categoryId,attrType);
         return R.ok().put("page", page);
     }
 
     /***
-    * 查询
+    * 查询属性信息（实现修改时的数据回显）
     * @return
     */
-    @RequestMapping("/info/{attrId}")
+    @GetMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+        AttrResponseVo attrResponseVo = attrService.getAttrInfo(attrId);
+        return R.ok().put("attr", attrResponseVo);
     }
 
     /***
-    * 新增
+    * 新增属性
     * @return
     */
-    @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
-
+    @PostMapping("/save")
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
         return R.ok();
     }
 
     /***
-    * 修改
+    * 修改属性
     * @return
     */
-    @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+    @PostMapping("/update")
+    public R update(@RequestBody AttrVo attr){
+		attrService.updateAttr(attr);
         return R.ok();
     }
 

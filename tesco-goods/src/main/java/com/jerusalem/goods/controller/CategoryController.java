@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     /***
-     * 查询分类（实现修改分类时数据的回显）
+     * 查询分类信息（实现修改分类时数据的回显）
      * @return
      */
     @GetMapping("/info/{categoryId}")
@@ -57,8 +57,8 @@ public class CategoryController {
     }
 
     /***
-     * 级联更新
-     * 更新分类表及其他关联表的关联数据
+     * 修改分类
+     * 同步更新其他关联表中的数据，保证数据的一致性
      * @return
      */
     @PostMapping("/update")
@@ -68,19 +68,18 @@ public class CategoryController {
     }
 
     /***
-     * 拖拽、排序更新
+     * 拖拽、排序、批量更新
      * @param category
      * @return
      */
     @PostMapping("/update/sort")
     public R updateSort(@RequestBody CategoryEntity[] category){
-        //批量修改
         categoryService.updateBatchById(Arrays.asList(category));
         return R.ok();
     }
 
     /***
-     * 批量、逻辑删除
+     * 批量、逻辑删除分类
      * @RequestBody: 获取请求体，必须发送POST请求
      * SpringMVC自动将请求体的数据（json），转为对应的对象
      * @return
@@ -94,15 +93,6 @@ public class CategoryController {
 
 
 
-    /***
-     * 分页查询
-     * @param params
-     * @return
-     */
-    @GetMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
-        return R.ok().put("page", page);
-    }
+
 
 }

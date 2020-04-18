@@ -60,40 +60,4 @@ public class CategoryBrandRelationController {
 		categoryBrandRelationService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
-
-
-
-
-    /***
-     * 分页查询
-     * @param params
-     * @return
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryBrandRelationService.queryPage(params);
-        return R.ok().put("page", page);
-    }
-
-    /***
-     * 查询
-     * @return
-     */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-        CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
-
-        return R.ok().put("categoryBrandRelation", categoryBrandRelation);
-    }
-
-    /***
-     * 修改
-     * @return
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-        categoryBrandRelationService.updateById(categoryBrandRelation);
-
-        return R.ok();
-    }
 }
