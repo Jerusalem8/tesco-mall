@@ -24,7 +24,7 @@ public interface AttrService extends IService<AttrEntity> {
      * @param attrType
      * @return
      */
-    PageUtils queryBaseAttrPage(Map<String, Object> params, Long categoryId, String attrType);
+    PageUtils queryAttrPage(Map<String, Object> params, Long categoryId, String attrType);
 
     /***
      * 查询属性的信息（实现修改时数据的回显）

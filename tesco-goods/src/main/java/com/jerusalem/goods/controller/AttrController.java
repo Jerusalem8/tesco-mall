@@ -35,7 +35,7 @@ public class AttrController {
     public R baseAttrList(@RequestParam Map<String, Object> params,
                           @PathVariable(value = "categoryId") Long categoryId,
                           @PathVariable(value = "attrType") String attrType){
-        PageUtils page = attrService.queryBaseAttrPage(params,categoryId,attrType);
+        PageUtils page = attrService.queryAttrPage(params,categoryId,attrType);
         return R.ok().put("page", page);
     }
 
@@ -73,10 +73,9 @@ public class AttrController {
     * 删除
     * @return
     */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
-
         return R.ok();
     }
 }
