@@ -157,7 +157,7 @@ export default {
     },
     getCateRelation() {
       this.$http({
-        url: this.$http.adornUrl("/goods/category/brand/relation/category/list"),
+        url: this.$http.adornUrl("/goods/category/brand/relation/list"),
         method: "get",
         params: this.$http.adornParams({
           brandId: this.brandId

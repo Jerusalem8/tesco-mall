@@ -131,7 +131,7 @@ export default {
         postData.push({ attrId: item.attrId, attrGroupId: this.attrGroupId });
       });
       this.$http({
-        url: this.$http.adornUrl("/product/attrgroup/attr/relation/delete"),
+        url: this.$http.adornUrl("/goods/attr/attr/group/relation/delete"),
         method: "post",
         data: this.$http.adornData(postData, false)
       }).then(({ data }) => {
@@ -148,7 +148,7 @@ export default {
       let data = [];
       data.push({ attrId, attrGroupId: this.attrGroupId });
       this.$http({
-        url: this.$http.adornUrl("/product/attrgroup/attr/relation/delete"),
+        url: this.$http.adornUrl("/goods/attr/attr/group/relation/delete"),
         method: "post",
         data: this.$http.adornData(data, false)
       }).then(({ data }) => {
@@ -170,7 +170,7 @@ export default {
           postData.push({ attrId: item.attrId, attrGroupId: this.attrGroupId });
         });
         this.$http({
-          url: this.$http.adornUrl("/product/attrgroup/attr/relation"),
+          url: this.$http.adornUrl("/goods/attr/attr/group/relation"),
           method: "post",
           data: this.$http.adornData(postData, false)
         }).then(({ data }) => {
@@ -188,7 +188,7 @@ export default {
       this.visible = true;
       this.$http({
         url: this.$http.adornUrl(
-          "/product/attrgroup/" + this.attrGroupId + "/attr/relation"
+          "/goods/attr/attr/group/" + this.attrGroupId + "/attr/relation"
         ),
         method: "get",
         params: this.$http.adornParams({})
@@ -204,7 +204,7 @@ export default {
       this.dataListLoading = true;
       this.$http({
         url: this.$http.adornUrl(
-          "/product/attrgroup/" + this.attrGroupId + "/noattr/relation"
+          "/goods/attr/attr/group/" + this.attrGroupId + "/noattr/relation"
         ),
         method: "get",
         params: this.$http.adornParams({

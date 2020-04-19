@@ -89,10 +89,4 @@ public class CategoryController {
         categoryService.removeMenuIds(Arrays.asList(categoryIds));
         return R.ok();
     }
-
-
-
-
-
-
 }

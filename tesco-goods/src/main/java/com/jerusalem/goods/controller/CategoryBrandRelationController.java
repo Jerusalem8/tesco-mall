@@ -33,7 +33,7 @@ public class CategoryBrandRelationController {
      * @param brandId
      * @return
      */
-    @GetMapping("/category/list")
+    @GetMapping("/list")
     public R categoryList(@RequestParam("brandId")Long brandId){
         List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(
                 new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id",brandId)

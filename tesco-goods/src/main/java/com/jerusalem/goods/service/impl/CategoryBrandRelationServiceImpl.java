@@ -34,20 +34,6 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Autowired
     private CategoryDao categoryDao;
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CategoryBrandRelationEntity> page = this.page(
-                new Query<CategoryBrandRelationEntity>().getPage(params),
-                new QueryWrapper<CategoryBrandRelationEntity>()
-        );
-        return new PageUtils(page);
-    }
-
     /***
      * 新增品牌分类关联
      * @param categoryBrandRelation

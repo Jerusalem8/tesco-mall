@@ -1,14 +1,15 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jerusalem.goods.entity.AttrEntity;
+import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
+import com.jerusalem.goods.service.AttrService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.goods.entity.AttrAttrGroupRelationEntity;
 import com.jerusalem.goods.service.AttrAttrGroupRelationService;
@@ -30,16 +31,19 @@ public class AttrAttrGroupRelationController {
     @Autowired
     private AttrAttrGroupRelationService attrAttrGroupRelationService;
 
+    @Autowired
+    private AttrService attrService;
+
     /***
-    * 分页查询
-    * @param params
+    * 获取属性分组的关联属性列表
+    * @param attrGroupId
     * @return
     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrAttrGroupRelationService.queryPage(params);
-
-        return R.ok().put("page", page);
+    @GetMapping("/{attrgroupId}")
+    public R attrList(@RequestParam("attrGroupId") Long attrGroupId){
+//        List<AttrEntity> entities =  attrService.getRelationAttr(attrgroupId);
+//        return R.ok().put("data",entities);
+        return null;
     }
 
     /***
