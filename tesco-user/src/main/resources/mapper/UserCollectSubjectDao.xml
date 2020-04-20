@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jerusalem.user.dao.MemberCollectSubjectDao">
+<mapper namespace="com.jerusalem.user.dao.UserCollectSubjectDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.jerusalem.user.entity.MemberCollectSubjectEntity" id="memberCollectSubjectMap">
+    <resultMap type="com.jerusalem.user.entity.UserCollectSubjectEntity" id="userCollectSubjectMap">
         <result property="id" column="id"/>
         <result property="subjectId" column="subject_id"/>
         <result property="subjectName" column="subject_name"/>

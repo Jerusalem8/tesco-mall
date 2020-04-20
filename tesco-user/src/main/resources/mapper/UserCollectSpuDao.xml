@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jerusalem.user.dao.MemberCollectSpuDao">
+<mapper namespace="com.jerusalem.user.dao.UserCollectSpuDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.jerusalem.user.entity.MemberCollectSpuEntity" id="memberCollectSpuMap">
+    <resultMap type="com.jerusalem.user.entity.UserCollectSpuEntity" id="userCollectSpuMap">
         <result property="id" column="id"/>
-        <result property="memberId" column="member_id"/>
+        <result property="userId" column="user_id"/>
         <result property="spuId" column="spu_id"/>
         <result property="spuName" column="spu_name"/>
         <result property="spuImg" column="spu_img"/>
