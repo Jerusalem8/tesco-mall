@@ -8,18 +8,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
-import com.jerusalem.user.dao.GrowthChangeHistoryDao;
-import com.jerusalem.user.service.GrowthChangeHistoryService;
+import com.jerusalem.user.dao.UserLoginLogDao;
+import com.jerusalem.user.entity.UserLoginLogEntity;
+import com.jerusalem.user.service.UserLoginLogService;
 
 /****
  * 服务层接口实现类
- * 成长值变化历史记录
+ * 用户登录记录
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
-@Service("growthChangeHistoryService")
-public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHistoryDao, GrowthChangeHistoryEntity> implements GrowthChangeHistoryService {
+@Service("userLoginLogService")
+public class UserLoginLogServiceImpl extends ServiceImpl<UserLoginLogDao, UserLoginLogEntity> implements UserLoginLogService {
 
     /**
     * 分页查询
@@ -28,9 +29,9 @@ public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHist
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<GrowthChangeHistoryEntity> page = this.page(
-                new Query<GrowthChangeHistoryEntity>().getPage(params),
-                new QueryWrapper<GrowthChangeHistoryEntity>()
+        IPage<UserLoginLogEntity> page = this.page(
+                new Query<UserLoginLogEntity>().getPage(params),
+                new QueryWrapper<UserLoginLogEntity>()
         );
         return new PageUtils(page);
     }

@@ -10,24 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.user.service.GrowthChangeHistoryService;
+import com.jerusalem.user.entity.UserReceiveAddressEntity;
+import com.jerusalem.user.service.UserReceiveAddressService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
 
 /****
  * 控制层
- * 成长值变化历史记录
+ * 用户收货地址
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/growthchangehistory")
-public class GrowthChangeHistoryController {
+@RequestMapping("user/userreceiveaddress")
+public class UserReceiveAddressController {
 
     @Autowired
-    private GrowthChangeHistoryService growthChangeHistoryService;
+    private UserReceiveAddressService userReceiveAddressService;
 
     /***
     * 分页查询
@@ -36,7 +37,7 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = growthChangeHistoryService.queryPage(params);
+        PageUtils page = userReceiveAddressService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,9 +48,9 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		GrowthChangeHistoryEntity growthChangeHistory = growthChangeHistoryService.getById(id);
+		UserReceiveAddressEntity userReceiveAddress = userReceiveAddressService.getById(id);
 
-        return R.ok().put("growthChangeHistory", growthChangeHistory);
+        return R.ok().put("userReceiveAddress", userReceiveAddress);
     }
 
     /***
@@ -57,8 +58,8 @@ public class GrowthChangeHistoryController {
     * @return
     */
     @RequestMapping("/save")
-    public R save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.save(growthChangeHistory);
+    public R save(@RequestBody UserReceiveAddressEntity userReceiveAddress){
+		userReceiveAddressService.save(userReceiveAddress);
 
         return R.ok();
     }
@@ -68,8 +69,8 @@ public class GrowthChangeHistoryController {
     * @return
     */
     @RequestMapping("/update")
-    public R update(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.updateById(growthChangeHistory);
+    public R update(@RequestBody UserReceiveAddressEntity userReceiveAddress){
+		userReceiveAddressService.updateById(userReceiveAddress);
 
         return R.ok();
     }
@@ -80,7 +81,7 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		growthChangeHistoryService.removeByIds(Arrays.asList(ids));
+		userReceiveAddressService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

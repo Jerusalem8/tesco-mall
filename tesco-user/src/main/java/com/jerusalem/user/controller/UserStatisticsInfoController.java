@@ -10,24 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.user.service.GrowthChangeHistoryService;
+import com.jerusalem.user.entity.UserStatisticsInfoEntity;
+import com.jerusalem.user.service.UserStatisticsInfoService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
 
 /****
  * 控制层
- * 成长值变化历史记录
+ * 用户统计信息
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/growthchangehistory")
-public class GrowthChangeHistoryController {
+@RequestMapping("user/userstatisticsinfo")
+public class UserStatisticsInfoController {
 
     @Autowired
-    private GrowthChangeHistoryService growthChangeHistoryService;
+    private UserStatisticsInfoService userStatisticsInfoService;
 
     /***
     * 分页查询
@@ -36,7 +37,7 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = growthChangeHistoryService.queryPage(params);
+        PageUtils page = userStatisticsInfoService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -47,9 +48,9 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		GrowthChangeHistoryEntity growthChangeHistory = growthChangeHistoryService.getById(id);
+		UserStatisticsInfoEntity userStatisticsInfo = userStatisticsInfoService.getById(id);
 
-        return R.ok().put("growthChangeHistory", growthChangeHistory);
+        return R.ok().put("userStatisticsInfo", userStatisticsInfo);
     }
 
     /***
@@ -57,8 +58,8 @@ public class GrowthChangeHistoryController {
     * @return
     */
     @RequestMapping("/save")
-    public R save(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.save(growthChangeHistory);
+    public R save(@RequestBody UserStatisticsInfoEntity userStatisticsInfo){
+		userStatisticsInfoService.save(userStatisticsInfo);
 
         return R.ok();
     }
@@ -68,8 +69,8 @@ public class GrowthChangeHistoryController {
     * @return
     */
     @RequestMapping("/update")
-    public R update(@RequestBody GrowthChangeHistoryEntity growthChangeHistory){
-		growthChangeHistoryService.updateById(growthChangeHistory);
+    public R update(@RequestBody UserStatisticsInfoEntity userStatisticsInfo){
+		userStatisticsInfoService.updateById(userStatisticsInfo);
 
         return R.ok();
     }
@@ -80,7 +81,7 @@ public class GrowthChangeHistoryController {
     */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		growthChangeHistoryService.removeByIds(Arrays.asList(ids));
+		userStatisticsInfoService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

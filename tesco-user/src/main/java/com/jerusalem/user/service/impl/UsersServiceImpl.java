@@ -8,18 +8,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
-import com.jerusalem.user.dao.GrowthChangeHistoryDao;
-import com.jerusalem.user.service.GrowthChangeHistoryService;
+import com.jerusalem.user.dao.UsersDao;
+import com.jerusalem.user.entity.UsersEntity;
+import com.jerusalem.user.service.UsersService;
 
 /****
  * 服务层接口实现类
- * 成长值变化历史记录
+ * 用户
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
-@Service("growthChangeHistoryService")
-public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHistoryDao, GrowthChangeHistoryEntity> implements GrowthChangeHistoryService {
+@Service("usersService")
+public class UsersServiceImpl extends ServiceImpl<UsersDao, UsersEntity> implements UsersService {
 
     /**
     * 分页查询
@@ -28,9 +29,9 @@ public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHist
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<GrowthChangeHistoryEntity> page = this.page(
-                new Query<GrowthChangeHistoryEntity>().getPage(params),
-                new QueryWrapper<GrowthChangeHistoryEntity>()
+        IPage<UsersEntity> page = this.page(
+                new Query<UsersEntity>().getPage(params),
+                new QueryWrapper<UsersEntity>()
         );
         return new PageUtils(page);
     }

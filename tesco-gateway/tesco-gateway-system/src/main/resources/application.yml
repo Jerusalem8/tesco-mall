@@ -24,6 +24,13 @@ spring:
             - Path=/api/oss/**
           filters:
             - StripPrefix= 1
+        # 用户微服务
+        - id: user-service-route
+          uri: lb://user-service
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix= 1
         # 后台管理系统（放在最后，低精确Url放于后，高精确Url放于前）
         - id: admin-service-route
           uri: lb://admin-service

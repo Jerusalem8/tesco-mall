@@ -2,17 +2,18 @@ package com.jerusalem.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
+import com.jerusalem.user.entity.UserReceiveAddressEntity;
 
 import java.util.Map;
 
 /****
  * 服务层接口
- * 积分变化历史记录
+ * 用户收货地址
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
-public interface IntegrationChangeHistoryService extends IService<IntegrationChangeHistoryEntity> {
+public interface UserReceiveAddressService extends IService<UserReceiveAddressEntity> {
 
     /**
     * 分页查询

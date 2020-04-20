@@ -9,7 +9,6 @@ import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
 import com.jerusalem.user.dao.IntegrationChangeHistoryDao;
-import com.jerusalem.user.entity.IntegrationChangeHistoryEntity;
 import com.jerusalem.user.service.IntegrationChangeHistoryService;
 
 /****
@@ -17,7 +16,7 @@ import com.jerusalem.user.service.IntegrationChangeHistoryService;
  * 积分变化历史记录
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:48:41
+ * @date 2020-04-20 20:16:14
  */
 @Service("integrationChangeHistoryService")
 public class IntegrationChangeHistoryServiceImpl extends ServiceImpl<IntegrationChangeHistoryDao, IntegrationChangeHistoryEntity> implements IntegrationChangeHistoryService {

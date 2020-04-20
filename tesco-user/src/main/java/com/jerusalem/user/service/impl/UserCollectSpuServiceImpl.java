@@ -8,18 +8,19 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
-import com.jerusalem.user.dao.GrowthChangeHistoryDao;
-import com.jerusalem.user.service.GrowthChangeHistoryService;
+import com.jerusalem.user.dao.UserCollectSpuDao;
+import com.jerusalem.user.entity.UserCollectSpuEntity;
+import com.jerusalem.user.service.UserCollectSpuService;
 
 /****
  * 服务层接口实现类
- * 成长值变化历史记录
+ * 用户收藏的商品
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
-@Service("growthChangeHistoryService")
-public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHistoryDao, GrowthChangeHistoryEntity> implements GrowthChangeHistoryService {
+@Service("userCollectSpuService")
+public class UserCollectSpuServiceImpl extends ServiceImpl<UserCollectSpuDao, UserCollectSpuEntity> implements UserCollectSpuService {
 
     /**
     * 分页查询
@@ -28,9 +29,9 @@ public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHist
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<GrowthChangeHistoryEntity> page = this.page(
-                new Query<GrowthChangeHistoryEntity>().getPage(params),
-                new QueryWrapper<GrowthChangeHistoryEntity>()
+        IPage<UserCollectSpuEntity> page = this.page(
+                new Query<UserCollectSpuEntity>().getPage(params),
+                new QueryWrapper<UserCollectSpuEntity>()
         );
         return new PageUtils(page);
     }

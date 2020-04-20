@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.user.entity.IntegrationChangeHistoryEntity;
 import com.jerusalem.user.service.IntegrationChangeHistoryService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
@@ -21,7 +20,7 @@ import com.jerusalem.common.utils.R;
  * 积分变化历史记录
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:48:41
+ * @date 2020-04-20 20:16:14
  */
 @RestController
 @RequestMapping("user/integrationchangehistory")

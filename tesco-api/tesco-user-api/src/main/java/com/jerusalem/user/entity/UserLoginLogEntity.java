@@ -9,14 +9,14 @@ import lombok.Data;
 
 /****
  * 实体类
- * 积分变化历史记录
+ * 用户登录记录
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-20 20:16:14
  */
 @Data
-@TableName("integration_change_history")
-public class IntegrationChangeHistoryEntity implements Serializable {
+@TableName("user_login_log")
+public class UserLoginLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -29,20 +29,20 @@ public class IntegrationChangeHistoryEntity implements Serializable {
 	 */
 	private Long userId;
 	/**
-	 * create_time
+	 * 创建时间
 	 */
 	private Date createTime;
 	/**
-	 * 变化的值
+	 * ip
 	 */
-	private Integer changeCount;
+	private String ip;
 	/**
-	 * 备注
+	 * city
 	 */
-	private String note;
+	private String city;
 	/**
-	 * 来源[0->购物；1->管理员修改;2->活动]
+	 * 登录类型[1-web，2-app]
 	 */
-	private Integer sourceTyoe;
+	private Integer loginType;
 
 }
