@@ -19,7 +19,7 @@
             style="width: 100%;"
           >
             <el-table-column type="selection" header-align="center" align="center"></el-table-column>
-            <el-table-column prop="attrId" header-align="center" align="center" label="属性id"></el-table-column>
+            <el-table-column prop="attrId" header-align="center" align="center" label="属性ID"></el-table-column>
             <el-table-column prop="attrName" header-align="center" align="center" label="属性名"></el-table-column>
             <el-table-column prop="icon" header-align="center" align="center" label="属性图标"></el-table-column>
             <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值列表"></el-table-column>
@@ -36,7 +36,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="innerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitAddRealtion">确认新增</el-button>
+          <el-button type="primary" @click="submitAddRelation">确认新增</el-button>
         </div>
       </el-dialog>
       <el-row>
@@ -55,7 +55,7 @@
             border
           >
             <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-            <el-table-column prop="attrId" label="#"></el-table-column>
+            <el-table-column prop="attrId" label="属性ID"></el-table-column>
             <el-table-column prop="attrName" label="属性名"></el-table-column>
             <el-table-column prop="valueSelect" label="可选值">
               <template slot-scope="scope">
@@ -125,6 +125,7 @@ export default {
       this.getDataList();
       this.innerVisible = true;
     },
+    //批量删除关联
     batchDeleteRelation(val) {
       let postData = [];
       this.dataListSelections.forEach(item => {
@@ -160,7 +161,8 @@ export default {
         }
       });
     },
-    submitAddRealtion() {
+    //实现新增、批量新增关联关系
+    submitAddRelation() {
       this.innerVisible = false;
       //准备数据
       console.log("准备新增的数据", this.innerdataListSelections);
@@ -170,7 +172,7 @@ export default {
           postData.push({ attrId: item.attrId, attrGroupId: this.attrGroupId });
         });
         this.$http({
-          url: this.$http.adornUrl("/goods/attr/attr/group/relation"),
+          url: this.$http.adornUrl("/goods/attr/attr/group/relation/save"),
           method: "post",
           data: this.$http.adornData(postData, false)
         }).then(({ data }) => {
@@ -183,13 +185,12 @@ export default {
       } else {
       }
     },
+    //获取关联属性列表
     init(id) {
       this.attrGroupId = id || 0;
       this.visible = true;
       this.$http({
-        url: this.$http.adornUrl(
-          "/goods/attr/attr/group/" + this.attrGroupId + "/attr/relation"
-        ),
+        url: this.$http.adornUrl("/goods/attr/attr/group/relation/list/" + this.attrGroupId),
         method: "get",
         params: this.$http.adornParams({})
       }).then(({ data }) => {
@@ -197,15 +198,11 @@ export default {
       });
     },
     dialogClose() {},
-
-    //========
-    // 获取数据列表
+    // 获取未关联属性列表数据
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl(
-          "/goods/attr/attr/group/" + this.attrGroupId + "/noattr/relation"
-        ),
+        url: this.$http.adornUrl("/goods/attr/attr/group/relation/no/list/" + this.attrGroupId),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,

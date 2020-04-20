@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jerusalem.goods.entity.AttrEntity;
 import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
 import com.jerusalem.goods.service.AttrService;
+import com.jerusalem.goods.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,62 +32,49 @@ public class AttrAttrGroupRelationController {
     @Autowired
     private AttrAttrGroupRelationService attrAttrGroupRelationService;
 
-    @Autowired
-    private AttrService attrService;
-
     /***
-    * 获取属性分组的关联属性列表
+    * 根据属性分组ID查询关联属性列表
     * @param attrGroupId
     * @return
     */
-    @GetMapping("/{attrgroupId}")
-    public R attrList(@RequestParam("attrGroupId") Long attrGroupId){
-//        List<AttrEntity> entities =  attrService.getRelationAttr(attrgroupId);
-//        return R.ok().put("data",entities);
-        return null;
+    @GetMapping("/list/{attrGroupId}")
+    public R attrList(@PathVariable("attrGroupId") Long attrGroupId){
+        List<AttrEntity> attrList =  attrAttrGroupRelationService.getRelationAttr(attrGroupId);
+        return R.ok().put("data",attrList);
     }
 
     /***
-    * 查询
-    * @return
-    */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		AttrAttrGroupRelationEntity attrAttrGroupRelation = attrAttrGroupRelationService.getById(id);
-
-        return R.ok().put("attrAttrGroupRelation", attrAttrGroupRelation);
+     * 查询未关联的属性
+     * @param attrGroupId
+     * @param params
+     * @return
+     */
+    @GetMapping("/no/list/{attrGroupId}")
+    public R noRelationList(@PathVariable("attrGroupId") Long attrGroupId,
+                  @RequestParam Map<String, Object> params){
+        PageUtils page = attrAttrGroupRelationService.getNoRelationAttr(params,attrGroupId);
+        return R.ok().put("page",page);
     }
 
     /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody AttrAttrGroupRelationEntity attrAttrGroupRelation){
-		attrAttrGroupRelationService.save(attrAttrGroupRelation);
-
+     * 新增、批量新增关联关系
+     * @param relationVos
+     * @return
+     */
+    @PostMapping("/save")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> relationVos){
+        attrAttrGroupRelationService.saveBatchRelation(relationVos);
         return R.ok();
     }
 
     /***
-    * 修改
-    * @return
-    */
-    @RequestMapping("/update")
-    public R update(@RequestBody AttrAttrGroupRelationEntity attrAttrGroupRelation){
-		attrAttrGroupRelationService.updateById(attrAttrGroupRelation);
-
-        return R.ok();
-    }
-
-    /***
-    * 删除
-    * @return
-    */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		attrAttrGroupRelationService.removeByIds(Arrays.asList(ids));
-
+     * 删除属性&属性分组关联关系
+     * @param relationVos
+     * @return
+     */
+    @PostMapping("/delete")
+    public R delete(@RequestBody AttrGroupRelationVo[] relationVos){
+		attrAttrGroupRelationService.deleteRelation(relationVos);
         return R.ok();
     }
 }

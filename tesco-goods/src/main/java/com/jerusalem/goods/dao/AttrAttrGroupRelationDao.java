@@ -3,7 +3,10 @@ package com.jerusalem.goods.dao;
 import com.jerusalem.goods.entity.AttrAttrGroupRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /****
  * 持久层
@@ -15,5 +18,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface AttrAttrGroupRelationDao extends BaseMapper<AttrAttrGroupRelationEntity> {
-	
+
+    /***
+     * 批量删除、删除关联关系
+     * @param relationList
+     */
+    void deleteBatchRelation(@Param("relationList") List<AttrAttrGroupRelationEntity> relationList);
 }

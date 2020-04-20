@@ -10,4 +10,10 @@
         <result property="attrGroupId" column="attr_group_id"/>
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
+    <delete id="deleteBatchRelation">
+        DELETE FROM `attr_attr_group_relation` WHERE
+        <foreach collection="relationList" item="item" separator=" OR ">
+            (attr_id=#{item.attrId} AND attr_group_id=#{item.attrGroupId})
+        </foreach>
+    </delete>
 </mapper>
