@@ -1,5 +1,6 @@
 package com.jerusalem.user.service.impl;
 
+import com.jerusalem.user.entity.GrowthChangeHistoryEntity;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

@@ -1,6 +1,7 @@
 package com.jerusalem.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jerusalem.user.entity.IntegrationChangeHistoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /****

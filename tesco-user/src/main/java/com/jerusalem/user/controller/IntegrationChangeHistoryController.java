@@ -3,6 +3,7 @@ package com.jerusalem.user.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.user.entity.IntegrationChangeHistoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

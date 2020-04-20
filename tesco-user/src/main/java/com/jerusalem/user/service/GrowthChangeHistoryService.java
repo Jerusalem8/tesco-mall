@@ -2,6 +2,7 @@ package com.jerusalem.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
+import com.jerusalem.user.entity.GrowthChangeHistoryEntity;
 
 import java.util.Map;
 
