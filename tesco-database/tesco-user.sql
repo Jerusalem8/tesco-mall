@@ -6,19 +6,19 @@ drop table if exists growth_change_history;
 
 drop table if exists integration_change_history;
 
-drop table if exists member;
+drop table if exists users;
 
-drop table if exists member_collect_spu;
+drop table if exists user_collect_spu;
 
-drop table if exists member_collect_subject;
+drop table if exists user_collect_subject;
 
-drop table if exists member_level;
+drop table if exists user_level;
 
-drop table if exists member_login_log;
+drop table if exists user_login_log;
 
-drop table if exists member_receive_address;
+drop table if exists user_receive_address;
 
-drop table if exists member_statistics_info;
+drop table if exists user_statistics_info;
 
 /*==============================================================*/
 /* Table: growth_change_history                             */
@@ -26,7 +26,7 @@ drop table if exists member_statistics_info;
 create table growth_change_history
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
+   user_id            bigint comment 'user_id',
    create_time          datetime comment 'create_time',
    change_count         int comment '改变的值（正负计数）',
    note                 varchar(0) comment '备注',
@@ -42,7 +42,7 @@ alter table growth_change_history comment '成长值变化历史记录';
 create table integration_change_history
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
+   user_id            bigint comment 'user_id',
    create_time          datetime comment 'create_time',
    change_count         int comment '变化的值',
    note                 varchar(255) comment '备注',
@@ -53,12 +53,12 @@ create table integration_change_history
 alter table integration_change_history comment '积分变化历史记录';
 
 /*==============================================================*/
-/* Table: member                                            */
+/* Table: users                                            */
 /*==============================================================*/
-create table member
+create table users
 (
    id                   bigint not null auto_increment comment 'id',
-   level_id             bigint comment '会员等级id',
+   level_id             bigint comment '用户等级id',
    username             char(64) comment '用户名',
    password             varchar(64) comment '密码',
    nickname             varchar(64) comment '昵称',
@@ -78,15 +78,15 @@ create table member
    primary key (id)
 );
 
-alter table member comment '会员';
+alter table users comment '用户';
 
 /*==============================================================*/
-/* Table: member_collect_spu                                */
+/* Table: user_collect_spu                                */
 /*==============================================================*/
-create table member_collect_spu
+create table user_collect_spu
 (
    id                   bigint not null comment 'id',
-   member_id            bigint comment '会员id',
+   user_id            bigint comment '用户id',
    spu_id               bigint comment 'spu_id',
    spu_name             varchar(500) comment 'spu_name',
    spu_img              varchar(500) comment 'spu_img',
@@ -94,12 +94,12 @@ create table member_collect_spu
    primary key (id)
 );
 
-alter table member_collect_spu comment '会员收藏的商品';
+alter table user_collect_spu comment '用户收藏的商品';
 
 /*==============================================================*/
-/* Table: member_collect_subject                            */
+/* Table: user_collect_subject                            */
 /*==============================================================*/
-create table member_collect_subject
+create table user_collect_subject
 (
    id                   bigint not null auto_increment comment 'id',
    subject_id           bigint comment 'subject_id',
@@ -109,12 +109,12 @@ create table member_collect_subject
    primary key (id)
 );
 
-alter table member_collect_subject comment '会员收藏的专题活动';
+alter table user_collect_subject comment '用户收藏的专题活动';
 
 /*==============================================================*/
-/* Table: member_level                                      */
+/* Table: user_level                                      */
 /*==============================================================*/
-create table member_level
+create table user_level
 (
    id                   bigint not null auto_increment comment 'id',
    name                 varchar(100) comment '等级名称',
@@ -123,21 +123,21 @@ create table member_level
    free_freight_point   decimal(18,4) comment '免运费标准',
    comment_growth_point int comment '每次评价获取的成长值',
    priviledge_free_freight tinyint comment '是否有免邮特权',
-   priviledge_member_price tinyint comment '是否有会员价格特权',
+   priviledge_user_price tinyint comment '是否有用户价格特权',
    priviledge_birthday  tinyint comment '是否有生日特权',
    note                 varchar(255) comment '备注',
    primary key (id)
 );
 
-alter table member_level comment '会员等级';
+alter table user_level comment '用户等级';
 
 /*==============================================================*/
-/* Table: member_login_log                                  */
+/* Table: user_login_log                                  */
 /*==============================================================*/
-create table member_login_log
+create table user_login_log
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
+   user_id            bigint comment 'user_id',
    create_time          datetime comment '创建时间',
    ip                   varchar(64) comment 'ip',
    city                 varchar(64) comment 'city',
@@ -145,15 +145,15 @@ create table member_login_log
    primary key (id)
 );
 
-alter table member_login_log comment '会员登录记录';
+alter table user_login_log comment '用户登录记录';
 
 /*==============================================================*/
-/* Table: member_receive_address                            */
+/* Table: user_receive_address                            */
 /*==============================================================*/
-create table member_receive_address
+create table user_receive_address
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
+   user_id            bigint comment 'user_id',
    name                 varchar(255) comment '收货人姓名',
    phone                varchar(64) comment '电话',
    post_code            varchar(64) comment '邮政编码',
@@ -166,15 +166,15 @@ create table member_receive_address
    primary key (id)
 );
 
-alter table member_receive_address comment '会员收货地址';
+alter table user_receive_address comment '用户收货地址';
 
 /*==============================================================*/
-/* Table: member_statistics_info                            */
+/* Table: user_statistics_info                            */
 /*==============================================================*/
-create table member_statistics_info
+create table user_statistics_info
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment '会员id',
+   user_id            bigint comment '用户id',
    consume_amount       decimal(18,4) comment '累计消费金额',
    coupon_amount        decimal(18,4) comment '累计优惠金额',
    order_count          int comment '订单数量',
@@ -191,4 +191,4 @@ create table member_statistics_info
    primary key (id)
 );
 
-alter table member_statistics_info comment '会员统计信息';
+alter table user_statistics_info comment '用户统计信息';
