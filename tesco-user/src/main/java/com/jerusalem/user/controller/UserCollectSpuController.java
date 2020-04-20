@@ -24,7 +24,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/usercollectspu")
+@RequestMapping("user/collect/spu")
 public class UserCollectSpuController {
 
     @Autowired

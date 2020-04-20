@@ -24,7 +24,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/growthchangehistory")
+@RequestMapping("user/growth/change/history")
 public class GrowthChangeHistoryController {
 
     @Autowired

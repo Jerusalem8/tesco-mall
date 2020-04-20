@@ -24,7 +24,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/users")
+@RequestMapping("user")
 public class UsersController {
 
     @Autowired
