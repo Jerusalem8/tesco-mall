@@ -1,17 +1,17 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.jerusalem.goods.service.CategoryService;
+import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.goods.entity.AttrGroupEntity;
 import com.jerusalem.goods.service.AttrGroupService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
 
 /****
  * 控制层
@@ -29,6 +29,17 @@ public class AttrGroupController {
 
     @Autowired
     private CategoryService categoryService;
+
+    /***
+     * 根据三级分类ID查询属性分组及分组下的所有属性
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/withattr/{categoryId}")
+    public R getAttrGroupWithAttrs(@PathVariable("categoryId")Long categoryId){
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVos =  attrGroupService.getAttrGroupWithAttrs(categoryId);
+        return R.ok().put("data",attrGroupWithAttrsVos);
+    }
 
     /***
      * 根据三级分类ID、关键词分页查询属性分组

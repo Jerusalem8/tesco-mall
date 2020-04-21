@@ -19,7 +19,7 @@
             <el-form-item label="商品描述" prop="spuDescription">
               <el-input v-model="spu.spuDescription"></el-input>
             </el-form-item>
-            <el-form-item label="选择分类" prop="catalogId">
+            <el-form-item label="选择分类" prop="categoryId">
               <category-cascader></category-cascader>
             </el-form-item>
             <el-form-item label="选择品牌" prop="brandId">
@@ -56,7 +56,7 @@
               <multi-upload v-model="spu.images"></multi-upload>
             </el-form-item>
             <el-form-item>
-              <el-button type="success" @click="collectSpuBaseInfo">下一步：设置基本参数</el-button>
+              <el-button type="success" @click="collectSpuBaseInfo">下一步：设置规格参数</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -344,13 +344,10 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
 import CategoryCascader from "../common/category-cascader";
 import BrandSelect from "../common/brand-select";
 import MultiUpload from "@/components/upload/multiUpload";
 export default {
-  //import引入的组件需要注入到对象中才能使用
   components: { CategoryCascader, BrandSelect, MultiUpload },
   props: {},
   data() {
@@ -360,12 +357,11 @@ export default {
       uploadDialogVisible: false,
       uploadImages: [],
       step: 0,
-      //spu_name  spu_description  catalog_id  brand_id  weight  publish_status
       spu: {
         //要提交的数据
         spuName: "",
         spuDescription: "",
-        catalogId: 0,
+        categoryId: 0,
         brandId: "",
         weight: "",
         publishStatus: 0,
@@ -386,7 +382,7 @@ export default {
         spuDescription: [
           { required: true, message: "请编写一个简单描述", trigger: "blur" }
         ],
-        catalogId: [
+        categoryId: [
           { required: true, message: "请选择一个分类", trigger: "blur" }
         ],
         brandId: [
@@ -414,16 +410,14 @@ export default {
         saleAttrs: [],
         tempSaleAttrs: [],
         tableAttrColumn: [],
-        memberLevels: [],
+        userLevels: [],
         steped: [false, false, false, false, false]
       },
       inputVisible: [],
       inputValue: []
     };
   },
-  //计算属性 类似于data概念
   computed: {},
-  //监控data中的数据变化
   watch: {
     uploadImages(val) {
       //扩展每个skus里面的imgs选项
@@ -454,7 +448,7 @@ export default {
       this.spu = {
         spuName: "",
         spuDescription: "",
-        catalogId: 0,
+        categoryId: 0,
         brandId: "",
         weight: "",
         publishStatus: 0,
@@ -587,13 +581,13 @@ export default {
         });
 
         //会员价，也必须在循环里面生成，否则会导致数据绑定问题
-        let memberPrices = [];
+        let userPrices = [];
         if (this.dataResp.memberLevels.length > 0) {
           for (let i = 0; i < this.dataResp.memberLevels.length; i++) {
-            if (this.dataResp.memberLevels[i].priviledgeMemberPrice == 1) {
-              memberPrices.push({
-                id: this.dataResp.memberLevels[i].id,
-                name: this.dataResp.memberLevels[i].name,
+            if (this.dataResp.userLevels[i].priviledgeUserPrice == 1) {
+              userPrices.push({
+                id: this.dataResp.userLevels[i].id,
+                name: this.dataResp.userLevels[i].name,
                 price: 0
               });
             }
@@ -616,7 +610,7 @@ export default {
             fullPrice: 0.0,
             reducePrice: 0.0,
             priceStatus: 0,
-            memberPrice: new Array().concat(memberPrices)
+            memberPrice: new Array().concat(userPrices)
           });
         } else {
           skus.push(res);
@@ -642,7 +636,7 @@ export default {
       if (!this.dataResp.steped[1]) {
         this.$http({
           url: this.$http.adornUrl(
-            `/goods/attr/sale/list/${this.spu.catalogId}`
+            `/goods/attr/sale/list/${this.spu.categoryId}`
           ),
           method: "get",
           params: this.$http.adornParams({
@@ -664,27 +658,33 @@ export default {
         });
       }
     },
+    //设置商品的规格参数
     showBaseAttrs() {
       if (!this.dataResp.steped[0]) {
         this.$http({
           url: this.$http.adornUrl(
-            `/goods/attr/group/${this.spu.catalogId}/withattr`
+            `/goods/attr/group/withattr/${this.spu.categoryId}`
           ),
           method: "get",
           params: this.$http.adornParams({})
         }).then(({ data }) => {
           //先对表单的baseAttrs进行初始化
-          data.data.forEach(item => {
-            let attrArray = [];
-            item.attrs.forEach(attr => {
-              attrArray.push({
-                attrId: attr.attrId,
-                attrValues: "",
-                showDesc: attr.showDesc
-              });
+          //最最最重要的事是，在使用for-each之前，要进行一个非空的判断，不为空才进行遍历。
+          if (data.data){
+            data.data.forEach(item => {
+              let attrArray = [];
+              if (item.attrs){
+                item.attrs.forEach(attr => {
+                  attrArray.push({
+                    attrId: attr.attrId,
+                    attrValues: "",
+                    showDesc: attr.showDesc
+                  });
+                });
+              }
+              this.dataResp.baseAttrs.push(attrArray);
             });
-            this.dataResp.baseAttrs.push(attrArray);
-          });
+          }
           this.dataResp.steped[0] = 0;
           this.dataResp.attrGroups = data.data;
         });
@@ -784,7 +784,7 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
-      this.spu.catalogId = val[val.length - 1];
+      this.spu.categoryId = val[val.length - 1];
     });
     this.brandIdSub = PubSub.subscribe("brandId", (msg, val) => {
       this.spu.brandId = val;

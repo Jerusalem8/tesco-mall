@@ -1,10 +1,15 @@
 package com.jerusalem.goods.service.impl;
 
 import com.jerusalem.goods.dao.CategoryBrandRelationDao;
+import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
 import com.jerusalem.goods.service.CategoryBrandRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,6 +34,13 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
 
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    @Autowired
+    private CategoryBrandRelationDao relationDao;
+
+    @Autowired
+    private BrandService brandService;
+
     /**
     * 分页查询、关键词查询
     * @param params
@@ -63,5 +75,22 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
             categoryBrandRelationService.updateBrand(brand.getBrandId(),brand.getName());
             //TODO 更新其他关联
         }
+    }
+
+    /***
+     * 根据分类ID查询品牌
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<BrandEntity> getBrandsByCategoryId(Long categoryId) {
+        List<CategoryBrandRelationEntity> relationList = relationDao.selectList
+                (new QueryWrapper<CategoryBrandRelationEntity>().eq("category_id", categoryId));
+        List<BrandEntity> brandList = relationList.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            BrandEntity brand = brandService.getById(brandId);
+            return brand;
+        }).collect(Collectors.toList());
+        return brandList;
     }
 }

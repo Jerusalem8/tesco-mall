@@ -56,7 +56,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="priviledgeMemberPrice"
+          prop="priviledgeUserPrice"
           header-align="center"
           align="center"
           label="会员价格特权"

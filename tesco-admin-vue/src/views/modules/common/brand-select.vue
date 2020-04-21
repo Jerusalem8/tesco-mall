@@ -24,8 +24,8 @@ export default {
       categoryId: 0,
       brands: [
         {
-          label: "a",
-          value: 1
+          label: "",
+          value: 0
         }
       ],
       brandId: "",
@@ -44,10 +44,10 @@ export default {
   methods: {
     getCatBrands() {
       this.$http({
-        url: this.$http.adornUrl("/goods/category/brand/relation/category/list"),
+        url: this.$http.adornUrl("/goods/brand/relation/list"),
         method: "get",
         params: this.$http.adornParams({
-          catId: this.catId
+          categoryId: this.categoryId
         })
       }).then(({ data }) => {
         this.brands = data.data;
@@ -59,7 +59,7 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     //监听三级分类消息的变化
-    this.subscribe = PubSub.subscribe("categoryPath", (msg, val) => {
+    this.subscribe = PubSub.subscribe("catPath", (msg, val) => {
       this.categoryId = val[val.length - 1];
       this.getCatBrands();
     });

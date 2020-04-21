@@ -22,8 +22,8 @@
     <el-form-item label="是否有免邮特权" prop="priviledgeFreeFreight">
       <el-checkbox v-model="dataForm.priviledgeFreeFreight" :true-label="1" :false-label="0"></el-checkbox>
     </el-form-item>
-    <el-form-item label="是否有会员价格特权" prop="priviledgeMemberPrice">
-       <el-checkbox v-model="dataForm.priviledgeMemberPrice" :true-label="1" :false-label="0"></el-checkbox>
+    <el-form-item label="是否有会员价格特权" prop="priviledgeUserPrice">
+       <el-checkbox v-model="dataForm.priviledgeUserPrice" :true-label="1" :false-label="0"></el-checkbox>
     </el-form-item>
     <el-form-item label="是否有生日特权" prop="priviledgeBirthday">
       <el-checkbox v-model="dataForm.priviledgeBirthday" :true-label="1" :false-label="0"></el-checkbox>
@@ -52,7 +52,7 @@
           freeFreightPoint: 0,
           commentGrowthPoint: 0,
           priviledgeFreeFreight: 0,
-          priviledgeMemberPrice: 0,
+          priviledgeUserPrice: 0,
           priviledgeBirthday: 0,
           note: ""
         },
@@ -75,7 +75,7 @@
           priviledgeFreeFreight: [
             { required: true, message: '是否有免邮特权不能为空', trigger: 'blur' }
           ],
-          priviledgeMemberPrice: [
+          priviledgeUserPrice: [
             { required: true, message: '是否有会员价格特权不能为空', trigger: 'blur' }
           ],
           priviledgeBirthday: [
@@ -100,15 +100,15 @@
               params: this.$http.adornParams()
             }).then(({data}) => {
               if (data && data.code === 0) {
-                this.dataForm.name = data.memberLevel.name
-                this.dataForm.growthPoint = data.memberLevel.growthPoint||0
-                this.dataForm.defaultStatus = data.memberLevel.defaultStatus||0
-                this.dataForm.freeFreightPoint = data.memberLevel.freeFreightPoint||0
-                this.dataForm.commentGrowthPoint = data.memberLevel.commentGrowthPoint||0
-                this.dataForm.priviledgeFreeFreight = data.memberLevel.priviledgeFreeFreight||0
-                this.dataForm.priviledgeMemberPrice = data.memberLevel.priviledgeMemberPrice||0
-                this.dataForm.priviledgeBirthday = data.memberLevel.priviledgeBirthday||0
-                this.dataForm.note = data.memberLevel.note
+                this.dataForm.name = data.userLevel.name
+                this.dataForm.growthPoint = data.userLevel.growthPoint||0
+                this.dataForm.defaultStatus = data.userLevel.defaultStatus||0
+                this.dataForm.freeFreightPoint = data.userLevel.freeFreightPoint||0
+                this.dataForm.commentGrowthPoint = data.userLevel.commentGrowthPoint||0
+                this.dataForm.priviledgeFreeFreight = data.userLevel.priviledgeFreeFreight||0
+                this.dataForm.priviledgeUserPrice = data.userLevel.priviledgeUserPrice||0
+                this.dataForm.priviledgeBirthday = data.userLevel.priviledgeBirthday||0
+                this.dataForm.note = data.userLevel.note
               }
             })
           }
@@ -129,7 +129,7 @@
                 'freeFreightPoint': this.dataForm.freeFreightPoint,
                 'commentGrowthPoint': this.dataForm.commentGrowthPoint,
                 'priviledgeFreeFreight': this.dataForm.priviledgeFreeFreight,
-                'priviledgeMemberPrice': this.dataForm.priviledgeMemberPrice,
+                'priviledgeUserPrice': this.dataForm.priviledgeUserPrice,
                 'priviledgeBirthday': this.dataForm.priviledgeBirthday,
                 'note': this.dataForm.note
               })

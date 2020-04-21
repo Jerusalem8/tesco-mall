@@ -44,13 +44,13 @@ export default {
   data() {
     //这里存放数据
     return {
-      catId: 0,
-      catelogPath: [],
+      categoryId: 0,
+      categoryPath: [],
       dataForm: {
         status: "",
         key: "",
         brandId: 0,
-        catelogId: 0
+        categoryId: 0
       },
       catPathSub: null,
       brandIdSub: null
@@ -73,7 +73,7 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
-      this.dataForm.catelogId = val[val.length-1];
+      this.dataForm.categoryId = val[val.length-1];
     });
     this.brandIdSub = PubSub.subscribe("brandId", (msg, val) => {
       this.dataForm.brandId = val;
@@ -84,8 +84,8 @@ export default {
   beforeUpdate() {}, //生命周期 - 更新之前
   updated() {}, //生命周期 - 更新之后
   beforeDestroy() {
-     PubSub.unsubscribe(this.catPathSub); 
-     PubSub.unsubscribe(this.brandIdSub); 
+     PubSub.unsubscribe(this.catPathSub);
+     PubSub.unsubscribe(this.brandIdSub);
   }, //生命周期 - 销毁之前
   destroyed() {}, //生命周期 - 销毁完成
   activated() {} //如果页面有keep-alive缓存功能，这个函数会触发

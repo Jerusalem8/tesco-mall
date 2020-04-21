@@ -1,11 +1,14 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.jerusalem.common.valid.AddGroup;
 import com.jerusalem.common.valid.UpdateGroup;
 import com.jerusalem.common.valid.UpdateStatusGroup;
+import com.jerusalem.goods.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +43,28 @@ public class BrandController {
     }
 
     /***
-    * 查询品牌信息（实现品牌修改时数据的回显）
-    * @return
-    */
+     * 根据分类查询出相应的品牌
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/relation/list")
+    public R brandList(@RequestParam (value = "categoryId", required = true) Long categoryId){
+        List<BrandEntity> brandList = brandService.getBrandsByCategoryId(categoryId);
+
+        List<BrandVo> brandVos = brandList.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data",brandVos);
+    }
+
+    /***
+     * 查询品牌信息（实现品牌修改时数据的回显）
+     * @param brandId
+     * @return
+     */
     @GetMapping("/info/{brandId}")
     public R info(@PathVariable("brandId") Long brandId){
         BrandEntity brand = brandService.getById(brandId);

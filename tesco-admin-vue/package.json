@@ -14,7 +14,7 @@
     "build": "gulp"
   },
   "dependencies": {
-    "axios": "0.17.1",
+    "axios": "^0.19.2",
     "babel-plugin-component": "0.10.1",
     "babel-polyfill": "6.26.0",
     "element-ui": "2.8.2",
@@ -23,9 +23,10 @@
     "gulp-load-plugins": "1.5.0",
     "gulp-replace": "0.6.1",
     "gulp-shell": "0.6.5",
-    "lodash": "4.17.5",
+    "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
-    "npm": "^6.9.0",
+    "npm": "^6.14.4",
+    "pubsub-js": "^1.8.0",
     "sass-loader": "6.0.6",
     "svg-sprite-loader": "3.7.3",
     "vue": "2.5.16",

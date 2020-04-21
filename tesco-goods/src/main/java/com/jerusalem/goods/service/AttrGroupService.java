@@ -3,7 +3,9 @@ package com.jerusalem.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.AttrGroupEntity;
+import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -29,5 +31,12 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 根据三级分类ID查询属性分组及分组下的所有属性
+     * @param categoryId
+     * @return
+     */
+    List<AttrGroupWithAttrsVo> getAttrGroupWithAttrs(Long categoryId);
 }
 
