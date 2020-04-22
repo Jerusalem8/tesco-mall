@@ -36,4 +36,12 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return new PageUtils(page);
     }
 
+    /***
+     * 保存SKU的基本信息
+     * @param skuInfo
+     */
+    @Override
+    public void saveSkuInfo(SkuInfoEntity skuInfo) {
+        this.baseMapper.insert(skuInfo);
+    }
 }

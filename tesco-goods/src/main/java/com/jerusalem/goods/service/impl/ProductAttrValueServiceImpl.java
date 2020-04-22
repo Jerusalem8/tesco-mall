@@ -1,6 +1,8 @@
 package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,4 +38,12 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         return new PageUtils(page);
     }
 
+    /***
+     * 保存商品的属性及其可选值
+     * @param attrValueList
+     */
+    @Override
+    public void saveAttrValue(List<ProductAttrValueEntity> attrValueList) {
+        this.saveBatch(attrValueList);
+    }
 }

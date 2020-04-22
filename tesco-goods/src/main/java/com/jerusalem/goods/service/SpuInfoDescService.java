@@ -21,5 +21,11 @@ public interface SpuInfoDescService extends IService<SpuInfoDescEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 保存商品描述图片
+     * @param spuInfoDesc
+     */
+    void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDesc);
 }
 

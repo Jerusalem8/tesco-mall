@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.SkuImagesEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /****

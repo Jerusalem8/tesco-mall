@@ -21,5 +21,11 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 保存SKU的基本信息
+     * @param skuInfo
+     */
+    void saveSkuInfo(SkuInfoEntity skuInfo);
 }
 

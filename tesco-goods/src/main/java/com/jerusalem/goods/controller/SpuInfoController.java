@@ -3,12 +3,9 @@ package com.jerusalem.goods.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.goods.vo.SpuVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.goods.entity.SpuInfoEntity;
 import com.jerusalem.goods.service.SpuInfoService;
@@ -54,13 +51,13 @@ public class SpuInfoController {
     }
 
     /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
+     * 商品的新增
+     * @param SpuVo
+     * @return
+     */
+    @PostMapping("/save")
+    public R save(@RequestBody SpuVo SpuVo){
+        spuInfoService.saveSpu(SpuVo);
         return R.ok();
     }
 

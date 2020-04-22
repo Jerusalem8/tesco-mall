@@ -309,7 +309,7 @@
                     </el-col>
 
                     <el-col :span="24">
-                      <el-form-item label="设置会员价" v-if="scope.row.memberPrice.length>0">
+                      <el-form-item label="设置会员价" v-if="scope.row.userPrice.length>0">
                         <br />
                         <!--   @change="handlePriceChange(scope,mpidx,$event)" -->
                         <el-form-item v-for="(mp,mpidx) in scope.row.memberPrice" :key="mp.id">
@@ -583,7 +583,7 @@ export default {
         //会员价，也必须在循环里面生成，否则会导致数据绑定问题
         let userPrices = [];
         if (this.dataResp.memberLevels.length > 0) {
-          for (let i = 0; i < this.dataResp.memberLevels.length; i++) {
+          for (let i = 0; i < this.dataResp.userLevels.length; i++) {
             if (this.dataResp.userLevels[i].priviledgeUserPrice == 1) {
               userPrices.push({
                 id: this.dataResp.userLevels[i].id,
@@ -652,7 +652,7 @@ export default {
               attrName: item.attrName
             });
             this.inputVisible.push({ view: false });
-            this.inputValue.push({ val: "" });
+            this.inputValue.push(   { val: "" });
           });
           this.dataResp.steped[1] = true;
         });
