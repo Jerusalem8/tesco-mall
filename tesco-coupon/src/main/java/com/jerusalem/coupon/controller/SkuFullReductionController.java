@@ -3,12 +3,9 @@ package com.jerusalem.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.common.to.SkuReductionTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.coupon.entity.SkuFullReductionEntity;
 import com.jerusalem.coupon.service.SkuFullReductionService;
@@ -24,11 +21,23 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 17:47:38
  */
 @RestController
-@RequestMapping("coupon/skufullreduction")
+@RequestMapping("coupon/sku/full/reduction")
 public class SkuFullReductionController {
 
     @Autowired
     private SkuFullReductionService skuFullReductionService;
+
+    /***
+     * 保存满减信息
+     * @return
+     */
+    @PostMapping("/save")
+    public R saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo){
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+        return R.ok();
+    }
+
+
 
     /***
     * 分页查询
@@ -51,17 +60,6 @@ public class SkuFullReductionController {
 		SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
 
         return R.ok().put("skuFullReduction", skuFullReduction);
-    }
-
-    /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody SkuFullReductionEntity skuFullReduction){
-		skuFullReductionService.save(skuFullReduction);
-
-        return R.ok();
     }
 
     /***

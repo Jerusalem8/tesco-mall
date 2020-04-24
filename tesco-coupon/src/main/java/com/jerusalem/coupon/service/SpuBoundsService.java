@@ -21,5 +21,11 @@ public interface SpuBoundsService extends IService<SpuBoundsEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 保存积分信息
+     * @param spuBoundsTo
+     */
+    void saveSpuBounds(SpuBoundsEntity spuBoundsTo);
 }
 

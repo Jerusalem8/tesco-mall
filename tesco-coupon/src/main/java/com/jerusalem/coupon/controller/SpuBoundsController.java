@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.coupon.entity.SpuBoundsEntity;
 import com.jerusalem.coupon.service.SpuBoundsService;
@@ -24,11 +20,24 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 17:47:38
  */
 @RestController
-@RequestMapping("coupon/spubounds")
+@RequestMapping("coupon/spu/bounds")
 public class SpuBoundsController {
 
     @Autowired
     private SpuBoundsService spuBoundsService;
+
+    /***
+     * 保存积分信息
+     * @return
+     */
+    @PostMapping("/save")
+    public R save(@RequestBody SpuBoundsEntity spuBoundsTo){
+        spuBoundsService.saveSpuBounds(spuBoundsTo);
+        return R.ok();
+    }
+
+
+
 
     /***
     * 分页查询
@@ -51,17 +60,6 @@ public class SpuBoundsController {
 		SpuBoundsEntity spuBounds = spuBoundsService.getById(id);
 
         return R.ok().put("spuBounds", spuBounds);
-    }
-
-    /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody SpuBoundsEntity spuBounds){
-		spuBoundsService.save(spuBounds);
-
-        return R.ok();
     }
 
     /***

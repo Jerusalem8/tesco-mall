@@ -36,4 +36,12 @@ public class SpuBoundsServiceImpl extends ServiceImpl<SpuBoundsDao, SpuBoundsEnt
         return new PageUtils(page);
     }
 
+    /***
+     * 保存积分信息
+     * @param spuBoundsTo
+     */
+    @Override
+    public void saveSpuBounds(SpuBoundsEntity spuBoundsTo) {
+        this.baseMapper.insert(spuBoundsTo);
+    }
 }

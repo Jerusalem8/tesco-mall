@@ -1,6 +1,7 @@
 package com.jerusalem.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jerusalem.common.to.SkuReductionTo;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.coupon.entity.SkuFullReductionEntity;
 
@@ -21,5 +22,11 @@ public interface SkuFullReductionService extends IService<SkuFullReductionEntity
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 保存满减信息
+     * @param skuReductionTo
+     */
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 
