@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * @Date 2020/4/24 17:55
  *****/
 @Data
-public class UserPrice {
+public class UserPriceTo {
 
     private Long id;
     private String name;

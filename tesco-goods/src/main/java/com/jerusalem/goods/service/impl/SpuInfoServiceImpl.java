@@ -129,7 +129,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
 
         //6、保存当前SPU对应的所有SKU信息
-        List<SkuVo> skuList = spuVo.getSkuList();
+        List<SkuVo> skuList = spuVo.getSkus();
         if(skuList != null && skuList.size() > 0){
             skuList.forEach(item->{
                 String defaultImg = "";
@@ -138,7 +138,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                         defaultImg = image.getImgUrl();
                     }
                 }
-                //5.1）、SKU的基本信息 tesco-goods ---> sku_info
+                //6.1）、SKU的基本信息 tesco-goods ---> sku_info
                 SkuInfoEntity skuInfo = new SkuInfoEntity();
                 BeanUtils.copyProperties(item,skuInfo);
                 skuInfo.setBrandId(spuInfo.getBrandId());
@@ -150,7 +150,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 //拿到自增主键
                 Long skuId = skuInfo.getSkuId();
 
-                //5.2）、SKU的图片信息 tesco-goods ---> sku_images
+                //6.2）、SKU的图片信息 tesco-goods ---> sku_images
                 List<SkuImagesEntity> imagesEntities = item.getImages().stream().map(img -> {
                     SkuImagesEntity skuImages = new SkuImagesEntity();
                     skuImages.setSkuId(skuId);
@@ -164,7 +164,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuImagesService.saveBatch(imagesEntities);
                 //TODO 没有图片路径的无需保存
 
-                //5.3）、SKU的销售属性信息 tesco-goods ---> sku_sale_attr_value
+                //6.3）、SKU的销售属性信息 tesco-goods ---> sku_sale_attr_value
                 List<Attr> attr = item.getAttr();
                 List<SkuSaleAttrValueEntity> skuSaleAttrValueEntities = attr.stream().map(saleAttr -> {
                     SkuSaleAttrValueEntity saleAttrValue = new SkuSaleAttrValueEntity();
@@ -174,14 +174,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 }).collect(Collectors.toList());
                 skuSaleAttrValueService.saveBatch(skuSaleAttrValueEntities);
 
-                //5.4）、SKU的优惠、满减等信息 tesco-goods ---> sku_ladder\sku_full_reduction\user_price
+                //6.4）、SKU的优惠、满减等信息 tesco-goods ---> sku_ladder|sku_full_reduction|user_price
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item,skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
                 if(skuReductionTo.getFullCount() >0 || skuReductionTo.getFullPrice().compareTo(new BigDecimal("0")) == 1){
                     R r1 = skuFullReductionFeign.saveSkuReduction(skuReductionTo);
                     if(r1.getCode() != 0){
-                        log.error("远程保存sku优惠信息失败");
+                        log.error("远程保存SKU优惠信息失败");
                     }
                 }
             });

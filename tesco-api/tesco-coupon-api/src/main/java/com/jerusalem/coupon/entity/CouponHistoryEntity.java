@@ -2,17 +2,17 @@ package com.jerusalem.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /****
  * 实体类
  * 优惠券领取历史记录
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @Data
 @TableName("coupon_history")
@@ -29,13 +29,13 @@ public class CouponHistoryEntity implements Serializable {
 	 */
 	private Long couponId;
 	/**
-	 * 会员id
+	 * 用户id
 	 */
-	private Long memberId;
+	private Long userId;
 	/**
-	 * 会员名字
+	 * 用户名字
 	 */
-	private String memberNickName;
+	private String userNickName;
 	/**
 	 * 获取方式[0->后台赠送；1->主动领取]
 	 */

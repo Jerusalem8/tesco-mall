@@ -1,8 +1,7 @@
 package com.jerusalem.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.jerusalem.coupon.entity.HomeAdvEntity;
+import com.jerusalem.coupon.service.HomeAdvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,21 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.coupon.entity.HomeAdvEntity;
-import com.jerusalem.coupon.service.HomeAdvService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
+import java.util.Arrays;
+import java.util.Map;
 
 /****
  * 控制层
  * 首页轮播广告
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @RestController
-@RequestMapping("coupon/homeadv")
+@RequestMapping("sale/homeadv")
 public class HomeAdvController {
 
     @Autowired

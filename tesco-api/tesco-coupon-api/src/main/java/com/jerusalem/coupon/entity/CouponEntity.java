@@ -2,18 +2,18 @@ package com.jerusalem.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /****
  * 实体类
  * 优惠券信息
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @Data
 @TableName("coupon")
@@ -26,7 +26,7 @@ public class CouponEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 优惠卷类型[0->全场赠券；1->会员赠券；2->购物赠券；3->注册赠券]
+	 * 优惠卷类型[0->全场赠券；1->用户赠券；2->购物赠券；3->注册赠券]
 	 */
 	private Integer couponType;
 	/**
@@ -94,9 +94,9 @@ public class CouponEntity implements Serializable {
 	 */
 	private String code;
 	/**
-	 * 可以领取的会员等级[0->不限等级，其他-对应等级]
+	 * 可以领取的用户等级[0->不限等级，其他-对应等级]
 	 */
-	private Integer memberLevel;
+	private Integer userLevel;
 	/**
 	 * 发布状态[0-未发布，1-已发布]
 	 */

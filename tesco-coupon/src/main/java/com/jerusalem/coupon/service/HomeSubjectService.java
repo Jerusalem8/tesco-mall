@@ -11,7 +11,7 @@ import java.util.Map;
  * 首页专题表【jd首页下面很多专题，每个专题链接新的页面，展示专题商品信息】
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 public interface HomeSubjectService extends IService<HomeSubjectEntity> {
 

@@ -17,11 +17,12 @@ import java.util.Map;
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     /**
-    * 分页查询
-    * @param params
-    * @return
-    */
+     * 分页查询
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
+
 
     /***
      * 保存满减信息

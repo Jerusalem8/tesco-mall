@@ -1,8 +1,7 @@
 package com.jerusalem.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.jerusalem.coupon.entity.CouponEntity;
+import com.jerusalem.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,21 +9,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.coupon.entity.CouponEntity;
-import com.jerusalem.coupon.service.CouponService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
+import java.util.Arrays;
+import java.util.Map;
 
 /****
  * 控制层
  * 优惠券信息
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @RestController
-@RequestMapping("coupon/coupon")
+@RequestMapping("sale/coupon")
 public class CouponController {
 
     @Autowired

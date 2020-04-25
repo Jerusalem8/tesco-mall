@@ -22,5 +22,5 @@ public class SkuReductionTo {
     private BigDecimal fullPrice;
     private BigDecimal reducePrice;
     private int priceStatus;
-    private List<UserPrice> memberPrice;
+    private List<UserPriceTo> userPrices;
 }

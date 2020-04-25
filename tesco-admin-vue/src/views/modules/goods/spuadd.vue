@@ -48,8 +48,8 @@
                 <template slot="prepend">成长值</template>
               </el-input-number>
             </el-form-item>
-            <el-form-item label="商品介绍" prop="decript">
-              <multi-upload v-model="spu.decript"></multi-upload>
+            <el-form-item label="商品介绍" prop="description">
+              <multi-upload v-model="spu.description"></multi-upload>
             </el-form-item>
 
             <el-form-item label="商品图集" prop="images">
@@ -309,14 +309,14 @@
                     </el-col>
 
                     <el-col :span="24">
-                      <el-form-item label="设置会员价" v-if="scope.row.userPrice.length>0">
+                      <el-form-item label="设置会员价" v-if="scope.row.userPrices.length>0">
                         <br />
                         <!--   @change="handlePriceChange(scope,mpidx,$event)" -->
-                        <el-form-item v-for="(mp,mpidx) in scope.row.memberPrice" :key="mp.id">
+                        <el-form-item v-for="(mp,mpidx) in scope.row.userPrices" :key="mp.id">
                           {{mp.name}}
                           <el-input-number
                             style="width:160px"
-                            v-model="scope.row.memberPrice[mpidx].price"
+                            v-model="scope.row.userPrices[mpidx].price"
                             :precision="2"
                             :min="0"
                             controls-position="right"
@@ -344,464 +344,464 @@
 </template>
 
 <script>
-import CategoryCascader from "../common/category-cascader";
-import BrandSelect from "../common/brand-select";
-import MultiUpload from "@/components/upload/multiUpload";
-export default {
-  components: { CategoryCascader, BrandSelect, MultiUpload },
-  props: {},
-  data() {
-    return {
-      catPathSub: null,
-      brandIdSub: null,
-      uploadDialogVisible: false,
-      uploadImages: [],
-      step: 0,
-      spu: {
-        //要提交的数据
-        spuName: "",
-        spuDescription: "",
-        categoryId: 0,
-        brandId: "",
-        weight: "",
-        publishStatus: 0,
-        decript: [], //商品详情
-        images: [], //商品图集，最后sku也可以新增
-        bounds: {
-          //积分
-          buyBounds: 0,
-          growBounds: 0
+  import CategoryCascader from "../common/category-cascader";
+  import BrandSelect from "../common/brand-select";
+  import MultiUpload from "@/components/upload/multiUpload";
+  export default {
+    components: { CategoryCascader, BrandSelect, MultiUpload },
+    props: {},
+    data() {
+      return {
+        catPathSub: null,
+        brandIdSub: null,
+        uploadDialogVisible: false,
+        uploadImages: [],
+        step: 0,
+        spu: {
+          //要提交的数据
+          spuName: "",
+          spuDescription: "",
+          categoryId: 0,
+          brandId: "",
+          weight: "",
+          publishStatus: 0,
+          description: [], //商品详情
+          images: [], //商品图集，最后sku也可以新增
+          bounds: {
+            //积分
+            buyBounds: 0,
+            growBounds: 0
+          },
+          baseAttrs: [], //基本属性
+          skus: [] //所有sku信息
         },
-        baseAttrs: [], //基本属性
-        skus: [] //所有sku信息
-      },
-      spuBaseInfoRules: {
-        spuName: [
-          { required: true, message: "请输入商品名字", trigger: "blur" }
-        ],
-        spuDescription: [
-          { required: true, message: "请编写一个简单描述", trigger: "blur" }
-        ],
-        categoryId: [
-          { required: true, message: "请选择一个分类", trigger: "blur" }
-        ],
-        brandId: [
-          { required: true, message: "请选择一个品牌", trigger: "blur" }
-        ],
-        decript: [
-          { required: true, message: "请上传商品详情图集", trigger: "blur" }
-        ],
-        images: [
-          { required: true, message: "请上传商品图片集", trigger: "blur" }
-        ],
-        weight: [
-          {
-            type: "number",
-            required: true,
-            message: "请填写正确的重量值",
-            trigger: "blur"
-          }
-        ]
-      },
-      dataResp: {
-        //后台返回的所有数据
-        attrGroups: [],
-        baseAttrs: [],
-        saleAttrs: [],
-        tempSaleAttrs: [],
-        tableAttrColumn: [],
-        userLevels: [],
-        steped: [false, false, false, false, false]
-      },
-      inputVisible: [],
-      inputValue: []
-    };
-  },
-  computed: {},
-  watch: {
-    uploadImages(val) {
-      //扩展每个skus里面的imgs选项
-      let imgArr = Array.from(new Set(this.spu.images.concat(val)));
-
-      //{imgUrl:"",defaultImg:0} 由于concat每次迭代上次，有很多重复。所以我们必须得到上次+这次的总长
-
-      this.spu.skus.forEach((item, index) => {
-        let len = imgArr.length - this.spu.skus[index].images.length; //还差这么多
-        if (len > 0) {
-          let imgs = new Array(len);
-          imgs = imgs.fill({ imgUrl: "", defaultImg: 0 });
-          this.spu.skus[index].images = item.images.concat(imgs);
-        }
-      });
-
-      this.spu.images = imgArr; //去重
-      console.log("this.spu.skus", this.spu.skus);
-    }
-  },
-  //方法集合
-  methods: {
-    addAgian() {
-      this.step = 0;
-      this.resetSpuData();
-    },
-    resetSpuData() {
-      this.spu = {
-        spuName: "",
-        spuDescription: "",
-        categoryId: 0,
-        brandId: "",
-        weight: "",
-        publishStatus: 0,
-        decript: [],
-        images: [],
-        bounds: {
-          buyBounds: 0,
-          growBounds: 0
+        spuBaseInfoRules: {
+          spuName: [
+            { required: true, message: "请输入商品名字", trigger: "blur" }
+          ],
+          spuDescription: [
+            { required: true, message: "请编写一个简单描述", trigger: "blur" }
+          ],
+          categoryId: [
+            { required: true, message: "请选择一个分类", trigger: "blur" }
+          ],
+          brandId: [
+            { required: true, message: "请选择一个品牌", trigger: "blur" }
+          ],
+          description: [
+            { required: true, message: "请上传商品详情图集", trigger: "blur" }
+          ],
+          images: [
+            { required: true, message: "请上传商品图片集", trigger: "blur" }
+          ],
+          weight: [
+            {
+              type: "number",
+              required: true,
+              message: "请填写正确的重量值",
+              trigger: "blur"
+            }
+          ]
         },
-        baseAttrs: [],
-        skus: []
+        dataResp: {
+          //后台返回的所有数据
+          attrGroups: [],
+          baseAttrs: [],
+          saleAttrs: [],
+          tempSaleAttrs: [],
+          tableAttrColumn: [],
+          userLevels: [],
+          steped: [false, false, false, false, false]
+        },
+        inputVisible: [],
+        inputValue: []
       };
     },
-    handlePriceChange(scope, mpidx, e) {
-      this.spu.skus[scope.$index].memberPrice[mpidx].price = e;
-    },
-    getMemberLevels() {
-      this.$http({
-        url: this.$http.adornUrl("/user/level/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: 1,
-          limit: 500
-        })
-      })
-        .then(({ data }) => {
-          this.dataResp.memberLevels = data.page.list;
-        })
-        .catch(e => {
-          console.log(e);
+    computed: {},
+    watch: {
+      uploadImages(val) {
+        //扩展每个skus里面的imgs选项
+        let imgArr = Array.from(new Set(this.spu.images.concat(val)));
+
+        //{imgUrl:"",defaultImg:0} 由于concat每次迭代上次，有很多重复。所以我们必须得到上次+这次的总长
+
+        this.spu.skus.forEach((item, index) => {
+          let len = imgArr.length - this.spu.skus[index].images.length; //还差这么多
+          if (len > 0) {
+            let imgs = new Array(len);
+            imgs = imgs.fill({ imgUrl: "", defaultImg: 0 });
+            this.spu.skus[index].images = item.images.concat(imgs);
+          }
         });
-    },
-    showInput(idx) {
-      console.log("``````", this.view);
-      this.inputVisible[idx].view = true;
-      // this.$refs['saveTagInput'+idx].$refs.input.focus();
-    },
-    checkDefaultImg(row, index, img) {
-      console.log("默认图片", row, index);
-      //这个图片被选中了，
-      row.images[index].imgUrl = img; //默认选中
-      row.images[index].defaultImg = 1; //修改标志位;
-      //修改其他人的标志位
-      row.images.forEach((item, idx) => {
-        if (idx != index) {
-          row.images[idx].defaultImg = 0;
-        }
-      });
-    },
-    handleInputConfirm(idx) {
-      let inputValue = this.inputValue[idx].val;
-      if (inputValue) {
-        // this.dynamicTags.push(inputValue);
-        if (this.dataResp.saleAttrs[idx].valueSelect == "") {
-          this.dataResp.saleAttrs[idx].valueSelect = inputValue;
-        } else {
-          this.dataResp.saleAttrs[idx].valueSelect += ";" + inputValue;
-        }
+
+        this.spu.images = imgArr; //去重
+        console.log("this.spu.skus", this.spu.skus);
       }
-      this.inputVisible[idx].view = false;
-      this.inputValue[idx].val = "";
     },
-    collectSpuBaseInfo() {
-      //spuBaseForm
-      this.$refs.spuBaseForm.validate(valid => {
-        if (valid) {
-          this.step = 1;
-          this.showBaseAttrs();
-        } else {
-          return false;
-        }
-      });
-    },
-    generateSaleAttrs() {
-      //把页面绑定的所有attr处理到spu里面,这一步都要做
-      this.spu.baseAttrs = [];
-      this.dataResp.baseAttrs.forEach(item => {
-        item.forEach(attr => {
-          let { attrId, attrValues, showDesc } = attr;
-          //跳过没有录入值的属性
-          if (attrValues != "") {
-            if (attrValues instanceof Array) {
-              //多个值用;隔开
-              attrValues = attrValues.join(";");
-            }
-            this.spu.baseAttrs.push({ attrId, attrValues, showDesc });
-          }
-        });
-      });
-      console.log("baseAttrs", this.spu.baseAttrs);
-      this.step = 2;
-      this.getShowSaleAttr();
-    },
-    generateSkus() {
-      this.step = 3;
-
-      //根据笛卡尔积运算进行生成sku
-      let selectValues = [];
-      this.dataResp.tableAttrColumn = [];
-      this.dataResp.tempSaleAttrs.forEach(item => {
-        if (item.attrValues.length > 0) {
-          selectValues.push(item.attrValues);
-          this.dataResp.tableAttrColumn.push(item);
-        }
-      });
-
-      let descartes = this.descartes(selectValues);
-      //[["黑色","6GB","移动"],["黑色","6GB","联通"],["黑色","8GB","移动"],["黑色","8GB","联通"],
-      //["白色","6GB","移动"],["白色","6GB","联通"],["白色","8GB","移动"],["白色","8GB","联通"],
-      //["蓝色","6GB","移动"],["蓝色","6GB","联通"],["蓝色","8GB","移动"],["蓝色","8GB","联通"]]
-      console.log("生成的组合", JSON.stringify(descartes));
-      //有多少descartes就有多少sku
-      let skus = [];
-
-      descartes.forEach((descar, descaridx) => {
-        let attrArray = []; //sku属性组
-        descar.forEach((de, index) => {
-          //构造saleAttr信息
-          let saleAttrItem = {
-            attrId: this.dataResp.tableAttrColumn[index].attrId,
-            attrName: this.dataResp.tableAttrColumn[index].attrName,
-            attrValue: de
-          };
-          attrArray.push(saleAttrItem);
-        });
-        //先初始化几个images，后面的上传还要加
-        let imgs = [];
-        this.spu.images.forEach((img, idx) => {
-          imgs.push({ imgUrl: "", defaultImg: 0 });
-        });
-
-        //会员价，也必须在循环里面生成，否则会导致数据绑定问题
-        let userPrices = [];
-        if (this.dataResp.memberLevels.length > 0) {
-          for (let i = 0; i < this.dataResp.userLevels.length; i++) {
-            if (this.dataResp.userLevels[i].priviledgeUserPrice == 1) {
-              userPrices.push({
-                id: this.dataResp.userLevels[i].id,
-                name: this.dataResp.userLevels[i].name,
-                price: 0
-              });
-            }
-          }
-        }
-        //;descaridx，判断如果之前有就用之前的值;
-        let res = this.hasAndReturnSku(this.spu.skus, descar);
-        if (res === null) {
-          skus.push({
-            attr: attrArray,
-            skuName: this.spu.spuName + " " + descar.join(" "),
-            price: 0,
-            skuTitle: this.spu.spuName + " " + descar.join(" "),
-            skuSubtitle: "",
-            images: imgs,
-            descar: descar,
-            fullCount: 0,
-            discount: 0,
-            countStatus: 0,
-            fullPrice: 0.0,
-            reducePrice: 0.0,
-            priceStatus: 0,
-            memberPrice: new Array().concat(userPrices)
-          });
-        } else {
-          skus.push(res);
-        }
-      });
-      this.spu.skus = skus;
-      console.log("结果!!!", this.spu.skus, this.dataResp.tableAttrColumn);
-    },
-    //判断如果包含之前的sku的descar组合，就返回这个sku的详细信息；
-    hasAndReturnSku(skus, descar) {
-      let res = null;
-      if (skus.length > 0) {
-        for (let i = 0; i < skus.length; i++) {
-          if (skus[i].descar.join(" ") == descar.join(" ")) {
-            res = skus[i];
-          }
-        }
-      }
-      return res;
-    },
-    getShowSaleAttr() {
-      //获取当前分类可以使用的销售属性
-      if (!this.dataResp.steped[1]) {
+    //方法集合
+    methods: {
+      addAgian() {
+        this.step = 0;
+        this.resetSpuData();
+      },
+      resetSpuData() {
+        this.spu = {
+          spuName: "",
+          spuDescription: "",
+          categoryId: 0,
+          brandId: "",
+          weight: "",
+          publishStatus: 0,
+          description: [],
+          images: [],
+          bounds: {
+            buyBounds: 0,
+            growBounds: 0
+          },
+          baseAttrs: [],
+          skus: []
+        };
+      },
+      handlePriceChange(scope, mpidx, e) {
+        this.spu.skus[scope.$index].userPrices[mpidx].price = e;
+      },
+      getMemberLevels() {
         this.$http({
-          url: this.$http.adornUrl(
-            `/goods/attr/sale/list/${this.spu.categoryId}`
-          ),
+          url: this.$http.adornUrl("/user/level/list"),
           method: "get",
           params: this.$http.adornParams({
             page: 1,
             limit: 500
           })
-        }).then(({ data }) => {
-          this.dataResp.saleAttrs = data.page.list;
-          data.page.list.forEach(item => {
-            this.dataResp.tempSaleAttrs.push({
-              attrId: item.attrId,
-              attrValues: [],
-              attrName: item.attrName
-            });
-            this.inputVisible.push({ view: false });
-            this.inputValue.push(   { val: "" });
+        })
+          .then(({ data }) => {
+            this.dataResp.userLevels = data.page.list;
+          })
+          .catch(e => {
+            console.log(e);
           });
-          this.dataResp.steped[1] = true;
+      },
+      showInput(idx) {
+        console.log("``````", this.view);
+        this.inputVisible[idx].view = true;
+        // this.$refs['saveTagInput'+idx].$refs.input.focus();
+      },
+      checkDefaultImg(row, index, img) {
+        console.log("默认图片", row, index);
+        //这个图片被选中了，
+        row.images[index].imgUrl = img; //默认选中
+        row.images[index].defaultImg = 1; //修改标志位;
+        //修改其他人的标志位
+        row.images.forEach((item, idx) => {
+          if (idx != index) {
+            row.images[idx].defaultImg = 0;
+          }
         });
-      }
-    },
-    //设置商品的规格参数
-    showBaseAttrs() {
-      if (!this.dataResp.steped[0]) {
-        this.$http({
-          url: this.$http.adornUrl(
-            `/goods/attr/group/withattr/${this.spu.categoryId}`
-          ),
-          method: "get",
-          params: this.$http.adornParams({})
-        }).then(({ data }) => {
-          //先对表单的baseAttrs进行初始化
-          //最最最重要的事是，在使用for-each之前，要进行一个非空的判断，不为空才进行遍历。
-          if (data.data){
-            data.data.forEach(item => {
-              let attrArray = [];
-              if (item.attrs){
-                item.attrs.forEach(attr => {
-                  attrArray.push({
-                    attrId: attr.attrId,
-                    attrValues: "",
-                    showDesc: attr.showDesc
-                  });
+      },
+      handleInputConfirm(idx) {
+        let inputValue = this.inputValue[idx].val;
+        if (inputValue) {
+          // this.dynamicTags.push(inputValue);
+          if (this.dataResp.saleAttrs[idx].valueSelect == "") {
+            this.dataResp.saleAttrs[idx].valueSelect = inputValue;
+          } else {
+            this.dataResp.saleAttrs[idx].valueSelect += ";" + inputValue;
+          }
+        }
+        this.inputVisible[idx].view = false;
+        this.inputValue[idx].val = "";
+      },
+      collectSpuBaseInfo() {
+        //spuBaseForm
+        this.$refs.spuBaseForm.validate(valid => {
+          if (valid) {
+            this.step = 1;
+            this.showBaseAttrs();
+          } else {
+            return false;
+          }
+        });
+      },
+      generateSaleAttrs() {
+        //把页面绑定的所有attr处理到spu里面,这一步都要做
+        this.spu.baseAttrs = [];
+        this.dataResp.baseAttrs.forEach(item => {
+          item.forEach(attr => {
+            let { attrId, attrValues, showDesc } = attr;
+            //跳过没有录入值的属性
+            if (attrValues != "") {
+              if (attrValues instanceof Array) {
+                //多个值用;隔开
+                attrValues = attrValues.join(";");
+              }
+              this.spu.baseAttrs.push({ attrId, attrValues, showDesc });
+            }
+          });
+        });
+        console.log("baseAttrs", this.spu.baseAttrs);
+        this.step = 2;
+        this.getShowSaleAttr();
+      },
+      generateSkus() {
+        this.step = 3;
+
+        //根据笛卡尔积运算进行生成sku
+        let selectValues = [];
+        this.dataResp.tableAttrColumn = [];
+        this.dataResp.tempSaleAttrs.forEach(item => {
+          if (item.attrValues.length > 0) {
+            selectValues.push(item.attrValues);
+            this.dataResp.tableAttrColumn.push(item);
+          }
+        });
+
+        let descartes = this.descartes(selectValues);
+        //[["黑色","6GB","移动"],["黑色","6GB","联通"],["黑色","8GB","移动"],["黑色","8GB","联通"],
+        //["白色","6GB","移动"],["白色","6GB","联通"],["白色","8GB","移动"],["白色","8GB","联通"],
+        //["蓝色","6GB","移动"],["蓝色","6GB","联通"],["蓝色","8GB","移动"],["蓝色","8GB","联通"]]
+        console.log("生成的组合", JSON.stringify(descartes));
+        //有多少descartes就有多少sku
+        let skus = [];
+
+        descartes.forEach((descar, descaridx) => {
+          let attrArray = []; //sku属性组
+          descar.forEach((de, index) => {
+            //构造saleAttr信息
+            let saleAttrItem = {
+              attrId: this.dataResp.tableAttrColumn[index].attrId,
+              attrName: this.dataResp.tableAttrColumn[index].attrName,
+              attrValue: de
+            };
+            attrArray.push(saleAttrItem);
+          });
+          //先初始化几个images，后面的上传还要加
+          let imgs = [];
+          this.spu.images.forEach((img, idx) => {
+            imgs.push({ imgUrl: "", defaultImg: 0 });
+          });
+
+          //会员价，也必须在循环里面生成，否则会导致数据绑定问题
+          let userPrices = [];
+          if (this.dataResp.userLevels.length > 0) {
+            for (let i = 0; i < this.dataResp.userLevels.length; i++) {
+              if (this.dataResp.userLevels[i].priviledgeUserPrice == 1) {
+                userPrices.push({
+                  id: this.dataResp.userLevels[i].id,
+                  name: this.dataResp.userLevels[i].name,
+                  price: 0
                 });
               }
-              this.dataResp.baseAttrs.push(attrArray);
+            }
+          }
+          //;descaridx，判断如果之前有就用之前的值;
+          let res = this.hasAndReturnSku(this.spu.skus, descar);
+          if (res === null) {
+            skus.push({
+              attr: attrArray,
+              skuName: this.spu.spuName + " " + descar.join(" "),
+              price: 0,
+              skuTitle: this.spu.spuName + " " + descar.join(" "),
+              skuSubtitle: "",
+              images: imgs,
+              descar: descar,
+              fullCount: 0,
+              discount: 0,
+              countStatus: 0,
+              fullPrice: 0.0,
+              reducePrice: 0.0,
+              priceStatus: 0,
+              userPrices: new Array().concat(userPrices)
             });
-          }
-          this.dataResp.steped[0] = 0;
-          this.dataResp.attrGroups = data.data;
-        });
-      }
-    },
-
-    submitSkus() {
-      console.log("~~~~~", JSON.stringify(this.spu));
-      this.$confirm("将要提交商品数据，需要一小段时间，是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$http({
-            url: this.$http.adornUrl("/goods/spu/info/save"),
-            method: "post",
-            data: this.$http.adornData(this.spu, false)
-          }).then(({ data }) => {
-            if (data.code == 0) {
-              this.$message({
-                type: "success",
-                message: "新增商品成功!"
-              });
-              this.step = 4;
-            } else {
-              this.$message({
-                type: "error",
-                message: "保存失败，原因【" + data.msg + "】"
-              });
-            }
-          });
-        })
-        .catch(e => {
-          console.log(e);
-          this.$message({
-            type: "info",
-            message: "已取消"
-          });
-        });
-    },
-    //笛卡尔积运算
-    descartes(list) {
-      //parent上一级索引;count指针计数
-      var point = {};
-
-      var result = [];
-      var pIndex = null;
-      var tempCount = 0;
-      var temp = [];
-
-      //根据参数列生成指针对象
-      for (var index in list) {
-        if (typeof list[index] == "object") {
-          point[index] = { parent: pIndex, count: 0 };
-          pIndex = index;
-        }
-      }
-
-      //单维度数据结构直接返回
-      if (pIndex == null) {
-        return list;
-      }
-
-      //动态生成笛卡尔积
-      while (true) {
-        for (var index in list) {
-          tempCount = point[index]["count"];
-          temp.push(list[index][tempCount]);
-        }
-
-        //压入结果数组
-        result.push(temp);
-        temp = [];
-
-        //检查指针最大值问题
-        while (true) {
-          if (point[index]["count"] + 1 >= list[index].length) {
-            point[index]["count"] = 0;
-            pIndex = point[index]["parent"];
-            if (pIndex == null) {
-              return result;
-            }
-
-            //赋值parent进行再次检查
-            index = pIndex;
           } else {
-            point[index]["count"]++;
-            break;
+            skus.push(res);
+          }
+        });
+        this.spu.skus = skus;
+        console.log("结果!!!", this.spu.skus, this.dataResp.tableAttrColumn);
+      },
+      //判断如果包含之前的sku的descar组合，就返回这个sku的详细信息；
+      hasAndReturnSku(skus, descar) {
+        let res = null;
+        if (skus.length > 0) {
+          for (let i = 0; i < skus.length; i++) {
+            if (skus[i].descar.join(" ") == descar.join(" ")) {
+              res = skus[i];
+            }
+          }
+        }
+        return res;
+      },
+      getShowSaleAttr() {
+        //获取当前分类可以使用的销售属性
+        if (!this.dataResp.steped[1]) {
+          this.$http({
+            url: this.$http.adornUrl(
+              `/goods/attr/sale/list/${this.spu.categoryId}`
+            ),
+            method: "get",
+            params: this.$http.adornParams({
+              page: 1,
+              limit: 500
+            })
+          }).then(({ data }) => {
+            this.dataResp.saleAttrs = data.page.list;
+            data.page.list.forEach(item => {
+              this.dataResp.tempSaleAttrs.push({
+                attrId: item.attrId,
+                attrValues: [],
+                attrName: item.attrName
+              });
+              this.inputVisible.push({ view: false });
+              this.inputValue.push(   { val: "" });
+            });
+            this.dataResp.steped[1] = true;
+          });
+        }
+      },
+      //设置商品的规格参数
+      showBaseAttrs() {
+        if (!this.dataResp.steped[0]) {
+          this.$http({
+            url: this.$http.adornUrl(
+              `/goods/attr/group/withattr/${this.spu.categoryId}`
+            ),
+            method: "get",
+            params: this.$http.adornParams({})
+          }).then(({ data }) => {
+            //先对表单的baseAttrs进行初始化
+            //最最最重要的事是，在使用for-each之前，要进行一个非空的判断，不为空才进行遍历。
+            if (data.data){
+              data.data.forEach(item => {
+                let attrArray = [];
+                if (item.attrs){
+                  item.attrs.forEach(attr => {
+                    attrArray.push({
+                      attrId: attr.attrId,
+                      attrValues: "",
+                      showDesc: attr.showDesc
+                    });
+                  });
+                }
+                this.dataResp.baseAttrs.push(attrArray);
+              });
+            }
+            this.dataResp.steped[0] = 0;
+            this.dataResp.attrGroups = data.data;
+          });
+        }
+      },
+
+      submitSkus() {
+        console.log("~~~~~", JSON.stringify(this.spu));
+        this.$confirm("将要提交商品数据，需要一小段时间，是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$http({
+              url: this.$http.adornUrl("/goods/spu/info/save"),
+              method: "post",
+              data: this.$http.adornData(this.spu, false)
+            }).then(({ data }) => {
+              if (data.code == 0) {
+                this.$message({
+                  type: "success",
+                  message: "新增商品成功!"
+                });
+                this.step = 4;
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "保存失败，原因【" + data.msg + "】"
+                });
+              }
+            });
+          })
+          .catch(e => {
+            console.log(e);
+            this.$message({
+              type: "info",
+              message: "已取消"
+            });
+          });
+      },
+      //笛卡尔积运算
+      descartes(list) {
+        //parent上一级索引;count指针计数
+        var point = {};
+
+        var result = [];
+        var pIndex = null;
+        var tempCount = 0;
+        var temp = [];
+
+        //根据参数列生成指针对象
+        for (var index in list) {
+          if (typeof list[index] == "object") {
+            point[index] = { parent: pIndex, count: 0 };
+            pIndex = index;
+          }
+        }
+
+        //单维度数据结构直接返回
+        if (pIndex == null) {
+          return list;
+        }
+
+        //动态生成笛卡尔积
+        while (true) {
+          for (var index in list) {
+            tempCount = point[index]["count"];
+            temp.push(list[index][tempCount]);
+          }
+
+          //压入结果数组
+          result.push(temp);
+          temp = [];
+
+          //检查指针最大值问题
+          while (true) {
+            if (point[index]["count"] + 1 >= list[index].length) {
+              point[index]["count"] = 0;
+              pIndex = point[index]["parent"];
+              if (pIndex == null) {
+                return result;
+              }
+
+              //赋值parent进行再次检查
+              index = pIndex;
+            } else {
+              point[index]["count"]++;
+              break;
+            }
           }
         }
       }
-    }
-  },
-  //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() {
-    this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
-      this.spu.categoryId = val[val.length - 1];
-    });
-    this.brandIdSub = PubSub.subscribe("brandId", (msg, val) => {
-      this.spu.brandId = val;
-    });
-    this.getMemberLevels();
-  },
-  beforeCreate() {}, //生命周期 - 创建之前
-  beforeMount() {}, //生命周期 - 挂载之前
-  beforeUpdate() {}, //生命周期 - 更新之前
-  updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {
-    PubSub.unsubscribe(this.catPathSub);
-    PubSub.unsubscribe(this.brandIdSub);
-  }, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
-  activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
-};
+    },
+    //生命周期 - 创建完成（可以访问当前this实例）
+    created() {},
+    //生命周期 - 挂载完成（可以访问DOM元素）
+    mounted() {
+      this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
+        this.spu.categoryId = val[val.length - 1];
+      });
+      this.brandIdSub = PubSub.subscribe("brandId", (msg, val) => {
+        this.spu.brandId = val;
+      });
+      this.getMemberLevels();
+    },
+    beforeCreate() {}, //生命周期 - 创建之前
+    beforeMount() {}, //生命周期 - 挂载之前
+    beforeUpdate() {}, //生命周期 - 更新之前
+    updated() {}, //生命周期 - 更新之后
+    beforeDestroy() {
+      PubSub.unsubscribe(this.catPathSub);
+      PubSub.unsubscribe(this.brandIdSub);
+    }, //生命周期 - 销毁之前
+    destroyed() {}, //生命周期 - 销毁完成
+    activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
+  };
 </script>
-<style scoped>
+<style scoped>
 </style>

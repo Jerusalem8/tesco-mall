@@ -40,10 +40,10 @@ public class SkuFullReductionController {
 
 
     /***
-    * 分页查询
-    * @param params
-    * @return
-    */
+     * 分页查询
+     * @param params
+     * @return
+     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = skuFullReductionService.queryPage(params);
@@ -52,34 +52,34 @@ public class SkuFullReductionController {
     }
 
     /***
-    * 查询
-    * @return
-    */
+     * 查询
+     * @return
+     */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
+        SkuFullReductionEntity skuFullReduction = skuFullReductionService.getById(id);
 
         return R.ok().put("skuFullReduction", skuFullReduction);
     }
 
     /***
-    * 修改
-    * @return
-    */
+     * 修改
+     * @return
+     */
     @RequestMapping("/update")
     public R update(@RequestBody SkuFullReductionEntity skuFullReduction){
-		skuFullReductionService.updateById(skuFullReduction);
+        skuFullReductionService.updateById(skuFullReduction);
 
         return R.ok();
     }
 
     /***
-    * 删除
-    * @return
-    */
+     * 删除
+     * @return
+     */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		skuFullReductionService.removeByIds(Arrays.asList(ids));
+        skuFullReductionService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

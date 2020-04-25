@@ -1,8 +1,7 @@
 package com.jerusalem.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.jerusalem.coupon.entity.UserPriceEntity;
+import com.jerusalem.coupon.service.UserPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,25 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jerusalem.coupon.entity.MemberPriceEntity;
-import com.jerusalem.coupon.service.MemberPriceService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
+import java.util.Arrays;
+import java.util.Map;
 
 
 /****
  * 控制层
- * 商品会员价格
+ * 商品用户价格
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @RestController
-@RequestMapping("coupon/memberprice")
-public class MemberPriceController {
+@RequestMapping("sale/userprice")
+public class UserPriceController {
 
     @Autowired
-    private MemberPriceService memberPriceService;
+    private UserPriceService userPriceService;
 
     /***
     * 分页查询
@@ -37,7 +36,7 @@ public class MemberPriceController {
     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = memberPriceService.queryPage(params);
+        PageUtils page = userPriceService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -48,9 +47,9 @@ public class MemberPriceController {
     */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		MemberPriceEntity memberPrice = memberPriceService.getById(id);
+		UserPriceEntity userPrice = userPriceService.getById(id);
 
-        return R.ok().put("memberPrice", memberPrice);
+        return R.ok().put("userPrice", userPrice);
     }
 
     /***
@@ -58,8 +57,8 @@ public class MemberPriceController {
     * @return
     */
     @RequestMapping("/save")
-    public R save(@RequestBody MemberPriceEntity memberPrice){
-		memberPriceService.save(memberPrice);
+    public R save(@RequestBody UserPriceEntity userPrice){
+		userPriceService.save(userPrice);
 
         return R.ok();
     }
@@ -69,8 +68,8 @@ public class MemberPriceController {
     * @return
     */
     @RequestMapping("/update")
-    public R update(@RequestBody MemberPriceEntity memberPrice){
-		memberPriceService.updateById(memberPrice);
+    public R update(@RequestBody UserPriceEntity userPrice){
+		userPriceService.updateById(userPrice);
 
         return R.ok();
     }
@@ -81,7 +80,7 @@ public class MemberPriceController {
     */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		memberPriceService.removeByIds(Arrays.asList(ids));
+		userPriceService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

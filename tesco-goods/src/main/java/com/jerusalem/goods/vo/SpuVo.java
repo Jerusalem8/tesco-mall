@@ -58,5 +58,5 @@ public class SpuVo {
     /**
      * SKU集合
      */
-    private List<SkuVo> skuList;
+    private List<SkuVo> skus;
 }

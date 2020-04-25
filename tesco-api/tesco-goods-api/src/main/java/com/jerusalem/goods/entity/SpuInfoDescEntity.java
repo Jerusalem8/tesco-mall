@@ -1,5 +1,6 @@
 package com.jerusalem.goods.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class SpuInfoDescEntity implements Serializable {
 	/**
 	 * 商品id
 	 */
-	@TableId
+	@TableId(type = IdType.INPUT)
 	private Long spuId;
 	/**
 	 * 商品介绍

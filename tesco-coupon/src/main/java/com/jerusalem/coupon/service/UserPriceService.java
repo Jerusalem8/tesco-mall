@@ -2,18 +2,18 @@ package com.jerusalem.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
-import com.jerusalem.coupon.entity.MemberPriceEntity;
+import com.jerusalem.coupon.entity.UserPriceEntity;
 
 import java.util.Map;
 
 /****
  * 服务层接口
- * 商品会员价格
+ * 商品用户价格
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
-public interface MemberPriceService extends IService<MemberPriceEntity> {
+public interface UserPriceService extends IService<UserPriceEntity> {
 
     /**
     * 分页查询

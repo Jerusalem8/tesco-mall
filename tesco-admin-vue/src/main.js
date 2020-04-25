@@ -11,7 +11,10 @@ import httpRequest from '@/utils/httpRequest' // api: https://github.com/axios/a
 import { isAuth } from '@/utils'
 import cloneDeep from 'lodash/cloneDeep'
 import PubSub from 'pubsub-js'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
+Vue.use(Element)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
 Vue.prototype.PubSub = PubSub

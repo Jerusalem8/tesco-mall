@@ -11,7 +11,7 @@ import java.util.Map;
  * 商品spu积分设置
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 public interface SpuBoundsService extends IService<SpuBoundsEntity> {
 
@@ -21,11 +21,5 @@ public interface SpuBoundsService extends IService<SpuBoundsEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
-
-    /***
-     * 保存积分信息
-     * @param spuBoundsTo
-     */
-    void saveSpuBounds(SpuBoundsEntity spuBoundsTo);
 }
 

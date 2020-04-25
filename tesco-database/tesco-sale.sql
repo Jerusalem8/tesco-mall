@@ -16,7 +16,7 @@ drop table if exists home_subject;
 
 drop table if exists home_subject_spu;
 
-drop table if exists member_price;
+drop table if exists user_price;
 
 drop table if exists seckill_promotion;
 
@@ -38,7 +38,7 @@ drop table if exists spu_bounds;
 create table coupon
 (
    id                   bigint not null auto_increment comment 'id',
-   coupon_type          tinyint(1) comment '优惠卷类型[0->全场赠券；1->会员赠券；2->购物赠券；3->注册赠券]',
+   coupon_type          tinyint(1) comment '优惠卷类型[0->全场赠券；1->用户赠券；2->购物赠券；3->注册赠券]',
    coupon_img           varchar(2000) comment '优惠券图片',
    coupon_name          varchar(100) comment '优惠卷名字',
    num                  int comment '数量',
@@ -55,7 +55,7 @@ create table coupon
    enable_start_time    datetime comment '可以领取的开始日期',
    enable_end_time      datetime comment '可以领取的结束日期',
    code                 varchar(64) comment '优惠码',
-   member_level         tinyint(1) comment '可以领取的会员等级[0->不限等级，其他-对应等级]',
+   user_level         tinyint(1) comment '可以领取的用户等级[0->不限等级，其他-对应等级]',
    publish              tinyint(1) comment '发布状态[0-未发布，1-已发布]',
    primary key (id)
 );
@@ -69,8 +69,8 @@ create table coupon_history
 (
    id                   bigint not null auto_increment comment 'id',
    coupon_id            bigint comment '优惠券id',
-   member_id            bigint comment '会员id',
-   member_nick_name     varchar(64) comment '会员名字',
+   user_id            bigint comment '用户id',
+   user_nick_name     varchar(64) comment '用户名字',
    get_type             tinyint(1) comment '获取方式[0->后台赠送；1->主动领取]',
    create_time          datetime comment '创建时间',
    use_type             tinyint(1) comment '使用状态[0->未使用；1->已使用；2->已过期]',
@@ -166,20 +166,20 @@ create table home_subject_spu
 alter table home_subject_spu comment '专题商品';
 
 /*==============================================================*/
-/* Table: member_price                                      */
+/* Table: user_price                                      */
 /*==============================================================*/
-create table member_price
+create table user_price
 (
    id                   bigint not null auto_increment comment 'id',
    sku_id               bigint comment 'sku_id',
-   member_level_id      bigint comment '会员等级id',
-   member_level_name    varchar(100) comment '会员等级名',
-   member_price         decimal(18,4) comment '会员对应价格',
+   user_level_id      bigint comment '用户等级id',
+   user_level_name    varchar(100) comment '用户等级名',
+   user_price         decimal(18,4) comment '用户对应价格',
    add_other            tinyint(1) comment '可否叠加其他优惠[0-不可叠加优惠，1-可叠加]',
    primary key (id)
 );
 
-alter table member_price comment '商品会员价格';
+alter table user_price comment '商品用户价格';
 
 /*==============================================================*/
 /* Table: seckill_promotion                                 */
@@ -220,7 +220,7 @@ alter table seckill_session comment '秒杀活动场次';
 create table seckill_sku_notice
 (
    id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
+   user_id            bigint comment 'user_id',
    sku_id               bigint comment 'sku_id',
    session_id           bigint comment '活动场次id',
    subcribe_time        datetime comment '订阅时间',

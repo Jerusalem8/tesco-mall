@@ -32,7 +32,7 @@ public class SpuBoundsController {
      */
     @PostMapping("/save")
     public R save(@RequestBody SpuBoundsEntity spuBoundsTo){
-        spuBoundsService.saveSpuBounds(spuBoundsTo);
+        spuBoundsService.save(spuBoundsTo);
         return R.ok();
     }
 
@@ -40,10 +40,10 @@ public class SpuBoundsController {
 
 
     /***
-    * 分页查询
-    * @param params
-    * @return
-    */
+     * 分页查询
+     * @param params
+     * @return
+     */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuBoundsService.queryPage(params);
@@ -52,34 +52,34 @@ public class SpuBoundsController {
     }
 
     /***
-    * 查询
-    * @return
-    */
+     * 查询
+     * @return
+     */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
-		SpuBoundsEntity spuBounds = spuBoundsService.getById(id);
+        SpuBoundsEntity spuBounds = spuBoundsService.getById(id);
 
         return R.ok().put("spuBounds", spuBounds);
     }
 
     /***
-    * 修改
-    * @return
-    */
+     * 修改
+     * @return
+     */
     @RequestMapping("/update")
     public R update(@RequestBody SpuBoundsEntity spuBounds){
-		spuBoundsService.updateById(spuBounds);
+        spuBoundsService.updateById(spuBounds);
 
         return R.ok();
     }
 
     /***
-    * 删除
-    * @return
-    */
+     * 删除
+     * @return
+     */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		spuBoundsService.removeByIds(Arrays.asList(ids));
+        spuBoundsService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

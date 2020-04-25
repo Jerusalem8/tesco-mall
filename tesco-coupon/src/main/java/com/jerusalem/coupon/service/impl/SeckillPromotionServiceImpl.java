@@ -1,5 +1,8 @@
 package com.jerusalem.coupon.service.impl;
 
+import com.jerusalem.coupon.dao.SeckillPromotionDao;
+import com.jerusalem.coupon.entity.SeckillPromotionEntity;
+import com.jerusalem.coupon.service.SeckillPromotionService;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -8,16 +11,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
-import com.jerusalem.coupon.dao.SeckillPromotionDao;
-import com.jerusalem.coupon.entity.SeckillPromotionEntity;
-import com.jerusalem.coupon.service.SeckillPromotionService;
-
 /****
  * 服务层接口实现类
  * 秒杀活动
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @Service("seckillPromotionService")
 public class SeckillPromotionServiceImpl extends ServiceImpl<SeckillPromotionDao, SeckillPromotionEntity> implements SeckillPromotionService {

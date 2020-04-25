@@ -2,21 +2,22 @@ package com.jerusalem.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
 
 /****
  * 实体类
- * 商品会员价格
+ * 商品用户价格
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @Data
-@TableName("member_price")
-public class MemberPriceEntity implements Serializable {
+@TableName("user_price")
+public class UserPriceEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -29,17 +30,17 @@ public class MemberPriceEntity implements Serializable {
 	 */
 	private Long skuId;
 	/**
-	 * 会员等级id
+	 * 用户等级id
 	 */
-	private Long memberLevelId;
+	private Long userLevelId;
 	/**
-	 * 会员等级名
+	 * 用户等级名
 	 */
-	private String memberLevelName;
+	private String userLevelName;
 	/**
-	 * 会员对应价格
+	 * 用户对应价格
 	 */
-	private BigDecimal memberPrice;
+	private BigDecimal userPrice;
 	/**
 	 * 可否叠加其他优惠[0-不可叠加优惠，1-可叠加]
 	 */

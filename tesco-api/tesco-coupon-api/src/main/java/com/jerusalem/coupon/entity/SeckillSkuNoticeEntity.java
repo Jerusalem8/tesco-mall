@@ -2,17 +2,17 @@ package com.jerusalem.coupon.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 
 /****
  * 实体类
  * 秒杀商品通知订阅
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
 @Data
 @TableName("seckill_sku_notice")
@@ -25,9 +25,9 @@ public class SeckillSkuNoticeEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * member_id
+	 * user_id
 	 */
-	private Long memberId;
+	private Long userId;
 	/**
 	 * sku_id
 	 */

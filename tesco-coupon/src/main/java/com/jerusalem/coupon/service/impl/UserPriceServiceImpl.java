@@ -1,5 +1,8 @@
 package com.jerusalem.coupon.service.impl;
 
+import com.jerusalem.coupon.dao.UserPriceDao;
+import com.jerusalem.coupon.entity.UserPriceEntity;
+import com.jerusalem.coupon.service.UserPriceService;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -8,19 +11,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
 
-import com.jerusalem.coupon.dao.MemberPriceDao;
-import com.jerusalem.coupon.entity.MemberPriceEntity;
-import com.jerusalem.coupon.service.MemberPriceService;
 
 /****
  * 服务层接口实现类
- * 商品会员价格
+ * 商品用户价格
  * @author jerusalem
  * @email 3276586184@qq.com
- * @date 2020-04-09 17:47:38
+ * @date 2020-04-25 13:53:20
  */
-@Service("memberPriceService")
-public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceDao, MemberPriceEntity> implements MemberPriceService {
+@Service("userPriceService")
+public class UserPriceServiceImpl extends ServiceImpl<UserPriceDao, UserPriceEntity> implements UserPriceService {
 
     /**
     * 分页查询
@@ -29,9 +29,9 @@ public class MemberPriceServiceImpl extends ServiceImpl<MemberPriceDao, MemberPr
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<MemberPriceEntity> page = this.page(
-                new Query<MemberPriceEntity>().getPage(params),
-                new QueryWrapper<MemberPriceEntity>()
+        IPage<UserPriceEntity> page = this.page(
+                new Query<UserPriceEntity>().getPage(params),
+                new QueryWrapper<UserPriceEntity>()
         );
         return new PageUtils(page);
     }

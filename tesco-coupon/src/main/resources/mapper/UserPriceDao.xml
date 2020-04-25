@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.jerusalem.coupon.dao.MemberPriceDao">
+<mapper namespace="com.jerusalem.sale.dao.UserPriceDao">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.jerusalem.coupon.entity.MemberPriceEntity" id="memberPriceMap">
+    <resultMap type="com.jerusalem.coupon.entity.UserPriceEntity" id="userPriceMap">
         <result property="id" column="id"/>
         <result property="skuId" column="sku_id"/>
-        <result property="memberLevelId" column="member_level_id"/>
-        <result property="memberLevelName" column="member_level_name"/>
-        <result property="memberPrice" column="member_price"/>
+        <result property="userLevelId" column="user_level_id"/>
+        <result property="userLevelName" column="user_level_name"/>
+        <result property="userPrice" column="user_price"/>
         <result property="addOther" column="add_other"/>
     </resultMap>
 </mapper>
