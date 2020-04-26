@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-form :inline="true" :model="dataForm">
           <el-form-item label="分类">
-            <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
+            <category-cascader :categoryPath.sync="categoryPath"></category-cascader>
           </el-form-item>
           <el-form-item label="品牌">
             <brand-select style="width:160px"></brand-select>
@@ -12,8 +12,8 @@
           <el-form-item label="状态">
             <el-select style="width:160px" v-model="dataForm.status" clearable>
               <el-option label="新建" :value="0"></el-option>
-              <el-option label="上架" :value="1"></el-option>
-              <el-option label="下架" :value="2"></el-option>
+              <el-option label="上架中" :value="1"></el-option>
+              <el-option label="已下架" :value="2"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="检索">
@@ -25,7 +25,7 @@
         </el-form>
       </el-col>
       <el-col :span="24">
-        <spuinfo :catId="catId"></spuinfo>
+        <spulist :categoryId="categoryId"></spulist>
       </el-col>
     </el-row>
   </div>
@@ -36,10 +36,10 @@
   //例如：import 《组件名称》 from '《组件路径》';
   import CategoryCascader from "../common/category-cascader";
   import BrandSelect from "../common/brand-select";
-  import Spuinfo from "./spuinfo";
+  import Spulist from "./spulist";
   export default {
     //import引入的组件需要注入到对象中才能使用
-    components: { CategoryCascader, Spuinfo, BrandSelect },
+    components: { CategoryCascader, Spulist, BrandSelect },
     props: {},
     data() {
       //这里存放数据

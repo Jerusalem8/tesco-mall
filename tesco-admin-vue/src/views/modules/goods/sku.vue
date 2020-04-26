@@ -3,7 +3,7 @@
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form :inline="true" :model="dataForm">
         <el-form-item label="分类">
-          <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
+          <category-cascader :categoryPath.sync="categoryPath"></category-cascader>
         </el-form-item>
         <el-form-item label="品牌">
           <brand-select style="width:160px"></brand-select>
@@ -36,7 +36,7 @@
           <br />
           商品描述：{{scope.row.skuDesc}}
           <br />
-          分类ID：{{scope.row.catalogId}}
+          分类ID：{{scope.row.categoryId}}
           <br />
           SpuID：{{scope.row.spuId}}
           <br />
@@ -45,16 +45,16 @@
         </template>
       </el-table-column>
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="skuId" header-align="center" align="center" label="skuId"></el-table-column>
-      <el-table-column prop="skuName" header-align="center" align="center" label="名称"></el-table-column>
+      <el-table-column prop="skuId" header-align="center" align="center" label="SkuId" width="80"></el-table-column>
+      <el-table-column prop="skuName" header-align="center" align="center" label="名称" width="400"></el-table-column>
       <el-table-column prop="skuDefaultImg" header-align="center" align="center" label="默认图片">
         <template slot-scope="scope">
-          <img :src="scope.row.skuDefaultImg" style="width:80px;height:80px;" />
+          <img :src="scope.row.skuDefaultImg" style="width:100px;height:80px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="price" header-align="center" align="center" label="价格"></el-table-column>
-      <el-table-column prop="saleCount" header-align="center" align="center" label="销量"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column prop="price" header-align="center" align="center" label="价格" width="100"></el-table-column>
+      <el-table-column prop="saleCount" header-align="center" align="center" label="销量" width="100"></el-table-column>
+      <el-table-column fixed="right" header-align="center" align="center" width="180" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="previewHandle(scope.row.skuId)">预览</el-button>
           <el-button type="text" size="small" @click="commentHandle(scope.row.skuId)">评论</el-button>
@@ -101,7 +101,7 @@ export default {
       dataForm: {
         key: "",
         brandId: 0,
-        catelogId: 0,
+        categoryId: 0,
         price: {
           min: 0,
           max: 0
@@ -114,7 +114,7 @@ export default {
       dataListLoading: false,
       dataListSelections: [],
       addOrUpdateVisible: false,
-      catelogPath: []
+      categoryPath: []
     };
   },
   components: {
@@ -127,7 +127,7 @@ export default {
   methods: {
     getSkuDetails(row, expand) {
       //sku详情查询
-      console.log("展开某行...", row, expand);
+      console.log("展开某行", row, expand);
     },
     //处理更多指令
     handleCommand(row, command) {
@@ -139,17 +139,17 @@ export default {
     searchSkuInfo() {
       this.getDataList();
     },
-    // 获取数据列表
+    // 获取SKU数据列表
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/product/skuinfo/list"),
+        url: this.$http.adornUrl("/goods/sku/info/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
           key: this.dataForm.key,
-          catelogId: this.dataForm.catelogId,
+          categoryId: this.dataForm.categoryId,
           brandId: this.dataForm.brandId,
           min: this.dataForm.price.min,
           max: this.dataForm.price.max

@@ -17,11 +17,11 @@ import java.util.Map;
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     /**
-    * 分页查询
+    * 根据分类、品牌、状态、关键词进行分页查询
     * @param params
     * @return
     */
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPageByCondition(Map<String, Object> params);
 
     /***
      * 商品的新增

@@ -16,11 +16,11 @@ import java.util.Map;
 public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     /**
-    * 分页查询
+    * 根据分类、品牌、价格、关键词进行分页查询
     * @param params
     * @return
     */
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPageByCondition(Map<String, Object> params);
 
     /***
      * 保存SKU的基本信息

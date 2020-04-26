@@ -8,21 +8,23 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
-      <el-table-column prop="spuName" header-align="center" align="center" label="名称"></el-table-column>
-      <el-table-column prop="spuDescription" header-align="center" align="center" label="描述"></el-table-column>
-      <el-table-column prop="catalogId" header-align="center" align="center" label="分类"></el-table-column>
-      <el-table-column prop="brandId" header-align="center" align="center" label="品牌"></el-table-column>
-      <el-table-column prop="weight" header-align="center" align="center" label="重量"></el-table-column>
-      <el-table-column prop="publishStatus" header-align="center" align="center" label="上架状态">
+      <el-table-column prop="id" header-align="center" align="center" label="ID" width="50"></el-table-column>
+      <el-table-column prop="spuName" header-align="center" align="center" label="名称" width="310"></el-table-column>
+      <el-table-column prop="spuDescription" header-align="center" align="center" label="描述" width="150"></el-table-column>
+      <el-table-column prop="categoryId" header-align="center" align="center" label="分类" width="80"></el-table-column>
+      <el-table-column prop="brandId" header-align="center" align="center" label="品牌" width="80"></el-table-column>
+
+      <el-table-column prop="publishStatus" header-align="center" align="center" label="上架状态" width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.publishStatus == 0">新建</el-tag>
-          <el-tag v-if="scope.row.publishStatus == 1">已上架</el-tag>
+          <el-tag v-if="scope.row.publishStatus == 1">上架中</el-tag>
           <el-tag v-if="scope.row.publishStatus == 2">已下架</el-tag>
         </template>
       </el-table-column>
+
       <el-table-column prop="createTime" header-align="center" align="center" label="创建时间"></el-table-column>
       <el-table-column prop="updateTime" header-align="center" align="center" label="修改时间"></el-table-column>
+
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -64,7 +66,7 @@
       };
     },
     props: {
-      catId: {
+      categoryId: {
         type: Number,
         default: 0
       }
@@ -74,6 +76,7 @@
       this.getDataList();
     },
     methods: {
+      //上架
       productUp(id) {
         this.$http({
           url: this.$http.adornUrl("/goods/spu/info/" + id + "/up"),
@@ -97,10 +100,10 @@
         console.log(row);
         this.$router.push({
           path: "/product-attrupdate",
-          query: { spuId: row.id, catalogId: row.catalogId }
+          query: { spuId: row.id, categoryId: row.categoryId }
         });
       },
-      // 获取数据列表
+      // 获取SPU数据列表
       getDataList() {
         this.dataListLoading = true;
         let param = {};

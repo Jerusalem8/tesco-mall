@@ -77,17 +77,20 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
 
         //user_price
         List<UserPriceTo> userPrice = skuReductionTo.getUserPrices();
-        List<UserPriceEntity> collect = userPrice.stream().map(item -> {
-            UserPriceEntity userPriceEntity = new UserPriceEntity();
-            userPriceEntity.setSkuId(skuReductionTo.getSkuId());
-            userPriceEntity.setUserLevelId(item.getId());
-            userPriceEntity.setUserLevelName(item.getName());
-            userPriceEntity.setUserPrice(item.getPrice());
-            userPriceEntity.setAddOther(1);
-            return userPriceEntity;
-        }).filter(item->{
-            return item.getUserPrice().compareTo(new BigDecimal("0")) == 1;
-        }).collect(Collectors.toList());
-        userPriceService.saveBatch(collect);
+        if (userPrice != null){
+            List<UserPriceEntity> collect = userPrice.stream().map(item -> {
+                UserPriceEntity userPriceEntity = new UserPriceEntity();
+                userPriceEntity.setSkuId(skuReductionTo.getSkuId());
+                userPriceEntity.setUserLevelId(item.getId());
+                userPriceEntity.setUserLevelName(item.getName());
+                userPriceEntity.setUserPrice(item.getPrice());
+                userPriceEntity.setAddOther(1);
+                return userPriceEntity;
+            }).filter(item->{
+                return item.getUserPrice().compareTo(new BigDecimal("0")) == 1;
+            }).collect(Collectors.toList());
+            userPriceService.saveBatch(collect);
+        }
+
     }
 }

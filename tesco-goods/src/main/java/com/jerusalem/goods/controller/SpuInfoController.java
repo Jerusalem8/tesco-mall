@@ -28,26 +28,14 @@ public class SpuInfoController {
     private SpuInfoService spuInfoService;
 
     /***
-    * 分页查询
+    * 根据分类、品牌、状态、关键词进行分页查询
     * @param params
     * @return
     */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
-
+        PageUtils page = spuInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
-    }
-
-    /***
-    * 查询
-    * @return
-    */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		SpuInfoEntity spuInfo = spuInfoService.getById(id);
-
-        return R.ok().put("spuInfo", spuInfo);
     }
 
     /***
@@ -59,6 +47,23 @@ public class SpuInfoController {
     public R save(@RequestBody SpuVo SpuVo){
         spuInfoService.saveSpu(SpuVo);
         return R.ok();
+    }
+
+
+
+
+
+
+
+    /***
+     * 查询
+     * @return
+     */
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+        SpuInfoEntity spuInfo = spuInfoService.getById(id);
+
+        return R.ok().put("spuInfo", spuInfo);
     }
 
     /***
