@@ -2,12 +2,12 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="搜索" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('ware:wareinfo:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('ware:wareinfo:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('ware:ware:info:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('ware:ware:info:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -20,37 +20,40 @@
         type="selection"
         header-align="center"
         align="center"
-        width="50">
+        width="70">
       </el-table-column>
       <el-table-column
         prop="id"
         header-align="center"
         align="center"
-        label="id">
+        label="ID"
+        width="80">
       </el-table-column>
       <el-table-column
         prop="name"
         header-align="center"
         align="center"
-        label="仓库名">
+        label="仓库名"
+        width="250">
       </el-table-column>
       <el-table-column
         prop="address"
         header-align="center"
         align="center"
-        label="仓库地址">
+        label="仓库地址"
+        width="450">
       </el-table-column>
       <el-table-column
         prop="areacode"
         header-align="center"
         align="center"
-        label="区域编码">
+        label="区域编码"
+        width="150">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
-        width="150"
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
@@ -100,7 +103,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/ware/wareinfo/list'),
+          url: this.$http.adornUrl('/ware/ware/info/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -145,13 +148,13 @@
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.id
         })
-        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        this.$confirm(`确定对【id=${ids.join(',')}】进行【${id ? '删除' : '批量删除'}】操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/ware/wareinfo/delete'),
+            url: this.$http.adornUrl('/ware/ware/info/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

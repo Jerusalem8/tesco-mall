@@ -6,8 +6,8 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('ware:wareordertask:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('ware:wareordertask:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('ware:ware:order:task:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('ware:ware:order:task:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -164,7 +164,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/ware/wareordertask/list'),
+          url: this.$http.adornUrl('/ware/ware/order/task/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -215,7 +215,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/ware/wareordertask/delete'),
+            url: this.$http.adornUrl('/ware/ware/order/task/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {

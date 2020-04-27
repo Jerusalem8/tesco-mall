@@ -11,6 +11,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.ware.dao.WareInfoDao;
 import com.jerusalem.ware.entity.WareInfoEntity;
 import com.jerusalem.ware.service.WareInfoService;
+import org.springframework.util.StringUtils;
 
 /****
  * 服务层接口实现类
@@ -23,16 +24,22 @@ import com.jerusalem.ware.service.WareInfoService;
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity> implements WareInfoService {
 
     /**
-    * 分页查询
+    * 根据关键词进行分页查询
     * @param params
     * @return
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<WareInfoEntity> page = this.page(
-                new Query<WareInfoEntity>().getPage(params),
-                new QueryWrapper<WareInfoEntity>()
-        );
+        QueryWrapper<WareInfoEntity> queryWrapper = new QueryWrapper<>();
+        String key = (String) params.get("key");
+        if(!StringUtils.isEmpty(key)){
+            queryWrapper.eq("id",key)
+                        .or().like("name",key)
+                        .or().like("address",key)
+                        .or().like("areacode",key);
+        }
+
+        IPage<WareInfoEntity> page = this.page(new Query<WareInfoEntity>().getPage(params), queryWrapper);
         return new PageUtils(page);
     }
 

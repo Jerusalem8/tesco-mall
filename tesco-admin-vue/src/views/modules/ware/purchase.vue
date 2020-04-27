@@ -36,8 +36,8 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="采购单id"></el-table-column>
-      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人id"></el-table-column>
+      <el-table-column prop="id" header-align="center" align="center" label="采购单ID"></el-table-column>
+      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人ID"></el-table-column>
       <el-table-column prop="assigneeName" header-align="center" align="center" label="采购人名"></el-table-column>
       <el-table-column prop="phone" header-align="center" align="center" label="联系方式"></el-table-column>
       <el-table-column prop="priority" header-align="center" align="center" label="优先级"></el-table-column>
@@ -50,7 +50,7 @@
           <el-tag type="danger" v-if="scope.row.status == 4">有异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"></el-table-column>
+      <el-table-column prop="wareId" header-align="center" align="center" label="仓库ID"></el-table-column>
       <el-table-column prop="amount" header-align="center" align="center" label="总金额"></el-table-column>
       <el-table-column prop="createTime" header-align="center" align="center" label="创建日期"></el-table-column>
       <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期"></el-table-column>
@@ -124,7 +124,7 @@ export default {
     this.getDataList();
   },
   created() {
-    
+
   },
   methods: {
     opendrawer(row){
@@ -160,7 +160,7 @@ export default {
             type: "success",
             duration: 1500
           });
-          
+
           this.userId = "";
           this.getDataList();
         } else {

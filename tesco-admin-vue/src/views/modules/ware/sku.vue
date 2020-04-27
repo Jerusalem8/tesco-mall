@@ -6,14 +6,14 @@
           <el-option :label="w.name" :value="w.id" v-for="w in wareList" :key="w.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="skuId">
-        <el-input v-model="dataForm.skuId" placeholder="skuId" clearable></el-input>
+      <el-form-item label="SkuId">
+        <el-input v-model="dataForm.skuId" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('ware:waresku:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('ware:ware:sku:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
         <el-button
-          v-if="isAuth('ware:waresku:delete')"
+          v-if="isAuth('ware:ware:sku:delete')"
           type="danger"
           @click="deleteHandle()"
           :disabled="dataListSelections.length <= 0"
@@ -28,12 +28,12 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
-      <el-table-column prop="skuId" header-align="center" align="center" label="sku_id"></el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"></el-table-column>
-      <el-table-column prop="stock" header-align="center" align="center" label="库存数"></el-table-column>
-      <el-table-column prop="skuName" header-align="center" align="center" label="sku_name"></el-table-column>
-      <el-table-column prop="stockLocked" header-align="center" align="center" label="锁定库存"></el-table-column>
+      <el-table-column prop="id" header-align="center" align="center" label="ID" width="80"></el-table-column>
+      <el-table-column prop="wareId" header-align="center" align="center" label="仓库ID" width="80"></el-table-column>
+      <el-table-column prop="skuId" header-align="center" align="center" label="SKU ID" width="80"></el-table-column>
+      <el-table-column prop="skuName" header-align="center" align="center" label="SKU NAME" width="490"></el-table-column>
+      <el-table-column prop="stock" header-align="center" align="center" label="库存数量" width="140"></el-table-column>
+      <el-table-column prop="stockLocked" header-align="center" align="center" label="锁定库存" width="140"></el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
@@ -88,7 +88,7 @@ export default {
   methods: {
     getWares() {
       this.$http({
-        url: this.$http.adornUrl("/ware/wareinfo/list"),
+        url: this.$http.adornUrl("/ware/ware/info/list"),
         method: "get",
         params: this.$http.adornParams({
           page: 1,
@@ -102,7 +102,7 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/ware/waresku/list"),
+        url: this.$http.adornUrl("/ware/ware/sku/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -151,7 +151,7 @@ export default {
             return item.id;
           });
       this.$confirm(
-        `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对【id=${ids.join(",")}】进行【${id ? "删除" : "批量删除"}】操作?`,
         "提示",
         {
           confirmButtonText: "确定",
@@ -160,7 +160,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/ware/waresku/delete"),
+          url: this.$http.adornUrl("/ware/ware/sku/delete"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {

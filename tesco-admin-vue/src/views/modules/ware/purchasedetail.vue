@@ -11,7 +11,7 @@
           <el-option label="新建" :value="0"></el-option>
           <el-option label="已分配" :value="1"></el-option>
           <el-option label="正在采购" :value="2"></el-option>
-          <el-option label="已完成" :value="3"></el-option>
+          <el-option label="采购完成" :value="3"></el-option>
           <el-option label="采购失败" :value="4"></el-option>
         </el-select>
       </el-form-item>
@@ -21,7 +21,7 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button
-          v-if="isAuth('ware:purchasedetail:save')"
+          v-if="isAuth('ware:purchase:detail:save')"
           type="primary"
           @click="addOrUpdateHandle()"
         >新增</el-button>
@@ -45,18 +45,18 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
-      <el-table-column prop="purchaseId" header-align="center" align="center" label="采购单id"></el-table-column>
-      <el-table-column prop="skuId" header-align="center" align="center" label="采购商品id"></el-table-column>
+      <el-table-column prop="id" header-align="center" align="center" label="ID"></el-table-column>
+      <el-table-column prop="purchaseId" header-align="center" align="center" label="采购单ID"></el-table-column>
+      <el-table-column prop="skuId" header-align="center" align="center" label="采购商品ID"></el-table-column>
       <el-table-column prop="skuNum" header-align="center" align="center" label="采购数量"></el-table-column>
       <el-table-column prop="skuPrice" header-align="center" align="center" label="采购金额"></el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"></el-table-column>
+      <el-table-column prop="wareId" header-align="center" align="center" label="仓库ID"></el-table-column>
       <el-table-column prop="status" header-align="center" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status==0">新建</el-tag>
           <el-tag type="info" v-if="scope.row.status==1">已分配</el-tag>
           <el-tag type="wanring" v-if="scope.row.status==2">正在采购</el-tag>
-          <el-tag type="success" v-if="scope.row.status==3">已完成</el-tag>
+          <el-tag type="success" v-if="scope.row.status==3">采购完成</el-tag>
           <el-tag type="danger" v-if="scope.row.status==4">采购失败</el-tag>
         </template>
       </el-table-column>
@@ -78,7 +78,7 @@
     ></el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <el-dialog title="合并到整单" :visible.sync="mergedialogVisible">
+    <el-dialog title="合并到采购单" :visible.sync="mergedialogVisible">
       <!-- id  assignee_id  assignee_name  phone   priority status -->
       <el-select v-model="purchaseId" placeholder="请选择" clearable filterable>
         <el-option
@@ -132,13 +132,14 @@ export default {
     this.getWares();
   },
   methods: {
+    //合并采购需求到采购单
     mergeItem() {
       let items = this.dataListSelections.map(item => {
         return item.id;
       });
       if (!this.purchaseId) {
         this.$confirm(
-          "没有选择任何【采购单】，将自动创建新单进行合并。确认吗？",
+          "没有选择任何【采购单】，将自动创建新单进行合并，确认？",
           "提示",
           {
             confirmButtonText: "确定",
@@ -148,7 +149,7 @@ export default {
         )
           .then(() => {
             this.$http({
-              url: this.$http.adornUrl("/ware/purchase/merge"),
+              url: this.$http.adornUrl("/ware/purchase/detail/merge"),
               method: "post",
               data: this.$http.adornData({ items: items }, false)
             }).then(({ data }) => {
@@ -158,7 +159,7 @@ export default {
           .catch(() => {});
       } else {
         this.$http({
-          url: this.$http.adornUrl("/ware/purchase/merge"),
+          url: this.$http.adornUrl("/ware/purchase/detail/merge"),
           method: "post",
           data: this.$http.adornData(
             { purchaseId: this.purchaseId, items: items },
@@ -188,7 +189,7 @@ export default {
           this.getUnreceivedPurchase();
           this.mergedialogVisible = true;
         } else {
-          this.$alert("请先选择需要合并的需求", "提示", {
+          this.$alert("请先选择需要合并的采购需求", "提示", {
             confirmButtonText: "确定",
             callback: action => {}
           });
@@ -197,7 +198,7 @@ export default {
     },
     getWares() {
       this.$http({
-        url: this.$http.adornUrl("/ware/wareinfo/list"),
+        url: this.$http.adornUrl("/ware/ware/info/list"),
         method: "get",
         params: this.$http.adornParams({
           page: 1,
@@ -211,7 +212,7 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/ware/purchasedetail/list"),
+        url: this.$http.adornUrl("/ware/purchase/detail/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -261,7 +262,7 @@ export default {
             return item.id;
           });
       this.$confirm(
-        `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对【id=${ids.join(",")}】进行【${id ? "删除" : "批量删除"}】操作?`,
         "提示",
         {
           confirmButtonText: "确定",
@@ -270,7 +271,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/ware/purchasedetail/delete"),
+          url: this.$http.adornUrl("/ware/purchase/detail/delete"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {

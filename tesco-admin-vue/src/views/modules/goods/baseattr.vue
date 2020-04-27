@@ -33,28 +33,15 @@
           style="width: 100%;"
         >
           <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-          <el-table-column prop="attrId" header-align="center" align="center" label="id"></el-table-column>
-          <el-table-column prop="attrName" header-align="center" align="center" label="属性名"></el-table-column>
-          <el-table-column
-            v-if="attrtype == 1"
-            prop="searchType"
-            header-align="center"
-            align="center"
-            label="可检索"
-          >
-            <template slot-scope="scope">
-              <i class="el-icon-success" v-if="scope.row.searchType==1"></i>
-              <i class="el-icon-error" v-else></i>
-            </template>
-          </el-table-column>
-          <el-table-column prop="valueType" header-align="center" align="center" label="值类型">
+          <el-table-column prop="attrId" header-align="center" align="center" label="ID" width="50"></el-table-column>
+          <el-table-column prop="attrName" header-align="center" align="center" label="属性名" width="110"></el-table-column>
+          <el-table-column prop="valueType" header-align="center" align="center" label="值类型" width="70">
             <template slot-scope="scope">
               <el-tag type="success" v-if="scope.row.valueType==0">单选</el-tag>
               <el-tag v-else>多选</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="icon" header-align="center" align="center" label="图标"></el-table-column>
-          <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值">
+          <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值" width="110">
             <template slot-scope="scope">
               <el-tooltip placement="top">
                 <div slot="content">
@@ -64,23 +51,51 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="enable" header-align="center" align="center" label="启用">
-            <template slot-scope="scope">
-              <i class="el-icon-success" v-if="scope.row.enable==1"></i>
-              <i class="el-icon-error" v-else></i>
-            </template>
-          </el-table-column>
-          <el-table-column prop="categoryName" header-align="center" align="center" label="所属分类"></el-table-column>
+          <el-table-column prop="categoryName" header-align="center" align="center" label="所属分类" width="90"></el-table-column>
           <el-table-column
             v-if="attrtype == 1"
             prop="groupName"
             header-align="center"
             align="center"
             label="所属分组"
+            width="90"
           ></el-table-column>
-          <el-table-column v-if="attrtype == 1" prop="showDesc" header-align="center" align="center" label="快速展示">
+          <el-table-column prop="icon" header-align="center" align="center" label="图标" width="60"></el-table-column>
+          <el-table-column prop="enable" header-align="center" align="center" label="启用" width="50">
+            <template slot-scope="scope">
+              <i class="el-icon-success" v-if="scope.row.enable==1"></i>
+              <i class="el-icon-error" v-else></i>
+            </template>
+          </el-table-column>
+          <el-table-column v-if="attrtype == 1" prop="showDesc" header-align="center" align="center" label="快速展示" width="50">
             <template slot-scope="scope">
               <i class="el-icon-success" v-if="scope.row.showDesc==1"></i>
+              <i class="el-icon-error" v-else></i>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="attrtype == 1"
+            prop="searchType"
+            header-align="center"
+            align="center"
+            label="可检索"
+            width="50"
+          >
+            <template slot-scope="scope">
+              <i class="el-icon-success" v-if="scope.row.searchType==1"></i>
+              <i class="el-icon-error" v-else></i>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="attrtype == 0"
+            prop="searchType"
+            header-align="center"
+            align="center"
+            label="可检索"
+            width="200"
+          >
+            <template slot-scope="scope">
+              <i class="el-icon-success" v-if="scope.row.searchType==1"></i>
               <i class="el-icon-error" v-else></i>
             </template>
           </el-table-column>
@@ -88,7 +103,7 @@
             fixed="right"
             header-align="center"
             align="center"
-            width="150"
+            width="120"
             label="操作"
           >
             <template slot-scope="scope">

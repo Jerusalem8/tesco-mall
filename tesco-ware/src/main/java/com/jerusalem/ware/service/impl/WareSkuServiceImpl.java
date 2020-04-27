@@ -11,6 +11,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.ware.dao.WareSkuDao;
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.jerusalem.ware.service.WareSkuService;
+import org.springframework.util.StringUtils;
 
 /****
  * 服务层接口实现类
@@ -23,16 +24,23 @@ import com.jerusalem.ware.service.WareSkuService;
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
 
     /**
-    * 分页查询
+    * 根据仓库、SKU ID进行分页查询
     * @param params
     * @return
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<WareSkuEntity> page = this.page(
-                new Query<WareSkuEntity>().getPage(params),
-                new QueryWrapper<WareSkuEntity>()
-        );
+        QueryWrapper<WareSkuEntity> queryWrapper = new QueryWrapper<>();
+        String skuId = (String) params.get("skuId");
+        if(!StringUtils.isEmpty(skuId)){
+            queryWrapper.eq("sku_id",skuId);
+        }
+        String wareId = (String) params.get("wareId");
+        if(!StringUtils.isEmpty(wareId)){
+            queryWrapper.eq("ware_id",wareId);
+        }
+
+        IPage<WareSkuEntity> page = this.page(new Query<WareSkuEntity>().getPage(params), queryWrapper);
         return new PageUtils(page);
     }
 

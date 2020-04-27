@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.jerusalem.ware.service.WareSkuService;
@@ -24,14 +20,14 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 17:54:29
  */
 @RestController
-@RequestMapping("ware/waresku")
+@RequestMapping("ware/ware/sku")
 public class WareSkuController {
 
     @Autowired
     private WareSkuService wareSkuService;
 
     /***
-    * 分页查询
+    * 根据仓库、SKU ID进行分页查询
     * @param params
     * @return
     */
@@ -43,46 +39,42 @@ public class WareSkuController {
     }
 
     /***
-    * 查询
+    * 查询库存信息（用于修改时的数据回显）
     * @return
     */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		WareSkuEntity wareSku = wareSkuService.getById(id);
-
         return R.ok().put("wareSku", wareSku);
     }
 
     /***
-    * 新增
+    * 新增库存信息
     * @return
     */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.save(wareSku);
-
         return R.ok();
     }
 
     /***
-    * 修改
+    * 修改库存信息
     * @return
     */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.updateById(wareSku);
-
         return R.ok();
     }
 
     /***
-    * 删除
+    * 删除、批量删除库存信息
     * @return
     */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		wareSkuService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 }

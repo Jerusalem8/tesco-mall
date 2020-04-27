@@ -24,7 +24,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 17:54:29
  */
 @RestController
-@RequestMapping("ware/wareordertask")
+@RequestMapping("ware/ware/order/task")
 public class WareOrderTaskController {
 
     @Autowired

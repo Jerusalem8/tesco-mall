@@ -21,5 +21,12 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 查询未领取（还未开始执行的）的采购单
+     * @param params
+     * @return
+     */
+    PageUtils queryUnreceivePage(Map<String, Object> params);
 }
 

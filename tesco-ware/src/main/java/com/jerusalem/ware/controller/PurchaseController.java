@@ -31,6 +31,19 @@ public class PurchaseController {
     private PurchaseService purchaseService;
 
     /***
+     * 查询未领取（还未开始执行的）的采购单
+     * @param params
+     * @return
+     */
+    @RequestMapping("/unreceive/list")
+    public R unreceiveList(@RequestParam Map<String, Object> params){
+        PageUtils page = purchaseService.queryUnreceivePage(params);
+        return R.ok().put("page", page);
+    }
+
+
+
+    /***
     * 分页查询
     * @param params
     * @return

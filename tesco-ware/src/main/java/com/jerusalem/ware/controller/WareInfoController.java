@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.ware.entity.WareInfoEntity;
 import com.jerusalem.ware.service.WareInfoService;
@@ -24,18 +20,18 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-09 17:54:29
  */
 @RestController
-@RequestMapping("ware/wareinfo")
+@RequestMapping("ware/ware/info")
 public class WareInfoController {
 
     @Autowired
     private WareInfoService wareInfoService;
 
     /***
-    * 分页查询
+    * 根据关键词进行分页查询
     * @param params
     * @return
     */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareInfoService.queryPage(params);
 
@@ -43,46 +39,42 @@ public class WareInfoController {
     }
 
     /***
-    * 查询
+    * 查询仓库的信息（用于修改时数据的回显）
     * @return
     */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		WareInfoEntity wareInfo = wareInfoService.getById(id);
-
         return R.ok().put("wareInfo", wareInfo);
     }
 
     /***
-    * 新增
+    * 新增仓库
     * @return
     */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody WareInfoEntity wareInfo){
 		wareInfoService.save(wareInfo);
-
         return R.ok();
     }
 
     /***
-    * 修改
+    * 修改仓库
     * @return
     */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody WareInfoEntity wareInfo){
 		wareInfoService.updateById(wareInfo);
-
         return R.ok();
     }
 
     /***
-    * 删除
+    * 删除、批量删除仓库
     * @return
     */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		wareInfoService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 }

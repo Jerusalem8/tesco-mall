@@ -128,6 +128,7 @@ export default {
     CategoryCascader
   },
   activated() {
+    //页面的初始自动请求
     this.getDataList();
   },
   methods: {

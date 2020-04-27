@@ -16,7 +16,7 @@ import java.util.Map;
 public interface WareInfoService extends IService<WareInfoEntity> {
 
     /**
-    * 分页查询
+    * 根据关键词进行分页查询
     * @param params
     * @return
     */

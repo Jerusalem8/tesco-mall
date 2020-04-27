@@ -36,4 +36,17 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         return new PageUtils(page);
     }
 
+    /***
+     * 查询未领取（还未开始执行的）的采购单
+     * @param params
+     * @return
+     */
+    @Override
+    public PageUtils queryUnreceivePage(Map<String, Object> params) {
+        QueryWrapper<PurchaseEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status",0).or().eq("status",1);
+
+        IPage<PurchaseEntity> page = this.page(new Query<PurchaseEntity>().getPage(params),queryWrapper);
+        return new PageUtils(page);
+    }
 }

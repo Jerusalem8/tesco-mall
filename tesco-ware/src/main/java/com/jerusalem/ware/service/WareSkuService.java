@@ -16,7 +16,7 @@ import java.util.Map;
 public interface WareSkuService extends IService<WareSkuEntity> {
 
     /**
-    * 分页查询
+    * 根据仓库、SKU ID进行分页查询
     * @param params
     * @return
     */
