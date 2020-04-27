@@ -4,6 +4,8 @@ package com.jerusalem.common.constant;
  * @Author: jerusalem
  * @Description: GoodsConstant
  * 商品微服务相关常量
+ * 属性的类型：1-基本属性（规格参数）
+ *            2-销售属性
  * @Date 2020/4/16 10:00
  *****/
 public class GoodsConstant {
