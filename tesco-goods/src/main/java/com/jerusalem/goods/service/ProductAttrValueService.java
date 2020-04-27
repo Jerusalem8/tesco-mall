@@ -1,11 +1,8 @@
 package com.jerusalem.goods.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.ProductAttrValueEntity;
-
 import java.util.List;
-import java.util.Map;
 
 /****
  * 服务层接口
@@ -16,12 +13,6 @@ import java.util.Map;
  */
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    PageUtils queryPage(Map<String, Object> params);
 
     /***
      * 保存商品的属性及其可选值

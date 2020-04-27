@@ -1,15 +1,7 @@
 package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jerusalem.common.utils.PageUtils;
-import com.jerusalem.common.utils.Query;
-
 import com.jerusalem.goods.dao.SkuImagesDao;
 import com.jerusalem.goods.entity.SkuImagesEntity;
 import com.jerusalem.goods.service.SkuImagesService;
@@ -24,17 +16,4 @@ import com.jerusalem.goods.service.SkuImagesService;
 @Service("skuImagesService")
 public class SkuImagesServiceImpl extends ServiceImpl<SkuImagesDao, SkuImagesEntity> implements SkuImagesService {
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SkuImagesEntity> page = this.page(
-                new Query<SkuImagesEntity>().getPage(params),
-                new QueryWrapper<SkuImagesEntity>()
-        );
-        return new PageUtils(page);
-    }
 }

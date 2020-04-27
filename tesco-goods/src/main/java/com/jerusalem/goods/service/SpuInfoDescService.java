@@ -1,10 +1,7 @@
 package com.jerusalem.goods.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.SpuInfoDescEntity;
-
-import java.util.Map;
 
 /****
  * 服务层接口
@@ -15,15 +12,8 @@ import java.util.Map;
  */
 public interface SpuInfoDescService extends IService<SpuInfoDescEntity> {
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    PageUtils queryPage(Map<String, Object> params);
-
     /***
-     * 保存商品描述图片
+     * 保存SPU描述图片
      * @param spuInfoDesc
      */
     void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDesc);

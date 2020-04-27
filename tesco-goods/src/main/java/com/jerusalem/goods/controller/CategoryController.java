@@ -2,14 +2,10 @@ package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.goods.entity.CategoryEntity;
 import com.jerusalem.goods.service.CategoryService;
-import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 
 /****

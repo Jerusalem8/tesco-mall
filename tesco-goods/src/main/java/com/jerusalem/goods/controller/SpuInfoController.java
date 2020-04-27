@@ -2,16 +2,12 @@ package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
-import com.jerusalem.goods.vo.SpuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.goods.entity.SpuInfoEntity;
 import com.jerusalem.goods.service.SpuInfoService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
 
 /****
  * 控制层
@@ -37,21 +33,6 @@ public class SpuInfoController {
         PageUtils page = spuInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
     }
-
-    /***
-     * 商品的新增
-     * @param SpuVo
-     * @return
-     */
-    @PostMapping("/save")
-    public R save(@RequestBody SpuVo SpuVo){
-        spuInfoService.saveSpu(SpuVo);
-        return R.ok();
-    }
-
-
-
-
 
 
 

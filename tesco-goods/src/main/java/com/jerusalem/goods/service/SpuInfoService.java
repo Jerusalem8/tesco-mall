@@ -3,7 +3,6 @@ package com.jerusalem.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.SpuInfoEntity;
-import com.jerusalem.goods.vo.SpuVo;
 
 import java.util.Map;
 
@@ -24,13 +23,7 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     PageUtils queryPageByCondition(Map<String, Object> params);
 
     /***
-     * 商品的新增
-     * @param spuVo
-     */
-    void saveSpu(SpuVo spuVo);
-
-    /***
-     * 保存商品的基本信息
+     * 保存SPU的基本信息
      * @param spuInfo
      */
     void saveSpuInfo(SpuInfoEntity spuInfo);

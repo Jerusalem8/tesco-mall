@@ -5,8 +5,6 @@ import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.AttrEntity;
 import com.jerusalem.goods.vo.AttrResponseVo;
 import com.jerusalem.goods.vo.AttrVo;
-
-import java.util.List;
 import java.util.Map;
 
 /****

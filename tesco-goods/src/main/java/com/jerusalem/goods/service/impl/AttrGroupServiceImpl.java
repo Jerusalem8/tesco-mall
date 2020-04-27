@@ -2,22 +2,18 @@ package com.jerusalem.goods.service.impl;
 
 import com.jerusalem.goods.entity.AttrEntity;
 import com.jerusalem.goods.service.AttrAttrGroupRelationService;
-import com.jerusalem.goods.service.AttrService;
 import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
-
 import com.jerusalem.goods.dao.AttrGroupDao;
 import com.jerusalem.goods.entity.AttrGroupEntity;
 import com.jerusalem.goods.service.AttrGroupService;

@@ -2,17 +2,12 @@ package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
 import com.jerusalem.goods.service.CategoryBrandRelationService;
-import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
 
 /****
  * 控制层

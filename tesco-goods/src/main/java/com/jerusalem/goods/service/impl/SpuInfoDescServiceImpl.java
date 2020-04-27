@@ -1,13 +1,7 @@
 package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jerusalem.common.utils.PageUtils;
-import com.jerusalem.common.utils.Query;
-
 import com.jerusalem.goods.dao.SpuInfoDescDao;
 import com.jerusalem.goods.entity.SpuInfoDescEntity;
 import com.jerusalem.goods.service.SpuInfoDescService;
@@ -22,22 +16,8 @@ import com.jerusalem.goods.service.SpuInfoDescService;
 @Service("spuInfoDescService")
 public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoDescEntity> implements SpuInfoDescService {
 
-    /**
-    * 分页查询
-    * @param params
-    * @return
-    */
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SpuInfoDescEntity> page = this.page(
-                new Query<SpuInfoDescEntity>().getPage(params),
-                new QueryWrapper<SpuInfoDescEntity>()
-        );
-        return new PageUtils(page);
-    }
-
     /***
-     * 保存商品的图片描述
+     * 保存SPU的图片描述
      * @param spuInfoDesc
      */
     @Override

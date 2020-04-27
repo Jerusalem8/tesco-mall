@@ -3,7 +3,6 @@ package com.jerusalem.goods.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import com.jerusalem.goods.service.CategoryService;
 import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;

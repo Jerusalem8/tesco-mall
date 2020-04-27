@@ -7,13 +7,7 @@ import com.jerusalem.goods.entity.BrandEntity;
 import com.jerusalem.goods.entity.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.jerusalem.common.utils.PageUtils;
-import com.jerusalem.common.utils.Query;
-
 import com.jerusalem.goods.dao.CategoryBrandRelationDao;
 import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
 import com.jerusalem.goods.service.CategoryBrandRelationService;

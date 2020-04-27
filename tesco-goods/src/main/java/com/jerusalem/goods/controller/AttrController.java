@@ -2,7 +2,6 @@ package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
 import com.jerusalem.goods.vo.AttrResponseVo;
 import com.jerusalem.goods.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +69,7 @@ public class AttrController {
     }
 
     /***
-    * 删除
+    * 删除、批量删除属性
     * @return
     */
     @PostMapping("/delete")

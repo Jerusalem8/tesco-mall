@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.jerusalem.common.valid.AddGroup;
 import com.jerusalem.common.valid.UpdateGroup;
 import com.jerusalem.common.valid.UpdateStatusGroup;

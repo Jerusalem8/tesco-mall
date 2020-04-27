@@ -1,7 +1,6 @@
 package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.Query;
-
 import com.jerusalem.goods.dao.SkuInfoDao;
 import com.jerusalem.goods.entity.SkuInfoEntity;
 import com.jerusalem.goods.service.SkuInfoService;
@@ -43,7 +41,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         //分类
         String categoryId = (String) params.get("categoryId");
         if(!StringUtils.isEmpty(categoryId) && !"0".equalsIgnoreCase(categoryId)){
-            queryWrapper.eq("catalog_id",categoryId);
+            queryWrapper.eq("category_id",categoryId);
         }
         //品牌
         String brandId = (String) params.get("brandId");

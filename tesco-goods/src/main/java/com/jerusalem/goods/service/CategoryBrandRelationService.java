@@ -1,10 +1,7 @@
 package com.jerusalem.goods.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
-
-import java.util.Map;
 
 /****
  * 服务层接口

@@ -2,15 +2,12 @@ package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.goods.entity.SkuInfoEntity;
 import com.jerusalem.goods.service.SkuInfoService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
-
 
 /****
  * 控制层
@@ -49,17 +46,6 @@ public class SkuInfoController {
 		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
 
         return R.ok().put("skuInfo", skuInfo);
-    }
-
-    /***
-    * 新增
-    * @return
-    */
-    @RequestMapping("/save")
-    public R save(@RequestBody SkuInfoEntity skuInfo){
-		skuInfoService.save(skuInfo);
-
-        return R.ok();
     }
 
     /***
