@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.ware.entity.PurchaseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -16,11 +17,11 @@ import java.util.Map;
 public interface PurchaseService extends IService<PurchaseEntity> {
 
     /**
-    * 分页查询
+    * 根据采购单状态、关键词进行分页查询
     * @param params
     * @return
     */
-    PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPageByCondition(Map<String, Object> params);
 
     /***
      * 查询未领取（还未开始执行的）的采购单
@@ -28,5 +29,12 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      * @return
      */
     PageUtils queryUnreceivePage(Map<String, Object> params);
+
+    /***
+     * 采购人员领取采购单
+     * @param purchaseIds
+     * @return
+     */
+    void received(List<Long> purchaseIds);
 }
 

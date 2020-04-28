@@ -5,6 +5,7 @@ import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.ware.entity.PurchaseDetailEntity;
 import com.jerusalem.ware.vo.MergeVo;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -29,5 +30,12 @@ public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
      * @return
      */
     void mergePurchaseDetail(MergeVo mergeVo);
+
+    /***
+     * 根据采购单ID查询采购项
+     * @param id
+     * @return
+     */
+    List<PurchaseDetailEntity> detailListByPurchaseId(Long id);
 }
 
