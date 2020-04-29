@@ -1,6 +1,11 @@
 package com.jerusalem.ware.service.impl;
 
+import com.jerusalem.common.utils.R;
+import com.jerusalem.goods.feign.SkuInfoFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,6 +16,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.ware.dao.WareSkuDao;
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.jerusalem.ware.service.WareSkuService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /****
@@ -22,6 +28,12 @@ import org.springframework.util.StringUtils;
  */
 @Service("wareSkuService")
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
+
+    @Autowired
+    private WareSkuDao wareSkuDao;
+
+    @Autowired
+    private SkuInfoFeign skuInfoFeign;
 
     /**
     * 根据仓库、SKU ID进行分页查询
@@ -44,4 +56,42 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return new PageUtils(page);
     }
 
+    /***
+     * 商品的入库
+     * @param skuId
+     * @param wareId
+     * @param skuNum
+     */
+    @Transactional
+    @Override
+    public void addStock(Long skuId, Long wareId, Integer skuNum) {
+        //1、判断,若没有这个库存记录，则新增
+        List<WareSkuEntity> wareSkuEntityList = wareSkuDao.selectList(
+                new QueryWrapper<WareSkuEntity>()
+                        .eq("sku_id", skuId)
+                        .eq("ware_id", wareId));
+        if(wareSkuEntityList == null || wareSkuEntityList.size() == 0){
+            WareSkuEntity skuEntity = new WareSkuEntity();
+            skuEntity.setSkuId(skuId);
+            skuEntity.setStock(skuNum);
+            skuEntity.setWareId(wareId);
+            skuEntity.setStockLocked(0);
+            //TODO 还可以用什么办法让异常出现以后不回滚？高级
+            //catch异常,远程查询sku的名字，如果失败，整个事务无需回滚
+            try {
+                R info = skuInfoFeign.info(skuId);
+                Map<String,Object> data = (Map<String, Object>) info.get("skuInfo");
+                if(info.getCode() == 0){
+                    skuEntity.setSkuName((String) data.get("skuName"));
+                }
+            }catch (Exception e){
+            }
+            //TODO 还可以用什么办法让异常出现以后不回滚？高级
+            //新增一条库存记录
+            wareSkuDao.insert(skuEntity);
+        }else{
+            //自定义的入库操作（添加库存）
+            wareSkuDao.addStock(skuId,wareId,skuNum);
+        }
+    }
 }

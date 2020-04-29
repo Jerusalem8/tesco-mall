@@ -233,7 +233,7 @@ export default {
             return item.id;
           });
       this.$confirm(
-        `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
+        `确定对【id=${ids.join(",")}】进行【${id ? "删除" : "批量删除"}】操作?`,
         "提示",
         {
           confirmButtonText: "确定",

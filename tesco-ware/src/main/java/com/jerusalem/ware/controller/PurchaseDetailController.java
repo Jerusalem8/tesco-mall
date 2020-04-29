@@ -27,7 +27,7 @@ public class PurchaseDetailController {
     private PurchaseDetailService purchaseDetailService;
 
     /***
-     * 合并采购需求到采购单
+     * 合并采购项到采购单
      * @param mergeVo
      * @return
      */
@@ -38,7 +38,7 @@ public class PurchaseDetailController {
     }
 
     /***
-    * 根据仓库、采购单状态、关键字进行分页查询采购需求
+    * 根据仓库、采购单状态、关键字进行分页查询采购项
     * @param params
     * @return
     */
@@ -49,7 +49,7 @@ public class PurchaseDetailController {
     }
 
     /***
-    * 查询采购需求信息（用于修改时的数据回显）
+    * 查询采购项信息（用于修改时的数据回显）
     * @return
     */
     @GetMapping("/info/{id}")
@@ -60,7 +60,7 @@ public class PurchaseDetailController {
     }
 
     /***
-    * 新增采购需求信息
+    * 新增采购项
     * @return
     */
     @PostMapping("/save")
@@ -71,7 +71,7 @@ public class PurchaseDetailController {
     }
 
     /***
-    * 修改采购需求信息
+    * 修改采购项
     * @return
     */
     @PostMapping("/update")
@@ -81,7 +81,7 @@ public class PurchaseDetailController {
     }
 
     /***
-    * 删除、批量删除采购需求信息
+    * 删除、批量删除采购项
     * @return
     */
     @PostMapping("/delete")

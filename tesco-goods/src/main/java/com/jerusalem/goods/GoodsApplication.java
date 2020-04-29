@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 1、整合 MyBatis-Plus
@@ -54,6 +55,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Author:jerusalem
  * @Description: 启动类
  ****/
+@EnableTransactionManagement        //开启事务管理
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.jerusalem.goods.dao"})

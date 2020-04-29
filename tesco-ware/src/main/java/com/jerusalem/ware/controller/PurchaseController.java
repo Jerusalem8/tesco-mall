@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.jerusalem.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,16 +61,22 @@ public class PurchaseController {
         return R.ok();
     }
 
-
-
-
-
+    /***
+     * 完成采购
+     * @param purchaseDoneVo
+     * @return
+     */
+    @PostMapping("/done")
+    public R done(@RequestBody PurchaseDoneVo purchaseDoneVo){
+        purchaseService.done(purchaseDoneVo);
+        return R.ok();
+    }
 
     /***
-    * 查询
+    * 查询采购单信息（用于修改时的数据回显）
     * @return
     */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		PurchaseEntity purchase = purchaseService.getById(id);
 
@@ -77,35 +84,32 @@ public class PurchaseController {
     }
 
     /***
-    * 新增
+    * 新增采购单
     * @return
     */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public R save(@RequestBody PurchaseEntity purchase){
 		purchaseService.save(purchase);
-
         return R.ok();
     }
 
     /***
-    * 修改
+    * 修改采购单
     * @return
     */
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public R update(@RequestBody PurchaseEntity purchase){
 		purchaseService.updateById(purchase);
-
         return R.ok();
     }
 
     /***
-    * 删除
+    * 删除、批量删除采购单
     * @return
     */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		purchaseService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 }

@@ -3,6 +3,8 @@ package com.jerusalem.ware.dao;
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /****
  * 持久层
@@ -12,6 +14,14 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-04-09 17:54:29
  */
 @Mapper
+@Repository
 public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
-	
+
+    /***
+     * 入库方法
+     * @param skuId
+     * @param wareId
+     * @param skuNum
+     */
+    void addStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("skuNum") Integer skuNum);
 }

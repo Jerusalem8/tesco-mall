@@ -10,7 +10,7 @@ import java.util.Map;
 
 /****
  * 服务层接口
- * 采购需求信息
+ * 采购项
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-09 17:54:29
@@ -25,7 +25,7 @@ public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     /***
-     * 合并采购需求到采购单
+     * 合并采购项到采购单
      * @param mergeVo
      * @return
      */
@@ -33,9 +33,9 @@ public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
 
     /***
      * 根据采购单ID查询采购项
-     * @param id
+     * @param purchaseId
      * @return
      */
-    List<PurchaseDetailEntity> detailListByPurchaseId(Long id);
+    List<PurchaseDetailEntity> detailListByPurchaseId(Long purchaseId);
 }
 

@@ -26,7 +26,7 @@ import org.springframework.util.StringUtils;
 
 /****
  * 服务层接口实现类
- * 采购需求信息
+ * 采购项
  * @author jerusalem
  * @email 3276586184@qq.com
  * @date 2020-04-09 17:54:29
@@ -39,7 +39,7 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
 
 
     /**
-    * 根据仓库、采购单状态、关键字进行分页查询采购需求
+    * 根据仓库、采购单状态、关键字进行分页查询采购项
     * @param params
     * @return
     */
@@ -69,7 +69,7 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
     }
 
     /***
-     * 合并采购需求到采购单
+     * 合并采购项到采购单
      * @param mergeVo
      * @return
      */
@@ -86,7 +86,10 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
             purchaseService.save(purchaseEntity);
             purchaseId = purchaseEntity.getId();
         }
-        //合并采购需求到已有的采购单
+
+        //TODO 先检查采购项的状态是否为新建
+
+        //合并采购项到已有的采购单
         List<Long> items = mergeVo.getItems();
         Long finalPurchaseId = purchaseId;
         List<PurchaseDetailEntity> collect = items.stream().map(i -> {
@@ -103,6 +106,17 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
         purchaseEntity.setId(purchaseId);
         purchaseEntity.setUpdateTime(new Date());
         purchaseService.updateById(purchaseEntity);
+    }
+
+    /***
+     * 根据采购单ID查询采购项
+     * @param purchaseId
+     * @return
+     */
+    @Override
+    public List<PurchaseDetailEntity> detailListByPurchaseId(Long purchaseId) {
+        List<PurchaseDetailEntity> purchaseDetailEntityList = this.list(new QueryWrapper<PurchaseDetailEntity>().eq("purchase_id", purchaseId));
+        return purchaseDetailEntityList;
     }
 
 }

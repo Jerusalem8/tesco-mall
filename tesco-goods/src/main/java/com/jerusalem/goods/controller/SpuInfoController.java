@@ -34,18 +34,20 @@ public class SpuInfoController {
         return R.ok().put("page", page);
     }
 
-
-
     /***
-     * 查询
+     * 查询spu的信息
+     * @param id
      * @return
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
         SpuInfoEntity spuInfo = spuInfoService.getById(id);
-
         return R.ok().put("spuInfo", spuInfo);
     }
+
+
+
+
 
     /***
     * 修改
