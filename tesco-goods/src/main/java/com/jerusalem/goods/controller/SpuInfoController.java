@@ -1,7 +1,11 @@
 package com.jerusalem.goods.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+
+import com.jerusalem.goods.entity.ProductAttrValueEntity;
+import com.jerusalem.goods.service.ProductAttrValueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.jerusalem.goods.entity.SpuInfoEntity;
@@ -23,6 +27,9 @@ public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
 
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
     /***
     * 根据分类、品牌、状态、关键词进行分页查询
     * @param params
@@ -35,7 +42,7 @@ public class SpuInfoController {
     }
 
     /***
-     * 查询spu的信息
+     * 查询spu的信息(用于仓储微服务远程查询spuName)
      * @param id
      * @return
      */
@@ -43,6 +50,30 @@ public class SpuInfoController {
     public R info(@PathVariable("id") Long id){
         SpuInfoEntity spuInfo = spuInfoService.getById(id);
         return R.ok().put("spuInfo", spuInfo);
+    }
+
+    /***
+     * 查询spu的规格信息
+     * @param spuId
+     * @return
+     */
+    @GetMapping("/base/attr/list/{spuId}")
+    public R baseAttrList(@PathVariable("spuId") Long spuId){
+        List<ProductAttrValueEntity> baseAttrList = productAttrValueService.baseAttrList(spuId);
+        return R.ok().put("data",baseAttrList);
+    }
+
+    /***
+     * 修改spu的规格信息
+     * @param spuId
+     * @param spuAttrList
+     * @return
+     */
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> spuAttrList){
+        productAttrValueService.updateSpuAttr(spuId,spuAttrList);
+        return R.ok();
     }
 
 

@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       spuId: "",
-      catalogId: "",
+      categoryId: "",
       dataResp: {
         //后台返回的所有数据
         attrGroups: [],
@@ -79,7 +79,7 @@ export default {
     },
     getSpuBaseAttrs() {
       this.$http({
-        url: this.$http.adornUrl(`/product/attr/base/listforspu/${this.spuId}`),
+        url: this.$http.adornUrl(`/goods/spu/info/base/attr/list/${this.spuId}`),
         method: "get"
       }).then(({ data }) => {
         data.data.forEach(item => {
@@ -90,46 +90,49 @@ export default {
     },
     getQueryParams() {
       this.spuId = this.$route.query.spuId;
-      this.catalogId = this.$route.query.catalogId;
-      console.log("----", this.spuId, this.catalogId);
+      this.categoryId = this.$route.query.categoryId;
+      console.log("----", this.spuId, this.categoryId);
     },
     showBaseAttrs() {
       let _this = this;
       this.$http({
         url: this.$http.adornUrl(
-          `/product/attrgroup/${this.catalogId}/withattr`
+          `/goods/attr/group/withattr/${this.categoryId}`
         ),
         method: "get",
         params: this.$http.adornParams({})
       }).then(({ data }) => {
         //先对表单的baseAttrs进行初始化
-        data.data.forEach(item => {
-          let attrArray = [];
-          item.attrs.forEach(attr => {
-            let v = "";
-            if (_this.spuAttrsMap["" + attr.attrId]) {
-              v = _this.spuAttrsMap["" + attr.attrId].attrValue.split(";");
-              if (v.length == 1) {
-                v = v[0] + "";
-              }
+        if (data.data){
+          data.data.forEach(item => {
+            let attrArray = [];
+            if (item.attrs){
+              item.attrs.forEach(attr => {
+                let v = "";
+                if (_this.spuAttrsMap["" + attr.attrId]) {
+                  v = _this.spuAttrsMap["" + attr.attrId].attrValue.split(";");
+                  if (v.length == 1) {
+                    v = v[0] + "";
+                  }
+                }
+                attrArray.push({
+                  attrId: attr.attrId,
+                  attrName: attr.attrName,
+                  attrValues: v,
+                  showDesc: _this.spuAttrsMap["" + attr.attrId]
+                    ? _this.spuAttrsMap["" + attr.attrId].quickShow
+                    : attr.showDesc
+                });
+              });
             }
-            attrArray.push({
-              attrId: attr.attrId,
-              attrName: attr.attrName,
-              attrValues: v,
-              showDesc: _this.spuAttrsMap["" + attr.attrId]
-                ? _this.spuAttrsMap["" + attr.attrId].quickShow
-                : attr.showDesc
-            });
+            this.dataResp.baseAttrs.push(attrArray);
           });
-          this.dataResp.baseAttrs.push(attrArray);
-        });
+        }
         this.dataResp.attrGroups = data.data;
       });
     },
     submitSpuAttrs() {
       console.log("·····", this.dataResp.baseAttrs);
-      //spu_id  attr_id  attr_name             attr_value             attr_sort  quick_show
       let submitData = [];
       this.dataResp.baseAttrs.forEach(item => {
         item.forEach(attr => {
@@ -158,7 +161,7 @@ export default {
       })
         .then(() => {
           this.$http({
-            url: this.$http.adornUrl(`/product/attr/update/${this.spuId}`),
+            url: this.$http.adornUrl(`/goods/spu/info/update/${this.spuId}`),
             method: "post",
             data: this.$http.adornData(submitData, false)
           }).then(({ data }) => {
@@ -180,7 +183,7 @@ export default {
   activated() {
     this.clearData();
     this.getQueryParams();
-    if (this.spuId && this.catalogId) {
+    if (this.spuId && this.categoryId) {
       this.showBaseAttrs();
       this.getSpuBaseAttrs();
     }

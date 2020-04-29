@@ -99,7 +99,7 @@
       attrUpdateShow(row) {
         console.log(row);
         this.$router.push({
-          path: "/product-attrupdate",
+          path: "/goods-attrforspu",
           query: { spuId: row.id, categoryId: row.categoryId }
         });
       },
