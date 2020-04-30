@@ -50,7 +50,7 @@
         prop="taskId"
         header-align="center"
         align="center"
-        label="工作单id">
+        label="工作单ID">
       </el-table-column>
       <el-table-column
         fixed="right"

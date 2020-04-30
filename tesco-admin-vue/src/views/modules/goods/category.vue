@@ -116,7 +116,7 @@ export default {
       this.dialogType = "add";
       this.title = "添加分类";
       this.dialogVisible = true;
-      this.category.parentCid = data.catId;
+      this.category.parentCid = data.categoryId;
       this.category.categoryLevel = data.categoryLevel * 1 + 1;
       this.category.categoryId = null;
       this.category.name = "";

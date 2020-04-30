@@ -26,13 +26,15 @@
         prop="id"
         header-align="center"
         align="center"
-        label="id">
+        label="ID"
+        width="50">
       </el-table-column>
       <el-table-column
         prop="orderId"
         header-align="center"
         align="center"
-        label="order_id">
+        label="订单ID"
+        width="70">
       </el-table-column>
       <el-table-column
         prop="orderSn"
@@ -44,31 +46,36 @@
         prop="consignee"
         header-align="center"
         align="center"
-        label="收货人">
+        label="收货人"
+        width="70">
       </el-table-column>
       <el-table-column
         prop="consigneeTel"
         header-align="center"
         align="center"
-        label="收货人电话">
+        label="收货人电话"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="deliveryAddress"
         header-align="center"
         align="center"
-        label="配送地址">
+        label="配送地址"
+        width="200">
       </el-table-column>
       <el-table-column
         prop="orderComment"
         header-align="center"
         align="center"
-        label="订单备注">
+        label="订单备注"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="paymentWay"
         header-align="center"
         align="center"
-        label="付款方式">
+        label="付款方式"
+        width="60">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.payment==1">在线付款</el-tag>
           <el-tag v-if="scope.row.payment==2">货到付款</el-tag>
@@ -78,37 +85,43 @@
         prop="taskStatus"
         header-align="center"
         align="center"
-        label="任务状态">
+        label="任务状态"
+        width="50">
       </el-table-column>
       <el-table-column
         prop="orderBody"
         header-align="center"
         align="center"
-        label="订单描述">
+        label="订单描述"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="trackingNo"
         header-align="center"
         align="center"
-        label="物流单号">
+        label="物流单号"
+        width="80">
       </el-table-column>
       <el-table-column
         prop="createTime"
         header-align="center"
         align="center"
-        label="create_time">
+        label="创建时间"
+        width="80">
       </el-table-column>
       <el-table-column
         prop="wareId"
         header-align="center"
         align="center"
-        label="仓库id">
+        label="仓库ID"
+        width="50">
       </el-table-column>
       <el-table-column
         prop="taskComment"
         header-align="center"
         align="center"
-        label="工作单备注">
+        label="工作单备注"
+        width="150">
       </el-table-column>
       <el-table-column
         fixed="right"
