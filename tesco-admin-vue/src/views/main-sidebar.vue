@@ -17,11 +17,11 @@
           </template>
           <el-menu-item index="demo-echarts" @click="$router.push({ name: 'demo-echarts' })">
             <icon-svg name="tubiao" class="site-sidebar__menu-icon"></icon-svg>
-            <span slot="title">echarts</span>
+            <span slot="title">统计报表</span>
           </el-menu-item>
           <el-menu-item index="demo-ueditor" @click="$router.push({ name: 'demo-ueditor' })">
             <icon-svg name="editor" class="site-sidebar__menu-icon"></icon-svg>
-            <span slot="title">ueditor</span>
+            <span slot="title">编辑页面</span>
           </el-menu-item>
         </el-submenu>
         <sub-menu
