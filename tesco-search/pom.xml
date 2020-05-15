@@ -9,24 +9,25 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tesco-api</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>tesco-search</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <description>乐购商城-各微服务API-父工程</description>
-    <modules>
-        <module>tesco-goods-api</module>
-        <module>tesco-coupon-api</module>
-        <module>tesco-user-api</module>
-        <module>tesco-order-api</module>
-        <module>tesco-ware-api</module>
-        <module>tesco-search-api</module>
-    </modules>
+    <description>乐购商城-搜索微服务</description>
+
+    <properties>
+        <elasticsearch.version>7.4.2</elasticsearch.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.jerusalem</groupId>
-            <artifactId>tesco-common</artifactId>
+            <artifactId>tesco-search-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- elasticsearch高阶客户端 -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.4.2</version>
         </dependency>
     </dependencies>
 
