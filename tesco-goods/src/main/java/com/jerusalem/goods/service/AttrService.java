@@ -5,6 +5,8 @@ import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.AttrEntity;
 import com.jerusalem.goods.vo.AttrResponseVo;
 import com.jerusalem.goods.vo.AttrVo;
+
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -43,5 +45,12 @@ public interface AttrService extends IService<AttrEntity> {
      * @param attr
      */
     void updateAttr(AttrVo attr);
+
+    /***
+     * 根据属性ID查询可检索的属性
+     * @param attrIds
+     * @return
+     */
+    List<Long> selectSearchAttrs(List<Long> attrIds);
 }
 

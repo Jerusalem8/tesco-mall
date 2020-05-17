@@ -186,4 +186,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             }
         }
     }
+
+    /***
+     * 根据属性ID查询可检索的属性
+     * @param attrIds
+     * @return
+     */
+    @Override
+    public List<Long> selectSearchAttrs(List<Long> attrIds) {
+        return baseMapper.selectSearchAttrIds(attrIds);
+    }
 }

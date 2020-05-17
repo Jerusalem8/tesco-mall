@@ -77,9 +77,15 @@ public class SpuInfoController {
     }
 
     /***
-     * //TODO 上架
+     * 商品上架（发送sku数据到Es）
+     * @param spuId
+     * @return
      */
-
+    @PostMapping("/up/{spuId}")
+    public R upSpu(@PathVariable("spuId") Long spuId){
+        spuInfoService.upSpu(spuId);
+        return R.ok();
+    }
 
     /***
     * 修改

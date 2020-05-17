@@ -26,6 +26,8 @@ public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
 
+
+
     /***
     * 根据仓库、SKU ID进行分页查询
     * @param params

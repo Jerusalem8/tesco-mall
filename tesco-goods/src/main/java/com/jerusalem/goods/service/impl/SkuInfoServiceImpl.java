@@ -2,6 +2,7 @@ package com.jerusalem.goods.service.impl;
 
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -78,5 +79,18 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public void saveSkuInfo(SkuInfoEntity skuInfo) {
         this.baseMapper.insert(skuInfo);
+    }
+
+    /***
+     * 根据spuId查询sku集合
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<SkuInfoEntity> getSkuListBySpuId(Long spuId) {
+        QueryWrapper<SkuInfoEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("spu_id",spuId);
+        List<SkuInfoEntity> skuList = this.list(queryWrapper);
+        return skuList;
     }
 }

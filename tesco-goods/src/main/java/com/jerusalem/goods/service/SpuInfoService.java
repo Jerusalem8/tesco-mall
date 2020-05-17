@@ -27,5 +27,12 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
      * @param spuInfo
      */
     void saveSpuInfo(SpuInfoEntity spuInfo);
+
+    /***
+     * 商品上架（发送sku数据到Es）
+     * @param spuId
+     * @return
+     */
+    void upSpu(Long spuId);
 }
 
