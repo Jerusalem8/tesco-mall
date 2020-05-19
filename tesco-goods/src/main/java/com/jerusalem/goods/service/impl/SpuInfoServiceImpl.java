@@ -1,8 +1,11 @@
 package com.jerusalem.goods.service.impl;
 
 import com.jerusalem.common.esTo.SkuEsModel;
+import com.jerusalem.common.to.SkuStockVo;
+import com.jerusalem.common.utils.R;
 import com.jerusalem.goods.entity.*;
 import com.jerusalem.goods.service.*;
+import com.jerusalem.ware.feign.WareSkuFeign;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private WareSkuFeign wareSkuFeign;
 
 
     /**
@@ -97,6 +103,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
      */
     @Override
     public void upSpu(Long spuId) {
+
         /**
          * 得到可检索的sku属性的ID集合
          */
@@ -119,11 +126,28 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }).collect(Collectors.toList());
 
         /**
+         * 根据spuId查询出sku集合
+         */
+        List<SkuInfoEntity> skuInfoList = skuInfoService.getSkuListBySpuId(spuId);
+
+        /**
+         * 发送远程调用，查询库存系统，是否有库存
+         * 若远程调用失败，返回null
+         */
+        List<Long> skuIdList = skuInfoList.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
+        Map<Long, Boolean> stockMap = null;
+        try{
+            R<List<SkuStockVo>> skuStock = wareSkuFeign.getSkuStock(skuIdList);
+            stockMap = skuStock.getData().stream().collect(Collectors.toMap(SkuStockVo::getSkuId, item -> item.getHasStock()));
+        }catch (Exception e){
+            log.error("库存服务查询异常：原因{}",e);
+        }
+
+        /**
          * 封装skuEsModel
          */
-        //根据spuId查询sku集合
-        List<SkuInfoEntity> skuInfoList = skuInfoService.getSkuListBySpuId(spuId);
         //封装每个sku的信息
+        Map<Long, Boolean> finalStockMap = stockMap;
         List<SkuEsModel> skuEsModelList = skuInfoList.stream().map(sku -> {
             SkuEsModel skuEsModel = new SkuEsModel();
             //直接对考部分属性
@@ -132,7 +156,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             skuEsModel.setSkuPrice(sku.getPrice());
             skuEsModel.setSkuImg(sku.getSkuDefaultImg());
 
-            //TODO 发送远程调用，查询库存系统，是否有库存
+            //设置库存信息
+            if (finalStockMap == null){
+                skuEsModel.setHasStock(true);
+            }else {
+                skuEsModel.setHasStock(finalStockMap.get(sku.getSkuId()));
+            }
 
             //TODO 热度评分
             skuEsModel.setHotScore(0L);

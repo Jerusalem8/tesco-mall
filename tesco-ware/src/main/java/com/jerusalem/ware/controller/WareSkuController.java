@@ -1,8 +1,10 @@
 package com.jerusalem.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.jerusalem.common.to.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +28,18 @@ public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
 
-
+    /***
+     * 查询Sku是否有库存
+     * @param skuIds
+     * @return
+     */
+    @PostMapping("/stock")
+    public R<List<SkuStockVo>> getSkuStock(@RequestBody List<Long> skuIds){
+        List<SkuStockVo> stockVoList = wareSkuService.getSkuHasStock(skuIds);
+        R<List<SkuStockVo>> ok = R.ok();
+        ok.setData(stockVoList);
+        return ok;
+    }
 
     /***
     * 根据仓库、SKU ID进行分页查询
