@@ -59,7 +59,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.jerusalem.goods.dao"})
-@EnableFeignClients(basePackages = {"com.jerusalem.coupon.feign","com.jerusalem.ware.feign"})
+@EnableFeignClients(basePackages = {"com.jerusalem.coupon.feign","com.jerusalem.ware.feign","com.jerusalem.search.feign"})
 public class GoodsApplication {
     public static void main(String[] args) {
         SpringApplication.run(GoodsApplication.class, args);

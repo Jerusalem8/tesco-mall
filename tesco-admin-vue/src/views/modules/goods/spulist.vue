@@ -79,7 +79,7 @@
       //上架
       productUp(id) {
         this.$http({
-          url: this.$http.adornUrl("/goods/spu/info/" + id + "/up"),
+          url: this.$http.adornUrl("/goods/spu/info/up/" + id),
           method: "post"
         }).then(({ data }) => {
           if (data && data.code === 0) {

@@ -1,5 +1,7 @@
 package com.jerusalem.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
@@ -11,17 +13,30 @@ import java.util.Map;
  * 返回结果信息数据封装
  * @Date 2020/4/16 10:00
  *****/
-public class R<T> extends HashMap<String, Object> {
+public class R extends HashMap<String, Object> {
 
 	private static final long serialVersionUID = 1L;
 
-	private T data;
-
-	public T getData() {
-		return data;
+	/***
+	 * 获取数据，转换类型
+	 * 利用fastjson进行逆转
+	 * @return
+	 */
+	public <T> T getData(TypeReference<T> typeReference){
+		Object data = get("data");	//默认为map
+		String s = JSON.toJSONString(data);
+		T t = JSON.parseObject(s, typeReference);
+		return t;
 	}
-	public void setData(T data) {
-		this.data = data;
+
+	/***
+	 * 用作返回数据
+	 * @param data
+	 * @return
+	 */
+	public R setData(Object data){
+		put("data",data);
+		return this;
 	}
 
 	public R() {

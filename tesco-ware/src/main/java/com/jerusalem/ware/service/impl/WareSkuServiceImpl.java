@@ -108,9 +108,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         List<SkuStockVo> collect = skuIds.stream().map(skuId -> {
             SkuStockVo skuStockVo = new SkuStockVo();
             //查询当前sku的总库存量
-            long count = baseMapper.getSkuStock(skuId);
+            Long count = baseMapper.getSkuStock(skuId);
             skuStockVo.setSkuId(skuId);
-            skuStockVo.setHasStock(count > 0);
+            skuStockVo.setHasStock(count == null ? false : count > 0);
             return skuStockVo;
         }).collect(Collectors.toList());
         return collect;
