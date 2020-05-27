@@ -16,6 +16,8 @@ spring:
   # 日期格式设置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
   main:
     allow-bean-definition-overriding: true
 

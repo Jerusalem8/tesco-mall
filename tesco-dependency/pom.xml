@@ -21,6 +21,17 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Thymeleaf模板引擎 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- 允许使用非严格的HTML语法 -->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+        </dependency>
+
         <!--测试包-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
