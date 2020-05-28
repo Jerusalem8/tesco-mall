@@ -3,6 +3,7 @@ package com.jerusalem.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.CategoryEntity;
+import com.jerusalem.goods.vo.Category2Vo;
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +49,17 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return
      */
     void updateCascade(CategoryEntity category);
+
+    /***
+     * 获取所有的一级分类
+     * @return
+     */
+    List<CategoryEntity> getCategoryLevelOne();
+
+    /***
+     * 返回三级分类数据
+     * @return
+     */
+    Map<String, List<Category2Vo>> getCategoryJson();
 }
 

@@ -1,4 +1,4 @@
-package com.jerusalem.goods.app;
+package com.jerusalem.goods.controller.server;
 
 import com.jerusalem.common.utils.R;
 import com.jerusalem.goods.service.ProductService;

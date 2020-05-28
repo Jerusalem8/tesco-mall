@@ -1,4 +1,4 @@
-package com.jerusalem.goods.app;
+package com.jerusalem.goods.controller.server;
 
 import java.util.List;
 import java.util.Map;

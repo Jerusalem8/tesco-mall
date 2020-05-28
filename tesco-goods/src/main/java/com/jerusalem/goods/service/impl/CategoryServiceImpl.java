@@ -1,6 +1,7 @@
 package com.jerusalem.goods.service.impl;
 
 import com.jerusalem.goods.service.CategoryBrandRelationService;
+import com.jerusalem.goods.vo.Category2Vo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -103,6 +104,66 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public void updateCascade(CategoryEntity category) {
         this.updateById(category);
         categoryBrandRelationService.updateCategory(category.getCategoryId(),category.getName());
+    }
+
+    /***
+     * 查询所有的一级分类
+     * @return
+     */
+    @Override
+    public List<CategoryEntity> getCategoryLevelOne() {
+        QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("category_level",1);
+        List<CategoryEntity> categoryList = baseMapper.selectList(queryWrapper);
+        return categoryList;
+    }
+
+    /***
+     * //TODO 不太懂
+     * 返回三级分类数据
+     * @return
+     */
+    @Override
+    public Map<String, List<Category2Vo>> getCategoryJson() {
+        //1.查出所有一级分类
+        List<CategoryEntity> categoryOneList = getCategoryLevelOne();
+        //2.封装数据
+        Map<String, List<Category2Vo>> categoryMap = categoryOneList.stream().collect(Collectors.toMap(key -> key.getCategoryId().toString(), value -> {
+            //查出该一级分类的所有二级分类
+            QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("parent_cid", value.getCategoryId());
+            List<CategoryEntity> categoryTwoList = baseMapper.selectList(queryWrapper);
+
+            //继续封装，得到Category2Vo的形式
+            List<Category2Vo> category2Vos = null;
+            if (categoryTwoList != null) {
+                category2Vos = categoryTwoList.stream().map(categoryTwo -> {
+                    Category2Vo category2Vo = new Category2Vo(
+                            value.getCategoryId().toString(),
+                            null,
+                            categoryTwo.getCategoryId().toString(),
+                            categoryTwo.getName());
+                    //再封装三级分类
+                    QueryWrapper<CategoryEntity> queryWrapper1 = new QueryWrapper<>();
+                    queryWrapper1.eq("parent_cid",categoryTwo.getCategoryId());
+                    List<CategoryEntity> categoryThreeList = baseMapper.selectList(queryWrapper1);
+                    if(categoryThreeList != null){
+                        List<Category2Vo.Category3Vo> category3Vos = categoryThreeList.stream().map(categoryThree -> {
+                            Category2Vo.Category3Vo category3Vo = new Category2Vo.Category3Vo(
+                                    categoryTwo.getCategoryId().toString(),
+                                    categoryThree.getCategoryId().toString(),
+                                    categoryThree.getName()
+                            );
+                            return category3Vo;
+                        }).collect(Collectors.toList());
+                        category2Vo.setCategory3List(category3Vos);
+                    }
+                    return category2Vo;
+                }).collect(Collectors.toList());
+            }
+            return category2Vos;
+        }));
+        return categoryMap;
     }
 
     /***

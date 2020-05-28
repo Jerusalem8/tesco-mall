@@ -1,9 +1,9 @@
 $(function(){
-    $.getJSON("index/json/catalog.json",function (data) {
+    $.getJSON("/index/category.json",function (data) {
 
         var ctgall=data;
         $(".header_main_left_a").each(function(){
-            var ctgnums= $(this).attr("ctg-data");
+            var ctgnums= $(this).attr("category-data");
             if(ctgnums){
                 var panel=$("<div class='header_main_left_main'></div>");
                 var panelol=$("<ol class='header_ol'></ol>");

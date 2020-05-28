@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>首页</title>
+  <title>乐购</title>
   <link rel="stylesheet" href="index/css/swiper-3.4.2.min.css">
   <link rel="stylesheet" href="index/css/GL.css">
   <script src="index/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="index/js/swiper-3.4.2.jquery.min.js" type="text/javascript" charset="utf-8"></script>
-
   <script src="index/js/swiper-3.4.2.min.js"></script>
-
 </head>
 
 <body>
@@ -200,66 +197,9 @@
       <div class="header_banner">
         <div class="header_main_left">
           <ul>
-            <li>
-              <a href="#" class="header_main_left_a" ctg-data="3"><b>家用电器</b></a>
+            <li th:each="category : ${categorys}">
+              <a href="#" class="header_main_left_a" th:attr="category-data=${category.categoryId}"><b th:text="${category.name}">家用电器</b></a>
             </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="2,4"><b>手机</b> / <b>运营商</b> / <b>数码</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="6"><b>电脑</b> / <b>办公</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="5,7"><b>家居</b> / <b>家具</b> / <b>家装</b> / <b>厨具</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a"  ctg-data="9"><b>男装</b> / <b>女装</b> / <b>童装</b> / <b>内衣</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a"  ctg-data="8"><b>美妆个护 </b>/ <b>宠物</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a"  ctg-data="11,13,10,15"><b>鞋</b> / <b>箱包</b> / <b>钟表</b> / <b>珠宝</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a"  ctg-data="17"> <b>运动</b> / <b>户外</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="16,21"><b>汽车</b> / <b>汽车用品</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="12,18"><b>母婴</b> / <b>玩具乐器</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="14,20"><b>食品</b> / <b>酒类</b> / <b>生鲜</b> / <b>特产</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ><b>礼品鲜花</b> / <b>农资绿植</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a"><b>医药保健</b> / <b>计生情趣</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="1"><b>图书</b> / <b>音像</b>/ <b>电子书</b></a>
-
-            </li>
-            <li class="header_li2">
-              <a href="#" class="header_main_left_a" ctg-data="19"><b>彩票</b> / <b>酒店</b> / <b>旅游</b> / <b>生活</b></a>
-
-            </li>
-
           </ul>
 
         </div>
@@ -671,7 +611,7 @@
 <script type="text/javascript" src="index/js/header.js"></script>
 <script type="text/javascript" src="index/js/secend.js"></script>
 <script type="text/javascript" src="index/js/zz.js"></script>
-<script type="text/javascript" src="index/jsindex.js"></script>
+<script type="text/javascript" src="index/js/index.js"></script>
 <script type="text/javascript" src="index/js/left,top.js"></script>
-<script type="text/javascript" src="index/js/catalogLoader.js"></script>
+<script type="text/javascript" src="index/js/categoryLoader.js"></script>
 </html>

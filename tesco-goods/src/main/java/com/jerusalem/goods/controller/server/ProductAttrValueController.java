@@ -1,4 +1,4 @@
-package com.jerusalem.goods.app;
+package com.jerusalem.goods.controller.server;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
