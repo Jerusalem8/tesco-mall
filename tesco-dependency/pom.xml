@@ -86,12 +86,12 @@
 <!--            <artifactId>spring-cloud-starter-oauth2</artifactId>-->
 <!--        </dependency>-->
 
-        <!-- Jwt令牌（鉴权）-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.0</version>
-        </dependency>
+<!--        &lt;!&ndash; Jwt令牌（鉴权）&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.jsonwebtoken</groupId>-->
+<!--            <artifactId>jjwt</artifactId>-->
+<!--            <version>0.9.0</version>-->
+<!--        </dependency>-->
 
         <!--微信支付-->
         <dependency>

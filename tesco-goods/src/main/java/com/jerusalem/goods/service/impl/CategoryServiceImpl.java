@@ -119,22 +119,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /***
-     * //TODO 不太懂
-     * 返回三级分类数据
+     * 返回封装后的三级分类数据树
      * @return
      */
     @Override
     public Map<String, List<Category2Vo>> getCategoryJson() {
-        //1.查出所有一级分类
-        List<CategoryEntity> categoryOneList = getCategoryLevelOne();
-        //2.封装数据
-        Map<String, List<Category2Vo>> categoryMap = categoryOneList.stream().collect(Collectors.toMap(key -> key.getCategoryId().toString(), value -> {
-            //查出该一级分类的所有二级分类
-            QueryWrapper<CategoryEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("parent_cid", value.getCategoryId());
-            List<CategoryEntity> categoryTwoList = baseMapper.selectList(queryWrapper);
+        /***
+         * 优化
+         * 循环多次查询数据库 ---》 只查询一次数据库
+         */
+        //1.一次性查询出所有分类categoryList
+        List<CategoryEntity> categoryList = baseMapper.selectList(null);
 
-            //继续封装，得到Category2Vo的形式
+        //2.调用方法，在categoryList集合中得到一级分类集合
+        List<CategoryEntity> categoryOneList = getCategoryXList(categoryList,0L);
+        //3.封装数据
+        Map<String, List<Category2Vo>> categoryMap = categoryOneList.stream().collect(Collectors.toMap(key -> key.getCategoryId().toString(), value -> {
+            //调用方法，根据父ID，在categoryList集合中得到对应的二级分类集合
+            List<CategoryEntity> categoryTwoList = getCategoryXList(categoryList,value.getCategoryId());
+
+            //封装，得到Category2Vo的形式
             List<Category2Vo> category2Vos = null;
             if (categoryTwoList != null) {
                 category2Vos = categoryTwoList.stream().map(categoryTwo -> {
@@ -143,10 +147,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                             null,
                             categoryTwo.getCategoryId().toString(),
                             categoryTwo.getName());
-                    //再封装三级分类
-                    QueryWrapper<CategoryEntity> queryWrapper1 = new QueryWrapper<>();
-                    queryWrapper1.eq("parent_cid",categoryTwo.getCategoryId());
-                    List<CategoryEntity> categoryThreeList = baseMapper.selectList(queryWrapper1);
+                    //调用方法，根据父ID，在categoryList集合中得到对应的三级分类集合
+                    List<CategoryEntity> categoryThreeList = getCategoryXList(categoryList,categoryTwo.getCategoryId());
+
+                    //封装，得到Category3Vo的形式
                     if(categoryThreeList != null){
                         List<Category2Vo.Category3Vo> category3Vos = categoryThreeList.stream().map(categoryThree -> {
                             Category2Vo.Category3Vo category3Vo = new Category2Vo.Category3Vo(
@@ -164,6 +168,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             return category2Vos;
         }));
         return categoryMap;
+    }
+
+    /***
+     * 抽取的公共方法
+     * 在所有分类的集合中，根据父ID进行查询，得到所需的分类集合
+     * @param categoryList
+     * @param parent_cid
+     * @return
+     */
+    private List<CategoryEntity> getCategoryXList(List<CategoryEntity> categoryList,Long parent_cid) {
+        List<CategoryEntity> collect = categoryList.stream().filter(item -> item.getParentCid() == parent_cid).collect(Collectors.toList());
+        return collect;
     }
 
     /***
