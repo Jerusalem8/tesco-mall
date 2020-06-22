@@ -56,6 +56,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *  4）、页面修改后实时更新
  *      （1）、引入dev-tools
  *      （2）、修改完页面，重新编译一下(ctrl+shift+f9)
+ * 6、redis缓存
+ *  1）、引入依赖
+ *  2）、yml配置
+ *  3）、使用RedisTemplate
  */
 
 
