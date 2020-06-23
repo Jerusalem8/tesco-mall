@@ -60,6 +60,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *  1）、引入依赖
  *  2）、yml配置
  *  3）、使用RedisTemplate
+ * 7、Redisson - 分布式锁等功能框架
+ *  1）、引入依赖
+ *  2）、配置
  */
 
 

@@ -93,6 +93,13 @@
 <!--            <version>0.9.0</version>-->
 <!--        </dependency>-->
 
+        <!-- Redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.1</version>
+        </dependency>
+
         <!--微信支付-->
         <dependency>
             <groupId>com.github.wxpay</groupId>

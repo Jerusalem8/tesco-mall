@@ -6,6 +6,7 @@ import com.jerusalem.goods.service.CategoryBrandRelationService;
 import com.jerusalem.goods.vo.Category2Vo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -183,20 +184,39 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      */
     public Map<String, List<Category2Vo>> getCategoryJsonFromDBWithRedisLock() {
         /**
-         * 首先，抢占分布式锁，同时设置过期时间
+         * 首先，抢占分布式锁，同时设置过期时间,uuid
          */
-        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", "first",300,TimeUnit.SECONDS);
+        String uuid = UUID.randomUUID().toString();
+        Boolean lock = stringRedisTemplate.opsForValue().setIfAbsent("lock", uuid,300,TimeUnit.SECONDS);
         if (lock){
             /**
-             * 加锁成功 ---> 执行业务逻辑，得到返回结果 ---> 解锁 ---> 返回数据
+             * 加锁成功 ---> 执行业务逻辑，得到返回结果 ---> 解锁(确认删除的是自己的锁) ---> 返回数据
+             * lua脚本解锁（原子操作）
              */
-            Map<String, List<Category2Vo>> categoryMap = getCategoryMap();
-            stringRedisTemplate.delete("lock");
+            System.out.println("成功获取分布式锁");
+            Map<String, List<Category2Vo>> categoryMap;
+            try{
+                categoryMap = getCategoryMap();
+            }finally {
+                String script = "if redis.call(\"get\",KEYS[1]) == ARGV[1]\n" +
+                        "then\n" +
+                        "    return redis.call(\"del\",KEYS[1])\n" +
+                        "else\n" +
+                        "    return 0\n" +
+                        "end";
+                stringRedisTemplate.execute(new DefaultRedisScript<Long>(script,Long.class),Arrays.asList("lock"),uuid);
+            }
             return categoryMap;
         }else {
             /**
-             * 加锁失败，休眠100ms重试（自旋）
+             * 加锁失败，休眠200ms重试（自旋）
              */
+            System.out.println("获取分布式锁失败，等待重试");
+            try {
+                Thread.sleep(200);
+            }catch (Exception e){
+
+            }
             return getCategoryJsonFromDBWithRedisLock();
         }
     }
