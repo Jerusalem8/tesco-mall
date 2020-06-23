@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.goods.service.CategoryBrandRelationService;
 import com.jerusalem.goods.vo.Category2Vo;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -44,6 +46,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      */
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    /**
+     * Redisson缓存
+     */
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
@@ -178,7 +186,29 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /***
-     * 分布式锁
+     * 分布式锁 - Redisson
+     * @return
+     */
+    public Map<String, List<Category2Vo>> getCategoryJsonFromDBWithRedissonLock() {
+        /**
+         * 加锁
+         * 注意锁的名字，锁的粒度越细，业务运行的越快。
+         */
+        RLock lock = redissonClient.getLock("category-lock");
+        lock.lock();
+        Map<String, List<Category2Vo>> categoryMap;
+        try {
+            //执行业务逻辑
+            categoryMap = getCategoryMap();
+        } finally {
+            //解锁
+            lock.unlock();
+        }
+        return categoryMap;
+    }
+
+    /***
+     * 分布式锁 - Redis
      * 获取三级分类数据树（首页）
      * @return
      */
@@ -355,6 +385,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /***
+     * 抽取的方法
      * 递归查找所有分类的父分类
      * 最终得到逆序[225,25,2]
      * @param categoryId
