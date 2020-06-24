@@ -100,6 +100,12 @@
             <version>3.13.1</version>
         </dependency>
 
+        <!-- SpringCache -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
         <!--微信支付-->
         <dependency>
             <groupId>com.github.wxpay</groupId>

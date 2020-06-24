@@ -25,7 +25,6 @@ public class IndexController {
     @Autowired
     private CategoryService categoryService;
 
-
     /***
      * 跳转到首页
      * @param model
@@ -40,13 +39,19 @@ public class IndexController {
     }
 
     /***
-     * 返回三级分类数据
+     * 获取三级分类数据树（首页）
      * @return
      */
     @ResponseBody
     @GetMapping("/index/category.json")
     public Map<String, List<Category2Vo>> getCategoryJson(){
-        Map<String, List<Category2Vo>> categoryMap = categoryService.getCategoryJson();
+        /**
+         * 调用相关方法
+         * getCategoryJsonWithSpringCache()：整合使用 SpringCache
+         * getCategoryJson()：特殊处理，整合各种高级锁
+         */
+        Map<String, List<Category2Vo>> categoryMap = categoryService.getCategoryJsonWithSpringCache();
+//        Map<String, List<Category2Vo>> categoryMap = categoryService.getCategoryJson();
         return categoryMap;
     }
 }

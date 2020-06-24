@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.CategoryEntity;
 import com.jerusalem.goods.vo.Category2Vo;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
 public interface CategoryService extends IService<CategoryEntity> {
 
     /***
-     * 查询所有分类，并以树形结构组装
+     * 查询所有分类，并以树形结构组装（后台管理系统）
      * @return
      */
     List<CategoryEntity> listWithTree();
@@ -51,13 +52,21 @@ public interface CategoryService extends IService<CategoryEntity> {
     void updateCascade(CategoryEntity category);
 
     /***
-     * 获取所有的一级分类
+     * 获取所有的一级分类（首页）
      * @return
      */
     List<CategoryEntity> getCategoryLevelOne();
 
     /***
-     * 返回三级分类数据
+     * 获取三级分类数据树（首页）
+     * 方法一：整合使用 SpringCache
+     * @return
+     */
+    Map<String, List<Category2Vo>> getCategoryJsonWithSpringCache();
+
+    /***
+     * 获取三级分类数据树（首页）
+     * 方法二：特殊处理，整合各种高级锁
      * @return
      */
     Map<String, List<Category2Vo>> getCategoryJson();
