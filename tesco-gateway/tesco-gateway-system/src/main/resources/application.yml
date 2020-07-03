@@ -45,11 +45,19 @@ spring:
             - Path=/api/**
           filters:
             - RewritePath=/api/(?<segment>.*),/tesco-admin/$\{segment}
+
         # 主机路由（要放在最后）
-        - id: tesco-host-route
+        # 商品服务（前端）
+        - id: tesco-goods-route
           uri: lb://goods-service
           predicates:
             # 根据域名进行断言
-            - Host=**.tesco.com
+            - Host=tesco.com
+        # 搜索服务（前端）
+        - id: tesco-search-route
+          uri: lb://search-service
+          predicates:
+            # 根据域名进行断言
+            - Host=search.tesco.com
   main:
     allow-bean-definition-overriding: true

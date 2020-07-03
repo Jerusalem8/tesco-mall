@@ -14,39 +14,11 @@
 </head>
 
 <body>
-  <div class="top_find">
-    <div class="top_find_son">
-      <img src="/static/index/img/top_find_logo.png" alt="">
-      <div class="input_find">
-        <input type="text" placeholder="卸妆水" />
-        <span style="background: url(/static/index/img/img_12.png) 0 -1px;"></span>
-        <a href="/static/#"><img src="/static/index/img/img_09.png" /></a>
-      </div>
-    </div>
-  </div>
-  <ul class="left_floor">
-    <li class="left_floor_xiang">享品质</li>
-    <li class="left_floor_fu">服饰美妆</li>
-    <li class="left_floor_jia">家电手机</li>
-    <li class="left_floor_dian">电脑数码</li>
-    <li class="left_floor_3C">3C运动</li>
-    <li class="left_floor_ai">爱吃</li>
-    <li class="left_floor_mu">母婴家居</li>
-    <li class="left_floor_tu">图书汽车</li>
-    <li class="left_floor_you">游戏金融</li>
-    <li class="left_floor_lv">旅行健康</li>
-    <li class="left_floor_hai">还没逛够</li>
-    <li class="left_floor_ding">顶部</li>
-  </ul>
   <header>
-    <div class="head">
-      <a href="/static/#"><img src="/static/index/img/img_01.png" /></a>
-      <p>X</p>
-    </div>
     <!--头部-->
     <div class="header_head">
       <div class="header_head_box">
-        <a href="/static/#" class="img"><img src="/static/index/img/logo.jpg" /></a>
+        <a href="http://tesco.com" class="img"><img src="/static/index/img/logo.png" /></a>
         <b class="header_head_p">
   						<a href="/static/#">
   							<img src="/static/index/img/img_05.png" style="border-radius: 50%;"/>
@@ -101,18 +73,16 @@
           <li>
             <a href="/static/#">我的订单</a>
           </li>
-
-
         </ul>
       </div>
     </div>
     <!--搜索导航-->
     <div class="header_sous">
       <div class="header_form">
-        <input id="searchText" type="text" placeholder="" />
+        <input id="searchText" type="text" placeholder="手机" />
         <span style="background: url(/static/index/img/img_12.png) 0 -1px;"></span>
         <!--<button><i class="glyphicon"></i></button>-->
-        <a href="/static/#" ><img src="/static/index/img/img_09.png" onclick="search()" /></a>
+        <a href="javascript:search();"><img src="/static/index/img/img_09.png"/></a>
       </div>
       <div class="header_ico">
         <div class="header_gw">
@@ -142,9 +112,6 @@
             <a href="/static/#">洗衣机节</a>
           </li>
           <li>
-            <a href="/static/#">七度空间卫生巾</a>
-          </li>
-          <li>
             <a href="/static/#">自动波箱油</a>
           </li>
           <li>
@@ -166,9 +133,6 @@
           <li>
             <a href="/static/#">拍卖</a>
           </li>
-        </ul>
-        <div class="spacer">|</div>
-        <ul>
           <li>
             <a href="/static/#">服饰</a>
           </li>
@@ -181,17 +145,11 @@
           <li>
             <a href="/static/#">全球购</a>
           </li>
-        </ul>
-        <div class="spacer">|</div>
-        <ul>
           <li>
             <a href="/static/#">金融</a>
           </li>
         </ul>
       </nav>
-      <div class="right">
-        <a href="/static/#"><img src="/static/index/img/img_21.png" /></a>
-      </div>
     </div>
     <!--轮播主体内容-->
     <div class="header_main">
@@ -199,11 +157,11 @@
         <div class="header_main_left">
           <ul>
             <li th:each="category : ${categorys}">
-              <a href="/static/#" class="header_main_left_a" th:attr="category-data=${category.categoryId}"><b th:text="${category.name}">家用电器</b></a>
+              <a href="http://search.tesco.com/search.html" class="header_main_left_a" th:attr="category-data=${category.categoryId}"><b th:text="${category.name}">家用电器</b></a>
             </li>
           </ul>
-
         </div>
+
         <div class="header_main_center">
           <div class="swiper-container swiper1">
             <div class="swiper-wrapper">
@@ -231,6 +189,7 @@
             <a href="/static/#"><img src="/static/index/img/5a154759N5385d5d6.jpg" /></a>
           </div>
         </div>
+
         <div class="header_main_right">
           <div class="header_main_right_user">
             <div class="user_info">
@@ -238,7 +197,7 @@
                 <a href="/static/#"><img class="" src="/static/index/img/touxiang.png"></a>
               </div>
               <div class="user_info_show">
-                <p class="">Hi, 欢迎来到!</p>
+                <p class="">Hi, 欢迎逛乐购!</p>
                 <p>
                   <a href="/static/#" class="">登录</a>
                   <a href="/static/#" class="">注册</a>
@@ -594,19 +553,189 @@
         </div>
       </ul>
     </div>
- 
- 
   </div>
 
+  <!--底部-->
+  <footer class="footer">
+    <div class="footer_top">
+      <ul>
+        <li>
+          <span></span>
+          <h3>品类齐全，轻松购物</h3>
+        </li>
+        <li>
+          <span></span>
+          <h3>多仓直发，极速配发</h3>
+        </li>
+        <li>
+          <span></span>
+          <h3>正品行货，精致服务</h3>
+        </li>
+        <li>
+          <span></span>
+          <h3>天天低价，畅选无忧</h3>
+        </li>
+      </ul>
+    </div>
+    <div class="footer_center">
+      <ol>
+        <li>购物指南</li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">购物流程</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">会员介绍</a>
+        </li>
+        <li><a href="#">生活旅行</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">常见问题</a>
+        </li>
+        <li><a href="#">大家电</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">联系客服</a>
+        </li>
+      </ol>
+      <ol>
+        <li>配送方式</li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">上门自提</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">211限时达</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">配送服务查询</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">配送费收取标准</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">海外配送</a>
+        </li>
+      </ol>
+      <ol>
+        <li>支付方式</li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">货到付款</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">在线支付</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">分期付款</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">邮局汇款</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">公司转账</a>
 
- 
+        </li>
+      </ol>
+      <ol>
+        <li>售后服务</li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">售后政策</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">价格保护</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">退款说明</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">返修/退换货</a>
+        </li>
+        <li><a href="#">取消订单</a>
+        </li>
+      </ol>
+      <ol>
+        <li>特色服务</li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">夺宝岛</a>
+        </li>
+        <li><a href="#">DIY装机</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">延保服务</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城E卡</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城通信</a>
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城gulimall+</a>
+        </li>
+      </ol>
+      <ol>
+        <li>谷粒商城自营覆盖区域</li>
+        <li>
+          谷粒商城已向全国2661个区县提供自<br> 营配送服务，支持货到付款、
+          <br> POS机刷卡和售后上门服务。
+        </li>
+        <li><a href="#" style="color: rgb(114, 114, 114);">查看详情&gt;</a>
+        </li>
+      </ol>
+    </div>
+    <div class="footer_foot">
+      <p class="footer_p p1">
+        <a href="#">关于我们</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">联系我们</a>
+        <span></span>
+        <a href="#">联系客服</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">合作招商</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">商家帮助</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">营销中心</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">手机谷粒商城</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">友情链接</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">销售联盟</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">谷粒商城社区</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">风险监测</a>
+        <span></span>
+        <a href="#">隐私政策</a>
+        <span></span>
+        <a href="#">谷粒商城公益</a>
+        <span></span>
+        <a href="#" style="color: rgb(114, 114, 114);">English Site</a>
+        <span></span>
+        <a href="#">media &amp; IR</a>
+      </p>
+      <p class="footer_p">
+        <a href="#">京公网安备 11000002000088号</a>
+        <span></span>
+        <a href="#">京ICP证070359号</a>
+        <span></span>
+        <a href="#">互联网药品信息服务资格证编号(京)-经营性-2014-0008</a>
+        <span></span>
+        <a href="#">新出发京零 字第大120007号</a>
+      </p>
+      <p class="footer_p">
+        <a href="#">互联网出版许可证编号新出网证(京)字150号</a>
+        <span></span>
+        <a href="#">出版物经营许可证</a>
+        <span></span>
+        <a href="#">网络文化经营许可证京网文[2014]2148-348号</a>
+        <span></span>
+        <a href="#">违法和不良信息举报电话：4006561155</a>
+      </p>
+      <p class="footer_p">
+        <a href="#">Copyright © 2004 - 2017  谷粒商城JD.com 版权所有</a>
+        <span></span>
+        <a href="#">消费者维权热线：4006067733</a>
+        <a href="#">经营证照</a>
+      </p>
+      <p class="footer_p">
+        <a href="#">谷粒商城旗下网站:</a>
+        <a href="#">谷粒商城支付</a>
+        <span></span>
+        <a href="#">谷粒商城云</a>
+      </p>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </footer>
 </body>
 <script type="text/javascript">
   function search() {
       var keyword=$("#searchText").val()
-      window.location.href="/static/http://search.gulimall.com/search.html?keyword="+keyword;
+      window.location.href="http://search.tesco.com/search.html?keyword="+keyword;
   }
-
 </script>
 <script type="text/javascript" src="/static/index/js/text.js"></script>
 <script type="text/javascript" src="/static/index/js/header.js"></script>

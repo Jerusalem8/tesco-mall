@@ -1,22 +1,22 @@
 package com.jerusalem.search.service;
 
-import com.jerusalem.common.esTo.SkuEsModel;
-
-import java.io.IOException;
-import java.util.List;
+import com.jerusalem.search.vo.SearchParam;
+import com.jerusalem.search.vo.SearchResult;
+import org.springframework.stereotype.Service;
 
 /****
  * @Author: jerusalem
- * @Description: SearchService
- * @Date 2020/5/19 17:54
+ * @Description: SearchSevice
+ * @Date 2020/6/25 14:45
  *****/
 public interface SearchService {
 
     /***
-     * 上架商品（保存到Es）
-     * @param skuEsModelList
+     * 检索业务
+     * 根据页面传递来查询参数，去ES查询，封装到SearchResult返回给页面
+     * @param searchParam
      * @return
      */
-    boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException;
+    SearchResult search(SearchParam searchParam);
 
 }

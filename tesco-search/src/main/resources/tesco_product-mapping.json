@@ -1,4 +1,3 @@
-PUT product
 {
     "mappings": {
         "properties": {
@@ -16,9 +15,7 @@ PUT product
                 "type": "keyword"
             },
             "skuImg": {
-                "type": "keyword",
-                "index": "false",
-                "doc_values": "false"
+                "type": "keyword"
             },
             "saleCount": {
                 "type": "long"
@@ -36,19 +33,13 @@ PUT product
                 "type": "long"
             },
             "brandName": {
-                "type": "keyword",
-                "index": "false",
-                "doc_values": "false"
+                "type": "keyword"
             },
             "brandImg": {
-                "type": "keyword",
-                "index": "false",
-                "doc_values": "false"
+                "type": "keyword"
             },
             "categoryName": {
-                "type": "keyword",
-                "index": "false",
-                "doc_values": "false"
+                "type": "keyword"
             },
             "attrs":{
                 "type": "nested",
@@ -57,9 +48,7 @@ PUT product
                         "type": "long"
                     },
                     "attrName": {
-                        "type": "keyword",
-                        "index": "false",
-                        "doc_values": "false"
+                        "type": "keyword"
                     },
                     "attrValue": {
                         "type": "keyword"

@@ -1,0 +1,77 @@
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "skuTitle": "荣耀"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "categoryId": "225"
+          }
+        },
+        {
+          "terms": {
+            "brandId": [
+              "6",
+              "9"
+            ]
+          }
+        },
+        {
+          "nested": {
+            "path": "attrs",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "term": {
+                      "attrs.attrId": {
+                        "value": "13"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "term": {
+            "hasStock": {
+              "value": "true"
+            }
+          }
+        },
+        {
+          "range": {
+            "skuPrice": {
+              "gte": 0,
+              "lte": 5000
+            }
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "skuPrice": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 20,
+  "highlight": {
+    "fields": {
+      "skuTitle": {}
+    },
+    "pre_tags": "<b style=color:red>",
+    "post_tags": "</b>"
+  }
+}

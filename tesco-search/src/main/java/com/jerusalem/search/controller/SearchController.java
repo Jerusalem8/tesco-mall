@@ -1,49 +1,33 @@
 package com.jerusalem.search.controller;
 
-import com.jerusalem.common.esTo.SkuEsModel;
-import com.jerusalem.common.exception.BizCodeEnume;
-import com.jerusalem.common.utils.R;
 import com.jerusalem.search.service.SearchService;
-import lombok.extern.slf4j.Slf4j;
+import com.jerusalem.search.vo.SearchParam;
+import com.jerusalem.search.vo.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /****
  * @Author: jerusalem
  * @Description: SearchController
- * @Date 2020/5/19 17:44
+ * @Date 2020/6/25 11:11
  *****/
-@Slf4j
-@RestController
-@RequestMapping("/search")
+@Controller
 public class SearchController {
 
     @Autowired
     private SearchService searchService;
 
     /***
-     * 上架商品（保存到Es）
-     * @param skuEsModelList
+     * 搜索功能
+     * 根据页面传递来查询参数，去ES查询，封装到SearchResult返回给页面
      * @return
      */
-    @PostMapping("/product/up")
-    public R productStatusUp(@RequestBody List<SkuEsModel> skuEsModelList) {
-        boolean b = false;
-        try {
-            b = searchService.productStatusUp(skuEsModelList);
-        }catch (Exception e){
-            log.error("ES商品上架错误:{}",e);
-            return R.error(BizCodeEnume.PRODUCT_UP_EXCEPTION.getCode(),BizCodeEnume.PRODUCT_UP_EXCEPTION.getMsg());
-        }
-
-        if (!b){
-            return R.ok();
-        } else {
-            return R.error(BizCodeEnume.PRODUCT_UP_EXCEPTION.getCode(),BizCodeEnume.PRODUCT_UP_EXCEPTION.getMsg());
-        }
+    @GetMapping("/search.html")
+    public String searchPage(SearchParam searchParam, Model model){
+        SearchResult result = searchService.search(searchParam);
+        model.addAttribute("result",result);
+        return "search";
     }
 }

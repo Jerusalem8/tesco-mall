@@ -36,7 +36,7 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- 工具 -->
+        <!-- 热加载工具 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
