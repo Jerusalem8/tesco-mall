@@ -1,3 +1,4 @@
+# 检索服务DSL
 {
   "query": {
     "bool": {
@@ -33,6 +34,14 @@
                       "attrs.attrId": {
                         "value": "13"
                       }
+                    }
+                  },
+                  {
+                    "terms": {
+                      "attrs.attrValue": [
+                        "海思",
+                        "骁龙"
+                      ]
                     }
                   }
                 ]
@@ -73,5 +82,68 @@
     },
     "pre_tags": "<b style=color:red>",
     "post_tags": "</b>"
+  },
+  "aggs": {
+    "brand_agg": {
+      "terms": {
+        "field": "brandId",
+        "size": 10
+      },
+      "aggs": {
+        "brand_name_agg": {
+          "term": {
+            "field": "brandName",
+            "size": 1
+          }
+        },
+        "brand_img_agg": {
+          "terms": {
+            "field": "brandImg",
+            "size": 1
+          }
+        }
+      }
+    },
+    "category_agg": {
+      "terms": {
+        "field": "categoryId",
+        "size": 10
+      },
+      "aggs": {
+        "category_name_agg": {
+          "terms": {
+            "field": "categoryName",
+            "size": 1
+          }
+        }
+      }
+    },
+    "attr_agg": {
+      "nested": {
+        "path": "attrs"
+      },
+      "aggs": {
+        "attr_id_agg": {
+          "terms": {
+            "field": "attrs.attrId",
+            "size": 1
+          },
+          "aggs": {
+            "attr_name_agg": {
+              "terms": {
+                "field": "attrs.attrName",
+                "size": 1
+              }
+            },
+            "attr_value_agg": {
+              "terms": {
+                "field": "attrs.attrValue",
+                "size": 20
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

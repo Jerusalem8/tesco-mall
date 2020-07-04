@@ -26,12 +26,12 @@ public class SearchParam {
 
     /**
      * 过滤条件
-     * 1.是否有货
+     * 1.是否有货（默认有库存）
      * 2.价格区间
      * 3.品牌
      * 4.属性
      */
-    private Integer hasStock;
+    private Integer hasStock = 1;
     private String skuPrice;
     private List<Long> brandId;
     private List<String> attrs;
@@ -45,8 +45,8 @@ public class SearchParam {
     private String sort;
 
     /**
-     * 页码
+     * 页码（默认为第一页）
      */
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
 }
