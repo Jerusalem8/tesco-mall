@@ -154,22 +154,16 @@ public class SearchServiceImpl implements SearchService {
         TermsAggregationBuilder brand_agg = AggregationBuilders.terms("brand_agg");
         brand_agg.field("brandId").size(50);
         //3.1.1 品牌聚合子聚合-品牌名
-        TermsAggregationBuilder brand_name_agg = AggregationBuilders.terms("brand_name_agg");
-        brand_name_agg.field("brandName").size(1);
-        brand_agg.subAggregation(brand_name_agg);
+        brand_agg.subAggregation(AggregationBuilders.terms("brand_name_agg").field("brandName").size(1));
         //3.1.2 品牌聚合子聚合-品牌logo
-        TermsAggregationBuilder brand_img_agg = AggregationBuilders.terms("brand_img_agg");
-        brand_name_agg.field("brandImg").size(1);
-        brand_agg.subAggregation(brand_img_agg);
+        brand_agg.subAggregation(AggregationBuilders.terms("brand_img_agg").field("brandImg").size(1));
         searchSourceBuilder.aggregation(brand_agg);
 
         //3.2 分类聚合
         TermsAggregationBuilder category_agg = AggregationBuilders.terms("category_agg");
         category_agg.field("categoryId").size(20);
         //3.2.1 分类聚合子聚合-分类名
-        TermsAggregationBuilder category_name_agg = AggregationBuilders.terms("category_name_agg");
-        category_name_agg.field("categoryName").size(1);
-        category_agg.subAggregation(category_name_agg);
+        category_agg.subAggregation(AggregationBuilders.terms("category_name_agg").field("categoryName").size(1));
         searchSourceBuilder.aggregation(category_agg);
 
         //3.3 属性聚合
@@ -178,13 +172,9 @@ public class SearchServiceImpl implements SearchService {
         TermsAggregationBuilder attr_id_agg = AggregationBuilders.terms("attr_id_agg");
         attr_id_agg.field("attrs.attrId").size(1);
         //3.3.1.1 属性聚合子聚合-属性ID的子聚合-属性名
-        TermsAggregationBuilder attr_name_agg = AggregationBuilders.terms("attr_name_agg");
-        attr_name_agg.field("attrs.attrName").size(1);
-        attr_id_agg.subAggregation(attr_name_agg);
+        attr_id_agg.subAggregation(AggregationBuilders.terms("attr_name_agg").field("attrs.attrName").size(1));
         //3.3.1.2 属性聚合子聚合-属性ID的子聚合-属性值
-        TermsAggregationBuilder attr_value_agg = AggregationBuilders.terms("attr_value_agg");
-        attr_value_agg.field("attrs.attrValue").size(20);
-        attr_id_agg.subAggregation(attr_value_agg);
+        attr_id_agg.subAggregation(AggregationBuilders.terms("attr_value_agg").field("attrs.attrValue").size(20));
         attr_agg.subAggregation(attr_id_agg);
         searchSourceBuilder.aggregation(attr_agg);
 
