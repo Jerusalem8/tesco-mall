@@ -42,12 +42,12 @@ public class SearchResult {
     }
 
     /**
-     * 查询结果涉及到的品牌集合
+     * 查询结果涉及到的属性集合
      */
-    private List<attrVo> attrs;
+    private List<AttrVo> attrs;
 
     @Data
-    public static class attrVo{
+    public static class AttrVo{
         private Long attrId;
         private String attrName;
         private List<String> attrValue;
@@ -56,10 +56,10 @@ public class SearchResult {
     /**
      * 查询结果涉及到的分类集合
      */
-    private List<categoryVo> categorys;
+    private List<CategoryVo> categorys;
 
     @Data
-    public static class categoryVo{
+    public static class CategoryVo{
         private Long categoryId;
         private String categoryName;
     }
