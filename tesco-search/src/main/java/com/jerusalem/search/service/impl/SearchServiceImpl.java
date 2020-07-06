@@ -112,7 +112,9 @@ public class SearchServiceImpl implements SearchService {
             }
         }
         //1.2.4 filter-是否有库存
-        boolQueryBuilder.filter(QueryBuilders.termQuery("hasStock",searchParam.getHasStock() == 1));
+        if (searchParam.getHasStock() != null){
+            boolQueryBuilder.filter(QueryBuilders.termQuery("hasStock",searchParam.getHasStock() == 1));
+        }
         //1.2.5 filter-价格区间
         if(!StringUtils.isEmpty(searchParam.getSkuPrice())){
             RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery("skuPrice");

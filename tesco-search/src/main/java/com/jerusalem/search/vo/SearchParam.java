@@ -31,7 +31,7 @@ public class SearchParam {
      * 3.品牌
      * 4.属性
      */
-    private Integer hasStock = 1;
+    private Integer hasStock;
     private String skuPrice;
     private List<Long> brandId;
     private List<String> attrs;

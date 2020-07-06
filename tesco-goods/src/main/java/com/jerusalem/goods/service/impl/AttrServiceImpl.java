@@ -74,7 +74,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
         //关键词
         String key = (String) params.get("key");
-        if(!StringUtils.isEmpty(key)){
+        if(!StringUtils.isEmpty(key) && key != ""){
             queryWrapper.and((wrapper)->{
                 wrapper.eq("attr_id",key).or().like("attr_name",key);
             });
