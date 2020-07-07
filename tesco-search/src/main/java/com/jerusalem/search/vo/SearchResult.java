@@ -24,10 +24,12 @@ public class SearchResult {
      * 1.当前页
      * 2.总记录数
      * 3.总页数
+     * 4.可遍历的导航页码
      */
     private Integer pageNum;
     private Long total;
     private Integer totalPages;
+    private List<Integer> pageNavs;
 
     /**
      * 查询结果涉及到的品牌集合

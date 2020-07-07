@@ -403,8 +403,8 @@
         <a href="http://tesco.com"><img src="/static/search/img/logo.png" alt=""></a>
     </div>
     <div class="header_form">
-        <input type="text" placeholder="手机" />
-        <a href="#">搜索</a>
+        <input id="keyword_input" type="text" placeholder="手机" th:value="${param.keyword}"/>
+        <a href="javascript:searchByKeyword();">搜索</a>
     </div>
     <div class="header_ico">
         <div class="header_gw">
@@ -780,19 +780,46 @@
                 <!--品牌-->
                 <div class="JD_nav_wrap">
                     <div class="sl_key">
-                        <span>品牌：</span>
+                        <span><b>品牌：</b></span>
                     </div>
                     <div class="sl_value">
                         <div class="sl_value_logo">
                             <ul>
                                 <li th:each="brand:${result.brands}">
-                                    <a href="#">
+                                    <a th:href="${'javascript:searchProducts(&quot;brandId&quot;,'+brand.brandId+')'}">
                                         <img th:src="${brand.brandImg}" alt="品牌logo">
                                         <div th:text="${brand.brandName}"></div>
                                     </a>
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="sl_ext">
+                        <a href="#">
+                            更多
+                            <i style='background: url("image/search.ele.png")no-repeat 3px 7px'></i>
+                            <b style='background: url("image/search.ele.png")no-repeat 3px -44px'></b>
+                        </a>
+                        <a href="#">
+                            多选
+                            <i>+</i>
+                            <span>+</span>
+                        </a>
+                    </div>
+                </div>
+                <!--分类-->
+                <div class="JD_pre">
+                    <div class="sl_key">
+                        <span><b>分类：</b></span>
+                    </div>
+                    <div class="sl_value">
+                        <ul>
+                            <li th:each="category:${result.categorys}">
+                                <a th:href="${'javascript:searchProducts(&quot;category3Id&quot;,'+category.categoryId+')'}"
+                                   th:text="${category.categoryName}">
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="sl_ext">
                         <a href="#">
@@ -814,7 +841,11 @@
                     </div>
                     <div class="sl_value">
                         <ul>
-                            <li th:each="val:${attr.attrValue}"><a href="#" th:text="${val}"></a></li>
+                            <li th:each="val:${attr.attrValue}">
+                                <a th:href="${'javascript:searchProducts(&quot;attrs&quot;,&quot;'+attr.attrId+'_'+val+'&quot;)'}"
+                                   th:text="${val}">
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -989,17 +1020,17 @@
                     </div>
                 </div>
             </div>
-            <!--综合排序-->
+            <!--商品模块-->
             <div class="JD_con_right">
                 <div class="filter">
-                    <!--综合排序-->
+                    <!--排序-->
                     <div class="filter_top">
                         <div class="filter_top_left">
-                            <a href="#">综合排序</a>
-                            <a href="#">销量</a>
-                            <a href="#">价格</a>
-                            <a href="#">评论分</a>
-                            <a href="#">上架时间</a>
+                            <a class="sort_a" sort="hotScore" href="#">综合排序</a>
+                            <a class="sort_a" sort="saleCount" href="#">销量</a>
+                            <a class="sort_a" sort="skuPrice" href="#">价格</a>
+                            <a class="sort_a" href="#">评论分</a>
+                            <a class="sort_a" href="#">上架时间</a>
                         </div>
                         <div class="filter_top_right">
                             <span class="fp-text">
@@ -1122,7 +1153,7 @@
                         </div>
 
                     </div>
-                    <!--排序内容（每4个商品为一组）-->
+                    <!--商品内容（每4个商品为一组）-->
                     <div class="rig_tab">
                         <div th:each="product:${result.getProducts()}">
                             <div class="ico">
@@ -1172,23 +1203,20 @@
                     <div class="filter_page">
                         <div class="page_wrap">
                             <span class="page_span1">
-                                <a href="#">
+                                <a class="page_a" th:attr="pn=${result.pageNum - 1}" th:if="${result.pageNum>1}">
                                     < 上一页
                                 </a>
-                                <a href="#" style="border: 0;color:#ee2222;background: #fff">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#" style="border: 0;font-size: 20px;color: #999;background: #fff">...</a>
-                                <a href="#">169</a>
-                                <a href="#">
+                                <a class="page_a" href="#" th:each="pageNav:${result.pageNavs}"
+                                   th:attr="pn=${pageNav},style=${pageNav == result.pageNum?'border: 0;color:#ee2222;background: #fff':''}">[[${pageNav}]]</a>
+                                <a class="page_a" th:attr="pn=${result.pageNum + 1}" th:if="${result.pageNum<result.totalPages}">
                                     下一页 >
                                 </a>
                             </span>
                             <span class="page_span2">
-                                <em>共<b>169</b>页&nbsp;&nbsp;到第</em>
-                                <input type="number" value="1">
+                                <em>共<b>[[${result.totalPages}]]</b>页&nbsp;&nbsp;到第</em>
+                                <input id="pageNum_input" type="number" value="1">
                                 <em>页</em>
-                                <a href="#">确定</a>
+                                <a href="javascript:searchByPageNum();">确定</a>
                             </span>
                         </div>
                     </div>
@@ -1855,8 +1883,6 @@
           return false;
       });
 
-
-
     $(".rig_tab>div").hover(function(){
         var i = $(this).index();
         $(this).find('.ico').css({display:'block'}).stop(true).animate({top:"190px"},300)
@@ -1887,7 +1913,6 @@
         })
     });
 
-
     $(".nav_li1 a").hover(function(){
         $(".header_main_left").stop(true).fadeIn()
     },function(){
@@ -1898,8 +1923,6 @@
     },function(){
         $(this).stop(true).fadeOut()
     });
-
-
     //右侧侧边栏
     $(".header_bar_box ul li").hover(function() {
         $(this).css({
@@ -1918,8 +1941,6 @@
             left: "0"
         }, 300)
     });
-
-
     //底部
     $(".footer_foot .p1 a").hover(function(){
         $(this).css("color","#D70B1C")
@@ -1932,6 +1953,105 @@
     },function(){
         $(this).css("color","#727272")
     })
+
+
+
+    //拼接查询参数URL
+    function searchProducts(name,value) {
+        var href = location.href + "";
+        if (href.indexOf("?") != -1){
+            location.href = location.href + "&"+name+"="+value;
+        }else {
+            location.href = location.href + "?"+name+"="+value;
+        }
+    }
+    //搜索框
+    function searchByKeyword() {
+        var href = location.href;
+        if (href.indexOf("keyword") != -1){
+            //若已有keyword条件，则替换keyword值
+            location.href = replaceOrAddParamVal(href,"keyword",$("#keyword_input").val());
+        }else {
+            searchProducts("keyword",$("#keyword_input").val());
+        }
+    }
+    //分页跳转（上一页，下一页）
+    $(".page_a").click(function () {
+        var pn = $(this).attr("pn");
+        var href = location.href;
+        if (href.indexOf("pageNum") != -1){
+            //若已有pageNum条件，则替换pageNum值
+            location.href = replaceOrAddParamVal(href,"pageNum",pn);
+        }else {
+            location.href = location.href + "&pageNum="+pn;
+        }
+        return false;
+    });
+    //页码框
+    function searchByPageNum() {
+        var href = location.href;
+        if (href.indexOf("pageNum") != -1){
+            //若已有pageNum条件，则替换pageNum值
+            location.href = replaceOrAddParamVal(href,"pageNum",$("#pageNum_input").val());
+        }else {
+            searchProducts("pageNum",$("#pageNum_input").val());
+        }
+    }
+    //替换或者添加参数值，拼接URL（公共方法）
+    function replaceOrAddParamVal(url,paramName,replaceVal) {
+        var oUrl = url.toString();
+        if (oUrl.indexOf(paramName) != -1){
+            //有，替换
+            var re=eval('/('+paramName+'=)([^&]*)/gi');
+            var nUrl = oUrl.replace(re,paramName+'='+replaceVal);
+            return nUrl;
+        }else {
+            //没有，添加
+            var nUrl = "";
+            if (oUrl.indexOf("?") != -1){
+                nUrl = oUrl + "&" + paramName + '=' + replaceVal;
+            }else {
+                nUrl = oUrl + "?" + paramName + '=' + replaceVal;
+            }
+            return nUrl;
+        }
+    }
+    //排序功能
+    $(".sort_a").click(function () {
+        //样式
+        changeStyle(this);
+        //跳转到指定位置
+        var sort = $(this).attr("sort");
+        sort = $(this).hasClass("desc")?sort+"_desc":sort+"_asc";
+        location.href = replaceOrAddParamVal(location.href,"sort",sort);
+        //禁用默认行为
+        return false;
+    });
+    //排序样式的改变
+    function changeStyle(ele) {
+        //同类恢复默认样式
+        $(".sort_a").css({"color":"#333","border-color":"#CCC","background":"#FFF"});
+        $(".sort_a").each(function () {
+            var text = $(this).text().replace("↓","").replace("↑","");
+            $(this).text(text);
+        });
+        //点击后的样式效果
+        $(ele).css({"color":"#FFF","border-color":"#e4393c","background":"#e4393c"});
+        //改变升降序（加上是降序，不加是升序）
+        $(ele).toggleClass("desc");
+        //添加升降序的显示效果
+        if ($(ele).hasClass("desc")){
+            //降序效果
+            var text = $(ele).text().replace("↓","").replace("↑","");
+            text = text+"↓";
+            $(ele).text(text);
+        }else {
+            //升序效果
+            var text = $(ele).text().replace("↓","").replace("↑","");
+            text = text+"↑";
+            $(ele).text(text);
+        }
+    }
 </script>
 </body>
 </html>

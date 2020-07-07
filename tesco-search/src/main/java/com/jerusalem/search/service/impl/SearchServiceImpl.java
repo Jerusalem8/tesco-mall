@@ -304,12 +304,18 @@ public class SearchServiceImpl implements SearchService {
         /**
          * 分页信息
          * 当前页，总记录数，总页数
+         * 导航页码集合
          */
         searchResult.setPageNum(searchParam.getPageNum());
         long total = hits.getTotalHits().value;
         searchResult.setTotal(total);
         int totalPages = (int)total%EsConstant.PRODUCT_PAGESIZE == 0 ? (int)total/EsConstant.PRODUCT_PAGESIZE : ((int)total/EsConstant.PRODUCT_PAGESIZE+1);
         searchResult.setTotalPages(totalPages);
+        List<Integer> pageNavs = new ArrayList<>();
+        for (int i = 1; i <= totalPages; i++) {
+            pageNavs.add(i);
+        }
+        searchResult.setPageNavs(pageNavs);
 
         //完成封装返回
         return searchResult;

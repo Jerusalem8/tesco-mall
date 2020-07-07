@@ -48,5 +48,4 @@ public class SearchParam {
      * 页码（默认为第一页）
      */
     private Integer pageNum = 1;
-
 }
