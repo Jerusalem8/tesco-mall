@@ -15,5 +15,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface UserLevelDao extends BaseMapper<UserLevelEntity> {
-	
+
+    UserLevelEntity getDefaultLevel();
 }

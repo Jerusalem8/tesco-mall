@@ -3,6 +3,7 @@ package com.jerusalem.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.user.entity.UsersEntity;
+import com.jerusalem.user.vo.UserRegisterVo;
 
 import java.util.Map;
 
@@ -21,5 +22,18 @@ public interface UsersService extends IService<UsersEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 注册
+     * @param userRegisterVo
+     */
+    void register(UserRegisterVo userRegisterVo);
+
+    /***
+     * 检测唯一性
+     * 邮箱，用户名
+     */
+    void checkEmPhoneUnique(String phone);
+    void checkUsernameUnique(String username);
 }
 

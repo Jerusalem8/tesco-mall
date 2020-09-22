@@ -22,6 +22,6 @@ public class TescoThirdServiceApplicationTest {
 //
 //    @Test
 //    public void sendCode(){
-//        smsComponent.sendSmsCode("15704312766","code:7899");
+//        smsComponent.sendSmsCode("15704312766","code:789889");
 //    }
 }

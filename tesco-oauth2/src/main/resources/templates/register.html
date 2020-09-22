@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 	<head>
 		<meta charset="utf-8" />
@@ -4996,45 +4996,48 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
 			</div>
 		</header>
 		<section>
-			<form action="" class="one">
+			<form action="/register" method="post" class="one">
 				<div class="register-box">
-					<label for="username" class="username_label">用 户 名
-			<input maxlength="20" type="text" placeholder="您的用户名和登录名" >
+					<label class="username_label">用 户 名
+						<input name="userName" maxlength="20" type="text" placeholder="您的用户名和登录名">
+					</label>
+					<div class="tips" style="color: red"
+						 th:text="${errors!=null}?(#maps.containsKey(errors,'username')?errors.userName:''}">
+					</div>
+				</div>
+				<div class="register-box">
+					<label class="other_label">设 置 密 码
+						<input name="password" maxlength="20" type="password" placeholder="建议至少使用两种字符组合">
+					</label>
+					<div class="tips" style="color: red"
+						 th:text="${errors!=null}?(#maps.containsKey(errors,'password')?errors.password:''}">
+					</div>
+				</div>
+				<div class="register-box">
+					<label class="other_label">确 认 密 码
+						<input maxlength="20" type="password" placeholder="请再次输入密码">
 					</label>
 					<div class="tips">
 
 					</div>
 				</div>
 				<div class="register-box">
-					<label for="username" class="other_label">设 置 密 码
-			<input maxlength="20" type="password" placeholder="建议至少使用两种字符组合">
-			</label>
-					<div class="tips">
-
+					<label class="other_label">
+						<span>中国 0086∨</span>
+						<input name="phone" class="phone" id="phoneNum" maxlength="20" type="text" placeholder="建议使用常用手机">
+					</label>
+					<div class="tips" style="color: red"
+						 th:text="${errors!=null}?(#maps.containsKey(errors,'phone')?errors.phone:''}">
 					</div>
 				</div>
 				<div class="register-box">
-					<label for="username" class="other_label">确 认 密 码
-			<input maxlength="20" type="password" placeholder="请再次输入密码">
-			</label>
-					<div class="tips">
-
-					</div>
-				</div>
-				<div class="register-box">
-					<label for="username" class="other_label">
-			<span>中国 0086∨</span>
-			<input class="phone" id="phoneNum" maxlength="20" type="text" placeholder="建议使用常用手机">
-			</label>
-					<div class="tips">
-
-					</div>
-				</div>
-				<div class="register-box">
-					<label for="username" class="other_label">验 证 码
-			<input maxlength="20" type="text" placeholder="请输入验证码" class="caa">
-			</label>
+					<label class="other_label">验 证 码
+						<input name="code" maxlength="20" type="text" placeholder="请输入验证码" class="caa">
+					</label>
 					<a id="sendCode"> 发送验证码 </a>
+					<div class="tips" style="color: red"
+						 th:text="${errors!=null}?(#maps.containsKey(errors,'code')?errors.code:''}">
+					</div>
 				</div>
 				<div class="arguement">
 					<input type="checkbox" id="xieyi"> 阅读并同意
@@ -5043,7 +5046,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
 					<div class="tips">
 
 					</div>
-					<br />
+					<br/>
 					<div class="submit_btn">
 						<button type="submit" id="submit_btn">立 即 注 册</button>
 					</div>
@@ -5292,7 +5295,11 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
 						//正在倒计时
 					}else {
 						//给指定手机号发送验证码
-						$.get("/sms/sendcode?phone="+$("#phoneNum").val());
+						$.get("/sms/sendcode?phone="+$("#phoneNum").val(),function (data) {
+							if (data.code != 0){
+								alert(data.msg);
+							}
+						});
 						timeoutChangeStyle();
 					}
 				});

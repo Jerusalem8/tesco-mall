@@ -3,12 +3,9 @@ package com.jerusalem.user.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.user.vo.UserRegisterVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.user.entity.UsersEntity;
 import com.jerusalem.user.service.UsersService;
@@ -24,11 +21,20 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("user/user")
 public class UsersController {
 
     @Autowired
     private UsersService usersService;
+
+    @PostMapping("/register")
+    public R register(@RequestBody UserRegisterVo userRegisterVo){
+        usersService.register(userRegisterVo);
+        return R.ok();
+    }
+
+
+
 
     /***
     * 分页查询

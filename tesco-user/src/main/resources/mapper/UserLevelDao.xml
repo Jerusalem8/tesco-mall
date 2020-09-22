@@ -16,4 +16,7 @@
         <result property="priviledgeBirthday" column="priviledge_birthday"/>
         <result property="note" column="note"/>
     </resultMap>
+    <select id="getDefaultLevel" resultType="com.jerusalem.user.entity.UserLevelEntity">
+        SELECT * FROM `user_level` WHERE default_status=1
+    </select>
 </mapper>
