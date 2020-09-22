@@ -7,7 +7,7 @@
     <groupId>com.jerusalem</groupId>
     <artifactId>tesco-admin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <description>爱思商城-后台管理系统（基于人人开源renren-fast二次开发）</description>
+    <description>乐购商城-后台管理系统（基于人人开源renren-fast二次开发）</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

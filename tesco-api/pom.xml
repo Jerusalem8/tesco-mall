@@ -20,6 +20,7 @@
         <module>tesco-order-api</module>
         <module>tesco-ware-api</module>
         <module>tesco-search-api</module>
+        <module>tesco-third-api</module>
     </modules>
 
     <dependencies>

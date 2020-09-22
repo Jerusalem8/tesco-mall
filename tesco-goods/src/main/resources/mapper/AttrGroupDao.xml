@@ -12,4 +12,27 @@
         <result property="icon" column="icon"/>
         <result property="categoryId" column="category_id"/>
     </resultMap>
+    <!-- resultType 返回集合元素里面的类型，只要有嵌套属性，就要封装自定义结果-->
+    <resultMap id="spuItemAttrGroupVo" type="com.jerusalem.goods.vo.SpuBaseAttrGroupVo">
+        <result column="attr_group_name" property="groupName"></result>
+        <collection property="attrs" ofType="com.jerusalem.goods.vo.Attr">
+            <result column="attr_name" property="attrName"></result>
+            <result column="attr_value" property="attrValue"></result>
+        </collection>
+    </resultMap>
+    <!--切记使用反引号而不是单引号-->
+    <select id="getAttrGroupVos" resultType="com.jerusalem.goods.vo.SpuBaseAttrGroupVo">
+        SELECT
+            pav.`spu_id`,
+            ag.`attr_group_name`,
+            ag.`attr_group_id`,
+            aar.`attr_id`,
+            attr.`attr_name`,
+            pav.`attr_value`
+          FROM `attr_group` ag
+        LEFT JOIN `attr_attr_group_relation` aar ON aar.`attr_group_id` = ag.`attr_group_id`
+        LEFT JOIN `attr` attr ON attr.`attr_id` = aar.`attr_id`
+        LEFT JOIN `product_attr_value` pav ON pav.`attr_id` = attr.`attr_id`
+        WHERE ag.category_id=#{categoryId} AND pav.`spu_id`=#{spuId}
+    </select>
 </mapper>

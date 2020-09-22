@@ -3,6 +3,7 @@ package com.jerusalem.search.vo;
 import com.jerusalem.common.esTo.SkuEsModel;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /****
@@ -65,4 +66,19 @@ public class SearchResult {
         private Long categoryId;
         private String categoryName;
     }
+
+    /**
+     * 面包屑导航
+     * 面包屑导航的名称、值、跳转地址
+     */
+    private List<NavVo> navs = new ArrayList<>();
+    private List<Long> attrIds = new ArrayList<>();
+
+    @Data
+    public static class NavVo{
+        private String navName;
+        private String navValue;
+        private String link;
+    }
+
 }

@@ -48,4 +48,9 @@ public class SearchParam {
      * 页码（默认为第一页）
      */
     private Integer pageNum = 1;
+
+    /**
+     * 原生的所有查询条件
+     */
+    private String oldQueryString;
 }

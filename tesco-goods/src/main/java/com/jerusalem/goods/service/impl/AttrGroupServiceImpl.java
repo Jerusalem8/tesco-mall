@@ -3,6 +3,8 @@ package com.jerusalem.goods.service.impl;
 import com.jerusalem.goods.entity.AttrEntity;
 import com.jerusalem.goods.service.AttrAttrGroupRelationService;
 import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
+import com.jerusalem.goods.vo.SkuItemVo;
+import com.jerusalem.goods.vo.SpuBaseAttrGroupVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,5 +99,16 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return attrGroupWithAttrsVo;
         }).collect(Collectors.toList());
         return attrGroupWithAttrsVos;
+    }
+
+    /**
+     * 根据SpuID获取商品属性分组以及分组下的属性对应的值
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<SpuBaseAttrGroupVo> getAttrGroupVos(Long spuId, Long categoryId) {
+        List<SpuBaseAttrGroupVo> attrGroupVos = baseMapper.getAttrGroupVos(spuId,categoryId);
+        return attrGroupVos;
     }
 }

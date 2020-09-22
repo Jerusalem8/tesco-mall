@@ -1,4 +1,4 @@
-package com.jerusalem.oss;
+package com.jerusalem.third;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +11,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *****/
 @SpringBootApplication
 @EnableDiscoveryClient
-public class OssApplication {
+public class ThirdApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OssApplication.class, args);
+        SpringApplication.run(ThirdApplication.class, args);
     }
 }

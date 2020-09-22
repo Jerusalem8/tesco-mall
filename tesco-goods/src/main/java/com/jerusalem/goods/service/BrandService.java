@@ -1,11 +1,11 @@
 package com.jerusalem.goods.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.jerusalem.common.utils.PageUtils;
-import com.jerusalem.goods.entity.BrandEntity;
+        import com.baomidou.mybatisplus.extension.service.IService;
+        import com.jerusalem.common.utils.PageUtils;
+        import com.jerusalem.goods.entity.BrandEntity;
 
-import java.util.List;
-import java.util.Map;
+        import java.util.List;
+        import java.util.Map;
 
 /****
  * 服务层接口
@@ -17,10 +17,10 @@ import java.util.Map;
 public interface BrandService extends IService<BrandEntity> {
 
     /**
-    * 分页查询、关键词查询
-    * @param params
-    * @return
-    */
+     * 分页查询、关键词查询
+     * @param params
+     * @return
+     */
     PageUtils queryPage(Map<String, Object> params);
 
     /**
@@ -37,5 +37,12 @@ public interface BrandService extends IService<BrandEntity> {
      * @return
      */
     List<BrandEntity> getBrandsByCategoryId(Long categoryId);
+
+    /***
+     * 批量查询品牌信息（筛选栏查询）
+     * @param brandIds
+     * @return
+     */
+    List<BrandEntity> getBrandsByIds(List<Long> brandIds);
 }
 

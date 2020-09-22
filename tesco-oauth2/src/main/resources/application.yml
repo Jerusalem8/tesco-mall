@@ -1,0 +1,22 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: oauth2-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.75.130:8848
+  # 日期格式设置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.jerusalem.goods: debug
+

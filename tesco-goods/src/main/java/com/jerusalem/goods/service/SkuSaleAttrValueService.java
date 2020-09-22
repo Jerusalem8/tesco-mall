@@ -2,6 +2,9 @@ package com.jerusalem.goods.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.goods.entity.SkuSaleAttrValueEntity;
+import com.jerusalem.goods.vo.SkuSaleAttrVo;
+
+import java.util.List;
 
 /****
  * 服务层接口
@@ -12,5 +15,11 @@ import com.jerusalem.goods.entity.SkuSaleAttrValueEntity;
  */
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity> {
 
+    /**
+     * 获取销售属性集合
+     * @param spuId
+     * @return
+     */
+    List<SkuSaleAttrVo> getSaleAttrVo(Long spuId);
 }
 

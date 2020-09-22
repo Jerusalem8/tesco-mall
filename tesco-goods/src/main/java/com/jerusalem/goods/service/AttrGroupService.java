@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.AttrGroupEntity;
 import com.jerusalem.goods.vo.AttrGroupWithAttrsVo;
+import com.jerusalem.goods.vo.SkuItemVo;
+import com.jerusalem.goods.vo.SpuBaseAttrGroupVo;
 
 import java.util.List;
 import java.util.Map;
@@ -38,5 +40,12 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
      * @return
      */
     List<AttrGroupWithAttrsVo> getAttrGroupWithAttrs(Long categoryId);
+
+    /**
+     * 根据SpuID获取商品属性分组以及分组下的属性对应的值
+     * @param spuId
+     * @return
+     */
+    List<SpuBaseAttrGroupVo> getAttrGroupVos(Long spuId, Long categoryId);
 }
 

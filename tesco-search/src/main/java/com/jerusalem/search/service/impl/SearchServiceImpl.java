@@ -1,10 +1,16 @@
 package com.jerusalem.search.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.common.esTo.SkuEsModel;
+import com.jerusalem.common.utils.R;
+import com.jerusalem.goods.feign.AttrFeign;
+import com.jerusalem.goods.feign.BrandFeign;
 import com.jerusalem.search.config.EsConfig;
 import com.jerusalem.search.constant.EsConstant;
 import com.jerusalem.search.service.SearchService;
+import com.jerusalem.search.vo.AttrResponseVo;
+import com.jerusalem.search.vo.BrandVo;
 import com.jerusalem.search.vo.SearchParam;
 import com.jerusalem.search.vo.SearchResult;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +39,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +55,12 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
+
+    @Autowired
+    private AttrFeign attrFeign;
+
+    @Autowired
+    private BrandFeign brandFeign;
 
     /***
      * 检索方法
@@ -317,7 +331,75 @@ public class SearchServiceImpl implements SearchService {
         }
         searchResult.setPageNavs(pageNavs);
 
+        /**
+         * 面包屑导航内容
+         * 属性名，值，取消面包屑后的跳转路径
+         * 品牌
+         * 分类
+         */
+        if (searchParam.getAttrs()!=null && searchParam.getAttrs().size()>0){
+            List<SearchResult.NavVo> navVoList = searchParam.getAttrs().stream().map(attr->{
+                SearchResult.NavVo navVo = new SearchResult.NavVo();
+                String[] s = attr.split("_");
+                navVo.setNavValue(s[1]);
+                R r = attrFeign.attrInfo(Long.parseLong(s[0]));
+                searchResult.getAttrIds().add(Long.parseLong(s[0]));
+                if (r.getCode() == 0){
+                    AttrResponseVo attrResponseVo = r.getData("attr", new TypeReference<AttrResponseVo>() {
+                    });
+                    navVo.setNavName(attrResponseVo.getAttrName());
+                }else {
+                    navVo.setNavName(s[0]);
+                }
+                String replaceQueryLink = replaceQueryLink(searchParam, attr, "attrs");
+                navVo.setLink("http://search.tesco.com/search.html?"+replaceQueryLink);
+                return navVo;
+            }).collect(Collectors.toList());
+            searchResult.setNavs(navVoList);
+        }
+        //品牌、分类
+        if (searchParam.getBrandId() != null && searchParam.getBrandId().size()>0){
+            List<SearchResult.NavVo> navs = searchResult.getNavs();
+            SearchResult.NavVo navVo = new SearchResult.NavVo();
+            navVo.setNavName("品牌");
+            //远程查询所有品牌
+            R brandInfos = brandFeign.infos(searchParam.getBrandId());
+            if (brandInfos.getCode() == 0){
+                //TODO 有bug
+                List<BrandVo> brandList = brandInfos.getData("brand", new TypeReference<List<BrandVo>>() {
+                });
+                StringBuffer buffer = new StringBuffer();
+                String replace = "";
+                for (BrandVo brandVo : brandList) {
+                    buffer.append(brandVo.getBrandName()+";");
+                    replace = replaceQueryLink(searchParam,brandVo.getBrandId()+"","brandId");
+                }
+                navVo.setNavValue(buffer.toString());
+                navVo.setLink("http://search.tesco.com/search.html?"+replace);
+            }
+            navs.add(navVo);
+        }
+        //TODO 分类（无需导航取消，可以不拼URL地址）
         //完成封装返回
         return searchResult;
+    }
+
+    /***
+     * 请求地址的替换问题
+     * @param searchParam
+     * @param key
+     * @param value
+     */
+    private String replaceQueryLink(SearchParam searchParam, String value, String key) {
+        //取消查询条件后URL编码问题
+        String encode = null;
+        try {
+            encode = URLEncoder.encode(value, "UTF-8");
+            //空格的特殊处理
+            encode = encode.replace("+","%20");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return searchParam.getOldQueryString().replace("&"+key+"=" + encode, "");
     }
 }

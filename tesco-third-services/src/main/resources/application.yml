@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: oss-service
+    name: third-service
   cloud:
     nacos:
       discovery:
@@ -14,3 +14,9 @@ spring:
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
         bucket: tesco-mall
+      sms:
+        host: https://feginesms.market.alicloudapi.com
+        path: /codeNotice
+        appcode: 9f52a37138e64affbcadd1044167a588
+        sign: 1
+        skin: 5

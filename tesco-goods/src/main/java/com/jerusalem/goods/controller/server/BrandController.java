@@ -71,6 +71,17 @@ public class BrandController {
     }
 
     /***
+     * 批量查询品牌信息（筛选栏查询）
+     * @param brandIds
+     * @return
+     */
+    @GetMapping("/infos")
+    public R infos(@RequestParam("brandIds") List<Long> brandIds){
+        List<BrandEntity> brandList = brandService.getBrandsByIds(brandIds);
+        return R.ok().put("brand", brandList);
+    }
+
+    /***
     * 品牌新增
     * @return
     */

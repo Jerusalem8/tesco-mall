@@ -13,6 +13,7 @@ import com.jerusalem.goods.vo.AttrResponseVo;
 import com.jerusalem.goods.vo.AttrVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -110,6 +111,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      * @param attrId
      * @return
      */
+//    @Cacheable(value = "attr",key = "'attrinfo:'+#root.args[0]")
     @Override
     public AttrResponseVo getAttrInfo(Long attrId) {
         AttrResponseVo respVo = new AttrResponseVo();

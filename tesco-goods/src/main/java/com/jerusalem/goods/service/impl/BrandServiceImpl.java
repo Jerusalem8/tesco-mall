@@ -3,6 +3,7 @@ package com.jerusalem.goods.service.impl;
 import com.jerusalem.goods.dao.CategoryBrandRelationDao;
 import com.jerusalem.goods.entity.CategoryBrandRelationEntity;
 import com.jerusalem.goods.service.CategoryBrandRelationService;
+import com.jerusalem.goods.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -89,5 +90,15 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
             return brand;
         }).collect(Collectors.toList());
         return brandList;
+    }
+
+    /***
+     * 批量查询品牌信息（筛选栏查询）
+     * @param brandIds
+     * @return
+     */
+    @Override
+    public List<BrandEntity> getBrandsByIds(List<Long> brandIds) {
+        return baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id",brandIds));
     }
 }

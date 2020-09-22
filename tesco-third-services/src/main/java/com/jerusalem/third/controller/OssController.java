@@ -1,4 +1,4 @@
-package com.jerusalem.oss.controller;
+package com.jerusalem.third.controller;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.BinaryUtil;

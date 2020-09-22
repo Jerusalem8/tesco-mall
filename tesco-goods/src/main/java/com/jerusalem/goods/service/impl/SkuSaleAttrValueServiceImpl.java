@@ -1,10 +1,13 @@
 package com.jerusalem.goods.service.impl;
 
+import com.jerusalem.goods.vo.SkuSaleAttrVo;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.goods.dao.SkuSaleAttrValueDao;
 import com.jerusalem.goods.entity.SkuSaleAttrValueEntity;
 import com.jerusalem.goods.service.SkuSaleAttrValueService;
+
+import java.util.List;
 
 /****
  * 服务层接口实现类
@@ -16,4 +19,14 @@ import com.jerusalem.goods.service.SkuSaleAttrValueService;
 @Service("skuSaleAttrValueService")
 public class SkuSaleAttrValueServiceImpl extends ServiceImpl<SkuSaleAttrValueDao, SkuSaleAttrValueEntity> implements SkuSaleAttrValueService {
 
+    /***
+     * 获取销售属性集合
+     * @param spuId
+     * @return
+     */
+    @Override
+    public List<SkuSaleAttrVo> getSaleAttrVo(Long spuId) {
+        List<SkuSaleAttrVo> skuSaleAttrVos = baseMapper.getSaleAttrVoBySpuId(spuId);
+        return skuSaleAttrVos;
+    }
 }

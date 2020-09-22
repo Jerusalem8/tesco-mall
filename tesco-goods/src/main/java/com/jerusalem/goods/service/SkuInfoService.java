@@ -3,6 +3,7 @@ package com.jerusalem.goods.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.goods.entity.SkuInfoEntity;
+import com.jerusalem.goods.vo.SkuItemVo;
 
 import java.util.List;
 import java.util.Map;
@@ -35,5 +36,12 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      * @return
      */
     List<SkuInfoEntity> getSkuListBySpuId(Long spuId);
+
+    /***
+     * 商品详情封装
+     * @param skuId
+     * @return
+     */
+    SkuItemVo skuItem(Long skuId);
 }
 

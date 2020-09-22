@@ -17,5 +17,6 @@ public interface SpuInfoDescService extends IService<SpuInfoDescEntity> {
      * @param spuInfoDesc
      */
     void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDesc);
+
 }
 

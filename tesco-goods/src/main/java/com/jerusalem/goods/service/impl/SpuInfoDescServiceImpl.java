@@ -1,5 +1,6 @@
 package com.jerusalem.goods.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jerusalem.goods.dao.SpuInfoDescDao;
@@ -24,4 +25,5 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescDao, SpuInfoD
     public void saveSpuInfoDesc(SpuInfoDescEntity spuInfoDesc) {
         this.baseMapper.insert(spuInfoDesc);
     }
+
 }
