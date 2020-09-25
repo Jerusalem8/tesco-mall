@@ -4,6 +4,7 @@ import com.jerusalem.third.component.SmsComponent;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 /****
@@ -24,4 +25,11 @@ public class TescoThirdServiceApplicationTest {
 //    public void sendCode(){
 //        smsComponent.sendSmsCode("15704312766","code:789889");
 //    }
+
+    @Test
+    public void password(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+    }
 }

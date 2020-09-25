@@ -71,7 +71,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  ****/
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"com.jerusalem.third.feign"})
+@EnableFeignClients(basePackages = {"com.jerusalem.third.feign","com.jerusalem.user.feign"})
 public class Oauth2Application {
     public static void main(String[] args) {
         SpringApplication.run(Oauth2Application.class, args);

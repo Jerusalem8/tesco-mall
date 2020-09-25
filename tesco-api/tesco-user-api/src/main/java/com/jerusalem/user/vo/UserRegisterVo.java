@@ -1,10 +1,6 @@
 package com.jerusalem.user.vo;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 /****
  * @Author: jerusalem

@@ -3,7 +3,12 @@ package com.jerusalem.user.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.jerusalem.user.vo.UserRegisterVo;
+import com.jerusalem.common.exception.BizCodeEnume;
+import com.jerusalem.common.vo.SocialUser;
+import com.jerusalem.common.vo.UserLoginVo;
+import com.jerusalem.common.vo.UserRegisterVo;
+import com.jerusalem.user.exception.PhoneExistException;
+import com.jerusalem.user.exception.UsernameExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +26,7 @@ import com.jerusalem.common.utils.R;
  * @date 2020-04-20 20:16:14
  */
 @RestController
-@RequestMapping("user/user")
+@RequestMapping("user/users")
 public class UsersController {
 
     @Autowired
@@ -29,8 +34,45 @@ public class UsersController {
 
     @PostMapping("/register")
     public R register(@RequestBody UserRegisterVo userRegisterVo){
-        usersService.register(userRegisterVo);
+        try {
+            usersService.register(userRegisterVo);
+        }catch (PhoneExistException e){
+            return R.error(BizCodeEnume.PHONE_EXIST_EXCEPION.getCode(),BizCodeEnume.PHONE_EXIST_EXCEPION.getMsg());
+
+        }catch (UsernameExistException e){
+            return R.error(BizCodeEnume.USER_EXIST_EXCEPION.getCode(),BizCodeEnume.USER_EXIST_EXCEPION.getMsg());
+        }
         return R.ok();
+    }
+
+    /***
+     * 账号密码登录
+     * @param userLoginVo
+     * @return
+     */
+    @PostMapping("/login")
+    public R login(@RequestBody UserLoginVo userLoginVo){
+        UsersEntity usersEntity = usersService.login(userLoginVo);
+        if (usersEntity != null){
+            return R.ok();
+        }else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getCode(),BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getMsg());
+        }
+    }
+
+    /***
+     * 社交登录
+     * @param socialUser
+     * @return
+     */
+    @PostMapping("/oauth/login")
+    public R oauthLogin(@RequestBody SocialUser socialUser) throws Exception {
+        UsersEntity usersEntity = usersService.login(socialUser);
+        if (usersEntity != null){
+            return R.ok().setData(usersEntity);
+        }else {
+            return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getCode(),BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getMsg());
+        }
     }
 
 

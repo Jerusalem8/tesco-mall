@@ -7,4 +7,8 @@ package com.jerusalem.user.exception;
  * @Date 2020/9/22 21:09
  *****/
 public class PhoneExistException extends RuntimeException{
+
+    public PhoneExistException(){
+        super("手机号已存在！");
+    }
 }

@@ -1,25 +1,30 @@
 package com.jerusalem.oauth2.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.common.constant.AuthConstant;
 import com.jerusalem.common.exception.BizCodeEnume;
+import com.jerusalem.common.utils.HttpUtils;
 import com.jerusalem.common.utils.R;
-import com.jerusalem.oauth2.vo.UserRegisterVo;
+import com.jerusalem.common.vo.SocialUser;
+import com.jerusalem.common.vo.UserLoginVo;
+import com.jerusalem.common.vo.UserRegisterVo;
+import com.jerusalem.oauth2.vo.UserResponseVo;
 import com.jerusalem.third.feign.ThirdFeign;
+import com.jerusalem.user.entity.UsersEntity;
+import com.jerusalem.user.feign.UsersFeign;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -41,8 +46,11 @@ public class LoginController {
     @Autowired
     StringRedisTemplate redisTemplate;
 
+    @Autowired
+    UsersFeign usersFeign;
+
     /***
-     * 获取验证码
+     * 获取注册验证码
      * @param phone
      * @return
      */
@@ -92,7 +100,6 @@ public class LoginController {
         //先校验格式
         if (result.hasErrors()){
             Map<String, String> errors = result.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField,FieldError::getDefaultMessage));
-//            model.addAttribute("errors",errors);
             attributes.addFlashAttribute("errors",errors);
             //校验出错，转发到注册页
 //            return "forward:http://auth.tesco.com/register.html";(转发：路径映射默认请求方式为get，所以会报错)
@@ -106,7 +113,17 @@ public class LoginController {
                 //删除验证码（令牌机制）
                 redisTemplate.delete(AuthConstant.SMS_CODE_CACHE_PREFIX + userRegisterVo.getPhone());
                 //验证码通过，真正开始调用远程服务进行注册
+                R r = usersFeign.register(userRegisterVo);
+                if (r.getCode() == 0){
+                    //成功
+                    return "redirect:http://auth.tesco.com/login.html";
+                }else {
+                    Map<String,String> errors = new HashMap<>();
+                    errors.put("msg",r.getData("msg",new TypeReference<String>(){}));
 
+                    attributes.addFlashAttribute("errors",errors);
+                    return "redirect:http://auth.tesco.com/register.html";
+                }
             }else {
                 Map<String,String> errors = new HashMap<>();
                 errors.put("code","验证码错误");
@@ -121,7 +138,65 @@ public class LoginController {
             //校验出错，转发到注册页
             return "redirect:http://auth.tesco.com/register.html";
         }
-        //注册成功，重定向到登录页
-        return "redirect:http://auth.tesco.com/login.html";
+    }
+
+    /***
+     * 账号密码登录
+     * @param userLoginVo
+     * @param redirectAttributes
+     * @return
+     */
+    @PostMapping("/login")
+    public String login(UserLoginVo userLoginVo,RedirectAttributes redirectAttributes){
+        //远程登录
+        R login = usersFeign.login(userLoginVo);
+        if (login.getCode() == 0){
+            //成功
+            return "redirect:http://tesco.com";
+        }else {
+            Map<String,String> errors = new HashMap<>();
+            errors.put("msg",login.getData("msg",new TypeReference<String>(){}));
+            redirectAttributes.addFlashAttribute("errors",errors);
+            return "redirect:http://auth.tesco.com/login.html";
+        }
+    }
+
+    /***
+     * 社交登陆-微博
+     * @param code
+     * @return
+     */
+    @GetMapping("/oauth/weibo/success")
+    public String loginByWeibo(@RequestParam("code") String code) throws Exception {
+        Map<String, String> header = new HashMap<>();
+        Map<String, String> query = new HashMap<>();
+        //1.根据授权码获取访问令牌
+        Map<String, String> map = new HashMap<>();
+        map.put("client_id","3650192197");
+        map.put("client_secret","85b88f83cc4f2f02c83dd57af9a0735e");
+        map.put("grant_type","authorization_code");
+        map.put("redirect_uri","http://auth.tesco.com/oauth/weibo/success");
+        map.put("code",code);
+        HttpResponse response = HttpUtils.doPost("https://api.weibo.com", "/oauth2/access_token", "post", header, query, map);
+        //2.处理请求结果
+        if (response.getStatusLine().getStatusCode() == 200){
+            //获取成功,处理访问令牌
+            String json = EntityUtils.toString(response.getEntity());
+            SocialUser socialUser = JSON.parseObject(json, SocialUser.class);
+            //如果当前社交用户是第一次登入本网站，将进行自动注册（为当前社交用户生成一个用户信息账号，并绑定）
+            R r = usersFeign.oauthLogin(socialUser);
+            if (r.getCode() == 0){
+                //登陆成功，跳转回首页
+                UserResponseVo data = r.getData("data", new TypeReference<UserResponseVo>() {
+                });
+                return "redirect:http://tesco.com";
+            }else {
+                //登陆失败
+                return "redirect:http://auth.tesco.com/login.html";
+            }
+        }else {
+            //获取失败
+            return "redirect:http://auth.tesco.com/login.html";
+        }
     }
 }
