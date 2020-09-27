@@ -14,6 +14,12 @@
     <description>乐购商城-商品微服务</description>
 
     <dependencies>
+        <!-- SpringSession -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.jerusalem</groupId>
             <artifactId>tesco-goods-api</artifactId>

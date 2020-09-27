@@ -9,9 +9,8 @@ import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.SocialUser;
 import com.jerusalem.common.vo.UserLoginVo;
 import com.jerusalem.common.vo.UserRegisterVo;
-import com.jerusalem.oauth2.vo.UserResponseVo;
+import com.jerusalem.common.vo.UserResponseVo;
 import com.jerusalem.third.feign.ThirdFeign;
-import com.jerusalem.user.entity.UsersEntity;
 import com.jerusalem.user.feign.UsersFeign;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
@@ -24,6 +23,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @Date 2020/9/22 9:57
  *****/
 @Controller
-public class LoginController {
+public class Oauth2Controller {
 
     @Autowired
     ThirdFeign thirdFeign;
@@ -167,7 +167,7 @@ public class LoginController {
      * @return
      */
     @GetMapping("/oauth/weibo/success")
-    public String loginByWeibo(@RequestParam("code") String code) throws Exception {
+    public String loginByWeibo(@RequestParam("code") String code, HttpSession session) throws Exception {
         Map<String, String> header = new HashMap<>();
         Map<String, String> query = new HashMap<>();
         //1.根据授权码获取访问令牌
@@ -189,6 +189,9 @@ public class LoginController {
                 //登陆成功，跳转回首页
                 UserResponseVo data = r.getData("data", new TypeReference<UserResponseVo>() {
                 });
+                //TODO 解决子域 Session共享问题
+                //TODO 使用json的序列化方式来序列化对象到redis中
+                session.setAttribute("loginUser",data);
                 return "redirect:http://tesco.com";
             }else {
                 //登陆失败

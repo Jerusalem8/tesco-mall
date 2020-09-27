@@ -1,4 +1,4 @@
-package com.jerusalem.oauth2.vo;
+package com.jerusalem.common.vo;
 
 import lombok.Data;
 import lombok.ToString;

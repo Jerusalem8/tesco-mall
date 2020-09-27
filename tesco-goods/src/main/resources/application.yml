@@ -16,6 +16,8 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+  session:
+    store-type: redis
   # 日期格式设置
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

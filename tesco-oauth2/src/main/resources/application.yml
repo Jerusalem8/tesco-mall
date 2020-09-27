@@ -1,5 +1,8 @@
 server:
   port: 8002
+  servlet:
+    session:
+      timeout: 30m
 
 spring:
   application:
@@ -8,6 +11,8 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+  session:
+    store-type: redis
   redis:
     host: 192.168.75.140
     port: 6379
@@ -22,4 +27,3 @@ spring:
 logging:
   level:
     com.jerusalem.goods: debug
-
