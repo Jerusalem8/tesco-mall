@@ -18,6 +18,11 @@
     </properties>
 
     <dependencies>
+        <!-- SpringSession -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.jerusalem</groupId>
             <artifactId>tesco-search-api</artifactId>

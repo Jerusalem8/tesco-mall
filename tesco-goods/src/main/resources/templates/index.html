@@ -18,7 +18,9 @@
     <!--头部-->
     <div class="header_head">
       <div class="header_head_box">
+        <!--logo-->
         <a href="http://tesco.com" class="img"><img src="/static/index/img/logo.png" /></a>
+        <!--定位-->
         <b class="header_head_p">
   						<a href="/static/#">
   							<img src="/static/index/img/img_05.png" style="border-radius: 50%;"/>
@@ -62,17 +64,15 @@
   							<a href="/static/#">海外</a>
   						</div>
   					</b>
+        <!--登录注册-->
         <ul>
           <li>
-            <a href="http://auth.tesco.com/login.html">你好，请登录：[[${session.loginUser==null?'':session.loginUser.nickname}]]</a>
+            <a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
+            <a th:if="${session.loginUser!=null}">欢迎你！[[${session.loginUser.nickname}]]</a>
           </li>
-          <li>
-            <a href="http://auth.tesco.com/register.html" class="li_2">免费注册</a>
-          </li>
+          <li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
           <span>|</span>
-          <li>
-            <a href="/static/#">我的订单</a>
-          </li>
+          <li><a href="/static/#" th:if="${session.loginUser!=null}">我的订单</a></li>
         </ul>
       </div>
     </div>
@@ -101,21 +101,6 @@
           </li>
           <li>
             <a href="/static/#">金立S11</a>
-          </li>
-          <li>
-            <a href="/static/#">农用物资</a>
-          </li>
-          <li>
-            <a href="/static/#">保暖特惠</a>
-          </li>
-          <li>
-            <a href="/static/#">洗衣机节</a>
-          </li>
-          <li>
-            <a href="/static/#">自动波箱油</a>
-          </li>
-          <li>
-            <a href="/static/#">超市</a>
           </li>
         </ul>
       </div>
@@ -155,29 +140,22 @@
     <div class="header_main">
       <div class="header_banner">
         <div class="header_main_left">
+          <!--左侧三级分类树-->
           <ul>
             <li th:each="category : ${categorys}">
               <a href="http://search.tesco.com/search.html" class="header_main_left_a" th:attr="category-data=${category.categoryId}"><b th:text="${category.name}">家用电器</b></a>
             </li>
           </ul>
         </div>
-
+        <!--中间轮播图-->
         <div class="header_main_center">
           <div class="swiper-container swiper1">
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <a href="/static/#"><img src="/static/index/img/lunbo.png" /></a>
               </div>
-
               <div class="swiper-slide">
                 <a href="/static/#"><img src="/static/index/img/lunbo3.png" /></a>
-              </div>
-
-              <div class="swiper-slide">
-                <a href="/static/#"><img src="/static/index/img/lunbo6.png" /></a>
-              </div>
-              <div class="swiper-slide">
-                <a href="/static/#"><img src="/static/index/img/lunbo7.png" /></a>
               </div>
             </div>
             <div class="swiper-pagination"></div>
@@ -189,7 +167,7 @@
             <a href="/static/#"><img src="/static/index/img/5a154759N5385d5d6.jpg" /></a>
           </div>
         </div>
-
+        <!--右侧-->
         <div class="header_main_right">
           <div class="header_main_right_user">
             <div class="user_info">
@@ -199,8 +177,9 @@
               <div class="user_info_show">
                 <p class="">Hi, 欢迎逛乐购!</p>
                 <p>
-                  <a href="/static/#" class="">登录</a>
-                  <a href="/static/#" class="">注册</a>
+                  <a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">登录</a>
+                  <a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}">注册</a>
+                  <a th:if="${session.loginUser!=null}">&nbsp;&nbsp;[[${session.loginUser.nickname}]]</a>
                 </p>
               </div>
             </div>
@@ -209,6 +188,7 @@
               <a href="/static/#">PLUS会员</a>
             </div>
           </div>
+          <!--右侧促销公告-->
           <div class="header_main_right_new">
             <div class="header_new">
               <div class="header_new_t">
@@ -256,6 +236,7 @@
               </div>
             </div>
           </div>
+          <!--右侧快捷入口-->
           <div class="header_main_right_ser">
             <div class="ser_box">
               <ul>
@@ -449,6 +430,7 @@
     </div>
   </header>
 
+  <!-- 秒杀栏 -->
   <div class="section_second">
     <!-- 第一层 -->
     <div class="section_second_header">

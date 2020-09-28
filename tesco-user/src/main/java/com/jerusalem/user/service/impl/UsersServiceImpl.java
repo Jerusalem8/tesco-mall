@@ -79,7 +79,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersDao, UsersEntity> impleme
         String encode = passwordEncoder.encode(userRegisterVo.getPassword());
         usersEntity.setPassword(encode);
         //TODO 其他默认信息
-
+        usersEntity.setNickname(userRegisterVo.getUserName());
         //保存
         baseMapper.insert(usersEntity);
     }

@@ -18,13 +18,14 @@
     <div class="header_head_box">
         <b class="header_head_p">
             <div style="overflow: hidden">
-                <a href="#" class="header_head_p_a1" style="width:73px;">
+                <a href="http://tesco.com" class="header_head_p_a1" style="width:73px;">
                     乐购首页
                 </a>
                 <a href="#" class="header_head_p_a">
                     <!--<img src="/static/search/img/img_05.png" style="border-radius: 50%;"/>-->
                     北京</a>
             </div>
+            <!--定位-->
             <div class="header_head_p_cs">
                 <a href="#" style="background: #C81623;color: #fff;">北京</a>
                 <a href="#">上海</a>
@@ -65,19 +66,18 @@
         </b>
         <ul>
             <li>
-                <a href="#" class="li_2">你好，请登录</a>
+                <a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
+                <a th:if="${session.loginUser!=null}">欢迎你！[[${session.loginUser.nickname}]]<span>|</span></a>
+            </li>
+            <li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册<span>|</span></a></li>
             </li>
             <li>
-                <a href="#">免费注册</a>
+            <li><a href="javascript:;" class="aa" th:if="${session.loginUser!=null}">我的订单<span>|</span></a></li>
             </li>
-            <span>|</span>
-            <li>
-                <a href="#">我的订单</a>
-            </li>
-            <span>|</span>
+
             <li class="header_wdjd" style="width:80px;">
-                <a href="#">我的谷粒商城</a>
-                <img src="image/down-@1x.png" />
+                <a href="#">我的乐购商城</a>
+<!--                <img src="image/down-@1x.png" />-->
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wdjd_txt">
                     <ul>
@@ -118,7 +118,7 @@
             </li>
             <span>|</span>
             <li>
-                <a href="#">谷粒商城会员</a>
+                <a href="#">乐购商城会员</a>
             </li>
             <span>|</span>
             <li>
@@ -127,7 +127,7 @@
             <span>|</span>
             <li class="header_wdjd1">
                 <a href="#">客户服务</a>
-                <img src="image/down-@1x.png" />
+<!--                <img src="image/down-@1x.png" />-->
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wdjd_txt">
                     <ul>
@@ -183,16 +183,16 @@
             <span>|</span>
             <li class="header_wzdh">
                 <a href="#">网站导航</a>
-                <img src="image/down-@1x.png" />
+<!--                <img src="image/down-@1x.png" />-->
                 <!--<b class="glyphicon glyphicon-menu-down"></b>-->
                 <div class="header_wzdh_txt">
                     <ul style="width: 25%;">
                         <p style="width:100%;">特色主题</p>
                         <li>
-                            <a href="#">谷粒商城试用</a>
+                            <a href="#">乐购商城试用</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城金融</a>
+                            <a href="#">乐购商城金融</a>
                         </li>
                         <li>
                             <a href="#">全球售</a>
@@ -201,10 +201,10 @@
                             <a href="#">国际站</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城会员</a>
+                            <a href="#">谷乐购商城会员</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城预售</a>
+                            <a href="#">乐购商城预售</a>
                         </li>
                         <li>
                             <a href="#">买什么</a>
@@ -237,7 +237,7 @@
                             <a href="#">印尼站</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城金融科技</a>
+                            <a href="#">乐购商城金融科技</a>
                         </li>
                         <li>
                             <a href="#">In货推荐</a>
@@ -267,7 +267,7 @@
                             <a href="#">家用电器</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城智能</a>
+                            <a href="#">乐购商城智能</a>
                         </li>
                         <li>
                             <a href="#">服装城</a>
@@ -303,10 +303,10 @@
                             <a href="#">白条</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城金融App</a>
+                            <a href="#">乐购商城金融App</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城小金库</a>
+                            <a href="#">乐购商城小金库</a>
                         </li>
                         <li>
                             <a href="#">理财</a>
@@ -333,10 +333,10 @@
                             <a href="#">电影票</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城到家</a>
+                            <a href="#">乐购商城到家</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城众测</a>
+                            <a href="#">乐购商城众测</a>
                         </li>
                         <li>
                             <a href="#">游戏</a>
@@ -348,10 +348,10 @@
                             <a href="#">合作招商</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城通信</a>
+                            <a href="#">乐购商城通信</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城E卡</a>
+                            <a href="#">乐购商城E卡</a>
                         </li>
                         <li>
                             <a href="#">企业采购</a>
@@ -372,7 +372,7 @@
                             <a href="#">京友帮</a>
                         </li>
                         <li>
-                            <a href="#">谷粒商城社区</a>
+                            <a href="#">乐购商城社区</a>
                         </li>
                         <li>
                             <a href="#">智能社区</a>
@@ -388,7 +388,7 @@
             </li>
             <span>|</span>
             <li class="header_sjjd">
-                <a href="#">手机谷粒商城</a>
+                <a href="#">手机乐购商城</a>
                 <div class="header_sjjd_div">
                     <img src="/static/search/img/01.png" />
                 </div>
@@ -418,12 +418,6 @@
     </div>
     <div class="header_form_nav">
         <ul>
-            <li>
-                <a href="#">谷粒商城之家</a>
-            </li>
-            <li>
-                <a href="#">谷粒商城专卖店</a>
-            </li>
             <li>
                 <a href="#">平板</a>
             </li>
@@ -471,8 +465,8 @@
                 <a href="#">金融</a>
             </li>
         </ul>
-
     </nav>
+    <!--三级分类树-->
     <div class="header_main_left">
         <ul>
             <li>
@@ -506,7 +500,7 @@
                             <a href="#" style="color: #999;">中国电信</a>
                             <a href="#" style="color: #999;">中国移动</a>
                             <a href="#" style="color: #999;">中国联通</a>
-                            <a href="#" style="color: #999;">谷粒商城通信</a>
+                            <a href="#" style="color: #999;">乐购商城通信</a>
                             <a href="#" style="color: #999;">170选号</a>
                         </li>
                         <a href="#" style="color: #111;" class="aaa">手机配件 ></a>
@@ -912,44 +906,6 @@
                                         人评价
                                     </div>
                                 </li>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/593ba628n8794c6a6.jpg" alt=""></a>
-                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                                        <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥1799.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">15600</a>
-                                        人评价
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/5919637an271a1301.jpg" alt=""></a>
-                                    <a href="#" title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
-                                        <em>vivo Xplay6 全网通 6GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥3498.00</span>
-                                        </strong>
-                                        <span class="mc-ico" title="购买本商品送赠品">
-                                            <i class="goods-icons">赠品</i>
-                                        </span>
-                                    </div>
-                                    <div class="mc_rev">
-                                        已有
-                                        <a href="#" class="number">5369</a>
-                                        人评价
-                                    </div>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -971,17 +927,6 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
-                                    <a href="#">
-                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥2999.00</span>
-                                        </strong>
-                                    </div>
-                                </li>
-                                <li>
                                     <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/593ba628n8794c6a6.jpg" alt=""></a>
                                     <a href="#">
                                         <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
@@ -989,17 +934,6 @@
                                     <div class="mc_price">
                                         <strong class="price">
                                             <span class="J-p-5963064">￥1799.00</span>
-                                        </strong>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img src="/static/search/img/5919637an271a1301.jpg" alt=""></a>
-                                    <a href="#">
-                                        <em>vivo Xplay6 全网通 6GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待</em>
-                                    </a>
-                                    <div class="mc_price">
-                                        <strong class="price">
-                                            <span class="J-p-5963064">￥3498.00</span>
                                         </strong>
                                     </div>
                                 </li>
@@ -1143,7 +1077,7 @@
                                 <li>
                                     <a href="#">
                                         <i></i>
-                                        谷粒商城配送
+                                        乐购商城配送
                                     </a>
                                 </li>
                                 <li>
@@ -1200,7 +1134,7 @@
                             <p class="tab_PI">已有<span>52万+</span>热门评价
                                 <a href="#">二手有售</a>
                             </p>
-                            <p class="tab_CP"><a href="#" title="谷粒商城Apple产品专营店">谷粒商城Apple产品...</a>
+                            <p class="tab_CP"><a href="#" title="乐购商城Apple产品专营店">乐购商城Apple产品...</a>
                                 <a href='#' title="联系供应商进行咨询">
                                     <img src="/static/search/img/xcxc.png">
                                 </a>
@@ -1208,7 +1142,7 @@
                             <div class="tab_FO">
                                 <div class="FO_one">
                                     <p>自营
-                                        <span>谷粒商城自营,品质保证</span>
+                                        <span>乐购商城自营,品质保证</span>
                                     </p>
                                     <p>满赠
                                         <span>该商品参加满赠活动</span>
@@ -1608,7 +1542,6 @@
     </div>
 </div>
 
-<div style="width: 1210px;margin: 0 auto;margin-bottom: 10px"><img src="/static/search/img/5a33a2e0N9a04b4af.jpg" alt=""></div>
 <!--底部-->
 <footer class="footer">
     <div class="footer_top">
@@ -1695,17 +1628,15 @@
             </li>
             <li><a href="#" style="color: rgb(114, 114, 114);">延保服务</a>
             </li>
-            <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城E卡</a>
+            <li><a href="#" style="color: rgb(114, 114, 114);">商城E卡</a>
             </li>
-            <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城通信</a>
-            </li>
-            <li><a href="#" style="color: rgb(114, 114, 114);">谷粒商城gulimall+</a>
+            <li><a href="#" style="color: rgb(114, 114, 114);">乐购商城通信</a>
             </li>
         </ol>
         <ol>
-            <li>谷粒商城自营覆盖区域</li>
+            <li>乐购商城自营覆盖区域</li>
             <li>
-                谷粒商城已向全国2661个区县提供自<br> 营配送服务，支持货到付款、
+                乐购商城已向全国2661个区县提供自<br> 营配送服务，支持货到付款、
                 <br> POS机刷卡和售后上门服务。
             </li>
             <li><a href="#" style="color: rgb(114, 114, 114);">查看详情&gt;</a>
@@ -1726,19 +1657,19 @@
             <span></span>
             <a href="#" style="color: rgb(114, 114, 114);">营销中心</a>
             <span></span>
-            <a href="#" style="color: rgb(114, 114, 114);">手机谷粒商城</a>
+            <a href="#" style="color: rgb(114, 114, 114);">手机乐购商城</a>
             <span></span>
             <a href="#" style="color: rgb(114, 114, 114);">友情链接</a>
             <span></span>
             <a href="#" style="color: rgb(114, 114, 114);">销售联盟</a>
             <span></span>
-            <a href="#" style="color: rgb(114, 114, 114);">谷粒商城社区</a>
+            <a href="#" style="color: rgb(114, 114, 114);">乐购商城社区</a>
             <span></span>
             <a href="#" style="color: rgb(114, 114, 114);">风险监测</a>
             <span></span>
             <a href="#">隐私政策</a>
             <span></span>
-            <a href="#">谷粒商城公益</a>
+            <a href="#">乐购商城公益</a>
             <span></span>
             <a href="#" style="color: rgb(114, 114, 114);">English Site</a>
             <span></span>
@@ -1763,16 +1694,16 @@
             <a href="#">违法和不良信息举报电话：4006561155</a>
         </p>
         <p class="footer_p">
-            <a href="#">Copyright © 2004 - 2017  谷粒商城JD.com 版权所有</a>
+            <a href="#">Copyright © 2004 - 2017  乐购商城JD.com 版权所有</a>
             <span></span>
             <a href="#">消费者维权热线：4006067733</a>
             <a href="#">经营证照</a>
         </p>
         <p class="footer_p">
-            <a href="#">谷粒商城旗下网站:</a>
-            <a href="#">谷粒商城支付</a>
+            <a href="#">乐购商城旗下网站:</a>
+            <a href="#">乐购商城支付</a>
             <span></span>
-            <a href="#">谷粒商城云</a>
+            <a href="#">乐购商城云</a>
         </p>
         <ul>
             <li></li>
@@ -1792,7 +1723,7 @@
             <li>
                 <a href="#"><img src="/static/search/img/wo.png" /></a>
                 <div class="div">
-                    <a href="#">谷粒商城会员</a>
+                    <a href="#">乐购商城会员</a>
                 </div>
             </li>
             <li>

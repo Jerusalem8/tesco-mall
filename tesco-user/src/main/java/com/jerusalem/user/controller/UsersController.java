@@ -54,7 +54,7 @@ public class UsersController {
     public R login(@RequestBody UserLoginVo userLoginVo){
         UsersEntity usersEntity = usersService.login(userLoginVo);
         if (usersEntity != null){
-            return R.ok();
+            return R.ok().setData(usersEntity);
         }else {
             return R.error(BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getCode(),BizCodeEnume.LOGINACCT_PASSWORD_INVAILD_EXCEPTION.getMsg());
         }

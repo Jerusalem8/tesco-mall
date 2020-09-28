@@ -12,4 +12,9 @@ public class AuthConstant {
      * 验证码的缓存前缀
      */
     public static final String SMS_CODE_CACHE_PREFIX = "sms:code:";
+
+    /***
+     * 登陆成功的用户
+     */
+    public static final String LOGIN_USER = "loginUser";
 }

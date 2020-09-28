@@ -147,11 +147,13 @@ public class Oauth2Controller {
      * @return
      */
     @PostMapping("/login")
-    public String login(UserLoginVo userLoginVo,RedirectAttributes redirectAttributes){
+    public String login(UserLoginVo userLoginVo,RedirectAttributes redirectAttributes,HttpSession httpSession){
         //远程登录
         R login = usersFeign.login(userLoginVo);
         if (login.getCode() == 0){
             //成功
+            UserResponseVo data = login.getData("data", new TypeReference<UserResponseVo>(){});
+            httpSession.setAttribute(AuthConstant.LOGIN_USER,data);
             return "redirect:http://tesco.com";
         }else {
             Map<String,String> errors = new HashMap<>();
@@ -187,11 +189,10 @@ public class Oauth2Controller {
             R r = usersFeign.oauthLogin(socialUser);
             if (r.getCode() == 0){
                 //登陆成功，跳转回首页
-                UserResponseVo data = r.getData("data", new TypeReference<UserResponseVo>() {
-                });
+                UserResponseVo data = r.getData("data", new TypeReference<UserResponseVo>() {});
                 //TODO 解决子域 Session共享问题
                 //TODO 使用json的序列化方式来序列化对象到redis中
-                session.setAttribute("loginUser",data);
+                session.setAttribute(AuthConstant.LOGIN_USER,data);
                 return "redirect:http://tesco.com";
             }else {
                 //登陆失败
@@ -202,4 +203,22 @@ public class Oauth2Controller {
             return "redirect:http://auth.tesco.com/login.html";
         }
     }
+
+    /***
+     * 登录与未登录状态下登录页跳转处理
+     * @param httpSession
+     * @return
+     */
+    @GetMapping("/login.html")
+    public String loginPage(HttpSession httpSession){
+        Object attribute = httpSession.getAttribute(AuthConstant.LOGIN_USER);
+        if (attribute ==null){
+            //未登录
+            return "login";
+        }else {
+            //已登录
+            return "redirect:http://tesco.com";
+        }
+    }
+
 }

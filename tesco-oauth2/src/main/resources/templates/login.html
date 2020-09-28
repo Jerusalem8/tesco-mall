@@ -9,32 +9,27 @@
 	<body>
 		<!--顶部logo-->
 		<header>
-			<a href="/static/login/http://www.baidu.com">
-<!--				<img src="/static/login/JD_img/logo.jpg" />-->
+			<a href="http://tesco.com">
+				<img src="/static/login/JD_img/logo.png" />
 			</a>
 			<p>欢迎登录</p>
-			<div class="top-1">
-				<img src="/static/login/JD_img/4de5019d2404d347897dee637895d02b_06.png" /><span>登录页面,调查问卷</span>
-			</div>
 		</header>
-
+		<br>
+		<br>
 		<div class="top-2">
 			<div class="top-2a">
 				<img src="/static/login/JD_img/4de5019d2404d347897dee637895d02b_11.png" />
-				<p>依据《网络安全法》，为保障您的账户安全和正常使用，请尽快完成手机号验证！新版《<span>谷粒商城隐私政策</span>》已上线，将更有利于保护您的个人隐私。</p>
+				<p>依据《网络安全法》，为保障您的账户安全和正常使用，请尽快完成手机号验证！新版《<span>乐购商城隐私政策</span>》已上线，将更有利于保护您的个人隐私。</p>
 			</div>
 		</div>
-
-		<!--大图-->
+		<!--主体-->
 		<div class="top-3">
 			<div class="img_1">
 <!--				<img src="/static/login/JD_img/5731485aN1134b4f0.png" />-->
 			</div>
 			<div id="sign">
 				<div class="si_top">
-					<p>
-						<span>乐购商城不会以任何理由要求您转账汇款，谨防诈骗。</span>
-					</p>
+					<p><span>乐购商城不会以任何理由要求您转账汇款，谨防诈骗。</span></p>
 				</div>
 				<div class="si_cen">
 					<h2 class="act btn1">扫码登录</h2>
@@ -44,7 +39,7 @@
 				<div class="si_bom tab">
 					<img src="/static/login/JD_img/show.png" class="bom_1" />
 					<a href="/static/login/#"><img src="/static/login/JD_img/phone-orange.png" class="bom_2" /></a>
-					<h6>打开<span class="red">手机乐购商城</span> 扫描二维码</h6>
+					<h6>打开 <span class="red">手机乐购商城</span> 扫描二维码</h6>
 					<p>
 						<img src="/static/login/JD_img/4de5019d2404d347897dee637895d02b_15.png" />
 						<span><a href="/static/login/#">免输入</a></span>
@@ -59,12 +54,13 @@
 						<div></div>
 						请输入账户名和密码
 					</div>
+					<!-- 账号密码登录 -->
 					<form action="/login" method="post">
 						<div style="color: red" th:text="${errors!=null?(#maps.containsKey(errors,'msg')?errors.msg:''):''}"></div>
 						<ul>
 							<li class="top_1">
 								<img src="/static/login/JD_img/user_03.png" class="err_img1" />
-								<input type="text" name="loginacct" placeholder=" 邮箱/用户名/已验证手机" class="user" />
+								<input type="text" name="loginacct" placeholder=" 用户名/已验证手机" class="user" />
 							</li>
 							<li>
 								<img src="/static/login/JD_img/user_06.png" class="err_img2" />
@@ -79,6 +75,7 @@
 						</ul>
 					</form>
 				</div>
+				<!-- 第三方登录 -->
 				<div class="si_out">
 					<ul>
 						<li>
@@ -102,7 +99,6 @@
 			</div>
 		</div>
 
-
 		<!--底部-->
 		<footer>
 			<ul>
@@ -122,13 +118,13 @@
 				<li class="little">|</li>
 				<li><a href="/static/login/#">销售联盟</a></li>
 				<li class="little">|</li>
-				<li><a href="/static/login/#">谷粒商城社区</a></li>
+				<li><a href="/static/login/#">乐购商城社区</a></li>
 				<li class="little">|</li>
-				<li><a href="/static/login/#">谷粒商城公益</a></li>
+				<li><a href="/static/login/#">乐购商城公益</a></li>
 				<li class="little">|</li>
 				<li><a href="/static/login/#">English Site</a></li>
 			</ul>
-			<span>Copyright &copy; 2004-2017 谷粒商城gulimall.com 版权所有</span>
+			<span>Copyright &copy; 2020 乐购商城 Tesco.com 版权所有</span>
 		</footer>
 
 	</body>

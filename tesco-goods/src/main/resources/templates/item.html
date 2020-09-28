@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 	<head>
 		<meta charset="UTF-8">
 		<title>乐购商城 - 商品详情</title>
@@ -15,7 +14,7 @@
 			<!--品牌官方网站-->
 					<div class="min">
 						<ul class="header_ul_left">
-							<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">京东首页</a></li>
+							<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">乐购首页</a></li>
 							<li class="glyphicon glyphicon-map-marker"> <a href="javascript:;">北京</a>
 								<ol id="beijing">
 									<li style="background: red;"><a href="javascript:;" style="color: white;">北京</a></li>
@@ -57,10 +56,13 @@
 							</li>
 						</ul>
 						<ul class="header_ul_right">
-							<li style="border: 0;"><a href="http://auth.tesco.com/login.html" class="aa">你好，请登录</a></li>
-							<li><a href="http://auth.tesco.com/register.html" style="color: red;">免费注册</a> |</li>
-							<li><a href="javascript:;" class="aa">我的订单</a> |</li>
-							<li class="jingdong"><a href="javascript:;">我的京东</a><span class="glyphicon glyphicon-menu-down">|</span>
+							<li style="border: 0;">
+								<a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
+								<a th:if="${session.loginUser!=null}"><b>欢迎，[[${session.loginUser.nickname}]]</b></a>
+							</li>
+							<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
+							<li><a href="javascript:;" class="aa" th:if="${session.loginUser!=null}">我的订单</a> |</li>
+							<li class="jingdong"><a href="javascript:;" th:if="${session.loginUser!=null}">我的乐购</a><span class="glyphicon glyphicon-menu-down">|</span>
 								<ol class="jingdong_ol">
 									<li><a href="javascript:;">待处理订单</a></li>
 									<li><a href="javascript:;">消息</a></li>
@@ -72,11 +74,9 @@
 									<li style="margin-top: 0;"><a href="javascript:;">我的京豆</a></li>
 									<li style="margin-top: 0;"><a href="javascript:;">我的优惠券</a></li>
 									<li style="margin-bottom: 10px;"><a href="javascript:;">我的白条</a></li>
-
 								</ol>
 							</li>
-
-							<li><a href="javascript:;" class="aa">京东会员</a> |</li>
+							<li><a href="javascript:;" class="aa">乐购会员</a> |</li>
 							<li><a href="javascript:;" class="aa">企业采购</a> |</li>
 							<li class="fuwu"><a href="javascript:;">客户服务</a><span class="glyphicon glyphicon-menu-down"></span> |
 								<ol class="fuwu_ol">
@@ -103,14 +103,14 @@
 									<li style="width: 34%;">
 										<h5>特色主题</h5>
 										<p>
-											<a href="javascript:;">京东试用</a>
-											<a href="javascript:;">京东金融</a>
+											<a href="javascript:;">乐购试用</a>
+											<a href="javascript:;">乐购金融</a>
 											<a href="javascript:;">全球售</a>
 											<a href="javascript:;">国际站</a>
 										</p>
 										<p>
-											<a href="javascript:;">京东会员</a>
-											<a href="javascript:;">京东预售</a>
+											<a href="javascript:;">乐购会员</a>
+											<a href="javascript:;">乐购预售</a>
 											<a href="javascript:;">买什么</a>
 											<a href="javascript:;">俄语站</a>
 										</p>
@@ -127,7 +127,7 @@
 											<a href="javascript:;">印尼站</a>
 										</p>
 										<p>
-											<a href="javascript:;">京东金融科技</a>
+											<a href="javascript:;">乐购金融科技</a>
 											<a href="javascript:;">In货推荐</a>
 											<a href="javascript:;">陪伴计划</a>
 											<a href="javascript:;">出海招商</a>
@@ -143,7 +143,7 @@
 										<p>
 											<a href="javascript:;" class="aa_2">电脑办公</a>
 											<a href="javascript:;" class="aa_2">家用电器</a>
-											<a href="javascript:;" class="aa_2">京东智能</a>
+											<a href="javascript:;" class="aa_2">乐购智能</a>
 										</p>
 										<p>
 											<a href="javascript:;" class="aa_2">服装城</a>
@@ -164,12 +164,12 @@
 									<li>
 										<h5>生活服务</h5>
 										<p>
-											<a href="javascript:;" class="aa_2">京东众筹</a>
+											<a href="javascript:;" class="aa_2">乐购众筹</a>
 											<a href="javascript:;" class="aa_2">白条</a>
-											<a href="javascript:;" class="aa_2">京东金融APP</a>
+											<a href="javascript:;" class="aa_2">乐购金融APP</a>
 										</p>
 										<p>
-											<a href="javascript:;" class="aa_2">京东小金库</a>
+											<a href="javascript:;" class="aa_2">乐购小金库</a>
 											<a href="javascript:;" class="aa_2">理财</a>
 											<a href="javascript:;" class="aa_2">智能家电</a>
 										</p>
@@ -184,8 +184,8 @@
 											<a href="javascript:;" class="aa_2">电影票</a>
 										</p>
 										<p>
-											<a href="javascript:;" class="aa_2">京东到家</a>
-											<a href="javascript:;" class="aa_2">京东众测</a>
+											<a href="javascript:;" class="aa_2">乐购到家</a>
+											<a href="javascript:;" class="aa_2">乐购众测</a>
 											<a href="javascript:;" class="aa_2">游戏</a>
 										</p>
 									</li>
@@ -193,8 +193,8 @@
 										<h5>更多精选</h5>
 										<p>
 											<a href="javascript:;" class="aa_2">合作招商</a>
-											<a href="javascript:;" class="aa_2">京东通信</a>
-											<a href="javascript:;" class="aa_2">京东E卡</a>
+											<a href="javascript:;" class="aa_2">乐购通信</a>
+											<a href="javascript:;" class="aa_2">乐购E卡</a>
 										</p>
 										<p>
 											<a href="javascript:;" class="aa_2">企业采购</a>
@@ -207,7 +207,7 @@
 											<a href="javascript:;" class="aa_2">京友邦</a>
 										</p>
 										<p>
-											<a href="javascript:;" class="aa_2">京东社区</a>
+											<a href="javascript:;" class="aa_2">乐购社区</a>
 											<a href="javascript:;" class="aa_2">智能社区</a>
 											<a href="javascript:;" class="aa_2">游戏社区</a>
 										</p>
@@ -219,18 +219,18 @@
 									</li>
 								</ol>
 							</li>
-							<li class="sjjd" style="border: 0;"><a href="javascript:;" class="aa">手机京东</a>
+							<li class="sjjd" style="border: 0;"><a href="javascript:;" class="aa">手机乐购</a>
 								<div class="er">
 									<div class="er_1">
 										<div class="er_1_1">
-											<h6><a href="#">手机京东</a></h6>
+											<h6><a href="#">手机乐购</a></h6>
 											<p>新人专享大礼包</p>
 
 										</div>
 									</div>
 									<div class="er_1">
 										<div class="er_1_1">
-											<h6><a href="#">关注京东微信</a></h6>
+											<h6><a href="#">关注乐购微信</a></h6>
 											<p>微信扫一扫关注新粉最高180元惊喜礼包</p>
 										</div>
 									</div>
@@ -238,7 +238,7 @@
 									<div class="er_1" style="border: 0;">
 										<img src="/static/item/img/5874a555Ne8192324.jpg"/>
 										<div class="er_1_1">
-											<h6><a href="#">京东金融客户端</a></h6>
+											<h6><a href="#">乐购金融客户端</a></h6>
 											<p>新人专享大礼包</p>
 											<div><a href="#"><img src="/static/item/img/11.png"/></a><a href="#"><img src="/static/item/img/22.png"/></a></div>
 										</div>
@@ -374,7 +374,7 @@
 					<ul class="contact-ul">
 						<li>
 							<a href="#">
-								华为京东自营官方旗舰店
+								华为乐购自营官方旗舰店
 							</a>
 
 							<span class="contact-sp">
@@ -494,7 +494,7 @@
 						</div>
 						<div class="box-summary clear">
 							<ul>
-								<li>京东价</li>
+								<li>乐购价</li>
 								<li>
 									<span>￥</span>
 									<span th:text="${#numbers.formatDecimal(item.skuInfo.price,3,2)}">4499.00</span>
@@ -583,7 +583,7 @@
 							<ul class="box-ul">
 								<li></li>
 								<li>
-									由<span>京东</span> 发货，并提供售后服务
+									由<span>乐购</span> 发货，并提供售后服务
 								</li>
 							</ul>
 						</div>
@@ -852,7 +852,7 @@
 			<div class="lianBao oCn">
 				<span class="oImg">
 					<img src="/static/item/img/2017.jpg" alt="" />
-					<h3>京东承诺</h3>
+					<h3>乐购承诺</h3>
 				</span>
 				<div class="wenZi">
 					本产品全国联保，享受三包服务，质保期为：一年保<br />
@@ -867,7 +867,7 @@
 					<h3>正品行货</h3>
 				</span>
 				<div class="wenZi hangHuo">
-					京东商城向您保证所售商品均为正品行货，京东自营商品开具机打发票或电子发票。
+					乐购商城向您保证所售商品均为正品行货，乐购自营商品开具机打发票或电子发票。
 				</div>
 			</div>
 			<div class="lianBao quanGuo">
@@ -876,7 +876,7 @@
 					<h3>全国联保</h3>
 				</span>
 				<div class="wenZi">
-					凭质保证书及京东商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由京东联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。京东商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！ <br />
+					凭质保证书及乐购商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由乐购联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。乐购商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！ <br />
 
 注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！
 				</div>
@@ -885,15 +885,15 @@
 			<div class="quanLi">
 				<h4>权利声明:</h4>
 				<div class="jingDong">
-					京东上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是京东重要的经营资源，未经许可，禁止非法转载使用。<br />
+					乐购上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是乐购重要的经营资源，未经许可，禁止非法转载使用。<br />
 	<span class="oZhu">注</span>：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。
 				</div>
 			</div>
 			<div class="quanLi jiaGe">
 				<h4>价格说明:</h4>
 				<div class="jingDong">
-					<span class="oZhu">京东价</span>：京东价为商品的销售价，是您最终决定是否购买商品的依据。<br />
-					<span class="oZhu">划线价</span>：商品展示的划横线价格为参考价，该价格可能是品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）或该商品在京东平台上曾经展示过的销售价；由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价等可能会与您购物时展示的不一致，该价格仅供您参考。<br />
+					<span class="oZhu">乐购价</span>：乐购价为商品的销售价，是您最终决定是否购买商品的依据。<br />
+					<span class="oZhu">划线价</span>：商品展示的划横线价格为参考价，该价格可能是品牌专柜标价、商品吊牌价或由品牌供应商提供的正品零售价（如厂商指导价、建议零售价等）或该商品在乐购平台上曾经展示过的销售价；由于地区、时间的差异性和市场行情波动，品牌专柜标价、商品吊牌价等可能会与您购物时展示的不一致，该价格仅供您参考。<br />
 					<span class="oZhu">折扣</span>：如无特殊说明，折扣指销售商在原价、或划线价（如品牌专柜标价、商品吊牌价、厂商指导价、厂商建议零售价）等某一价格基础上计算出的优惠比例或优惠金额；如有疑问，您可在购买前联系销售商进行咨询。<br />
 					<span class="oZhu">异常问题</span>：商品促销信息以商品详情页“促销”栏中的信息为准；商品的具体售价以订单结算页价格为准；如您发现活动商品售价或促销信息有异常，建议购买前先联系销售商咨询。
 				</div>
@@ -1072,13 +1072,13 @@
 						<a href="##">延保服务</a>
 					</dd>
 					<dd>
-						<a href="##">京东E卡</a>
+						<a href="##">乐购E卡</a>
 					</dd>
 					<dd>
-						<a href="##">京东通信</a>
+						<a href="##">乐购通信</a>
 					</dd>
 					<dd>
-						<a href="##">京东JD+</a>
+						<a href="##">乐购JD+</a>
 					</dd>
 				</dl>
 			</div>
@@ -1110,7 +1110,7 @@
 					</li>
 					<li>|</li>
 					<li>
-						<a href="##">手机京东</a>
+						<a href="##">手机乐购</a>
 					</li>
 					<li>|</li>
 					<li>
@@ -1122,7 +1122,7 @@
 					</li>
 					<li>|</li>
 					<li>
-						<a href="##">京东社区</a>
+						<a href="##">乐购社区</a>
 					</li>
 					<li>|</li>
 					<li>
@@ -1134,7 +1134,7 @@
 					</li>
 					<li>|</li>
 					<li>
-						<a href="##">京东公益</a>
+						<a href="##">乐购公益</a>
 					</li>
 					<li>|</li>
 					<li>
@@ -1162,12 +1162,12 @@
 				<a href="##">：4006561155 </a>
 			</p>
 			<p class="p1">
-				<a href="##"> Copyright © 2004-2017 京东JD.com 版权所有</a>|
+				<a href="##"> Copyright © 2004-2017 乐购JD.com 版权所有</a>|
 				<a href="##"> 消费者维权热线：4006067733 经营证照</a>|
 			</p>
 			<p class="p1">
-				<a href="##"> 京东旗下网站：京东支付</a>|
-				<a href="##"> 京东云</a>
+				<a href="##"> 乐购旗下网站：乐购支付</a>|
+				<a href="##"> 乐购云</a>
 			</p>
 			<p class="p3">
 				<img src="/static/item/img/54b8871eNa9a7067e.png" />
