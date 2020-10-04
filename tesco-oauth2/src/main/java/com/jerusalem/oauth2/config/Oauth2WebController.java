@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Date 2020/9/22 11:18
  *****/
 @Configuration
-public class TescoWebController implements WebMvcConfigurer {
+public class Oauth2WebController implements WebMvcConfigurer {
     /**
      * 添加视图映射控制器
      */

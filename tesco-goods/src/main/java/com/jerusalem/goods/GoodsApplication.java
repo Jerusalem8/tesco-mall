@@ -76,7 +76,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Description: 启动类
  ****/
 @EnableTransactionManagement        //开启事务管理
-@EnableRedisHttpSession
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.jerusalem.goods.dao"})

@@ -1,0 +1,26 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: cart-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.75.130:8848
+  redis:
+    host: 192.168.75.140
+    port: 6379
+  session:
+    store-type: redis
+  # 日期格式设置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.jerusalem.cart: debug

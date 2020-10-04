@@ -70,7 +70,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @Author:jerusalem
  * @Description: 启动类
  ****/
-@EnableRedisHttpSession   //整合redis作为session存储
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"com.jerusalem.third.feign","com.jerusalem.user.feign"})

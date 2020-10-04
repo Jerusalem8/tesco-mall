@@ -1,4 +1,4 @@
-package com.jerusalem.oauth2.config;
+package com.jerusalem.cart.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

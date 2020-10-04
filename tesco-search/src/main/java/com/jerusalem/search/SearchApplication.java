@@ -12,7 +12,6 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @Description: 启动类
  ****/
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@EnableRedisHttpSession   //整合redis作为session存储
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = {"com.jerusalem.goods.feign"})
 public class SearchApplication {
