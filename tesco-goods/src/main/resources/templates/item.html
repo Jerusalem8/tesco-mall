@@ -591,8 +591,10 @@
 							<div class="box-attr clear" th:each="saleAttr:${item.skuSaleAttrVos}">
 								<dl>
 									<dt>选择[[${saleAttr.attrName}]]</dt>
-									<dd th:each="value:${#strings.listSplit(saleAttr.attrValues,',')}">
-										<a href="#">[[${value}]]</a>
+									<dd th:each="values:${saleAttr.attrValues}">
+										<a th:attr="skus=${values.skuIds},class=${#lists.contains(#strings.listSplit(values.skuIds,','),item.skuInfo.skuId.toString())?'sku_attr_value checked':'sku_attr_value'}">
+											[[${values.attrValue}]]
+										</a>
 									</dd>
 								</dl>
 							</div>
@@ -600,7 +602,7 @@
 
 						<div class="box-btns clear">
 							<div class="box-btns-one">
-								<input type="text" name="" id="" value="1" />
+								<input type="text" name="" id="numInput" value="1" />
 								<div class="box-btns-one1">
 
 									<div>
@@ -617,7 +619,7 @@
 								</div>
 							</div>
 							<div class="box-btns-two">
-								<a href="http://cart.tesco.com/addToCart">
+								<a href="#" id="addToCartA" th:attr="skuId=${item.skuInfo.skuId}">
 									加入购物车
 								</a>
 							</div>
@@ -1193,5 +1195,37 @@
 	<script src="/static/item/js/js.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
 	</script>
+<script>
+	$(".sku_attr_value").click(function () {
+		//1.点击的元素先添加上自定义的属性
+		var skus = new Array();
+		$(this).addClass("clicked");
+		var curr = $(this).attr("skus").split(",");
+		//当前被点击的所有sku组合数组放进去
+		skus.push(curr);
+		//去掉同一行的所有checked
+		$(this).parent().parent().find(".sku_attr_value").removeClass("checked");
+		$("a[class='sku_attr_value checked']").each(function () {
+			skus.push($(this).attr("skus").split(","));
+		});
+		//2.取出交集，得到skuId
+		var filterEle = skus[0];
+		for(var i = 0;i<skus.length;i++){
+			filterEle = $(filterEle).filter(skus[i]);
+		}
+		//4.跳转
+		location.href = "http://item.tesco.com/"+filterEle[0]+".html";
+	});
+	$(function () {
+		$(".sku_attr_value").parent.css({"border":"solid 1px #CCC"});
+		$("a[class='sku_attr_value checked']").css({"border":"solid 1px red"});
 
+	})
+	$("#addToCartA").click(function () {
+		var num = $("#numInput").val();
+		var skuId = $(this).attr("skuId");
+		location.href = "http://cart.tesco.com/addToCart?skuId="+skuId+"&num="+num;
+		return false;
+	});
+</script>
 </html>

@@ -34,19 +34,22 @@ public class SkuInfoController {
         return R.ok().put("page", page);
     }
 
-
-
-
     /***
-    * 查询
+    * 获取sku的详细信息
     * @return
     */
     @RequestMapping("/info/{skuId}")
     public R info(@PathVariable("skuId") Long skuId){
 		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
-
         return R.ok().put("skuInfo", skuInfo);
     }
+
+
+
+
+
+
+
 
     /***
     * 修改

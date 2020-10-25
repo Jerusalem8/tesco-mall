@@ -1,10 +1,16 @@
 package com.jerusalem.cart.controller;
 
 import com.jerusalem.cart.interceptor.CartInterceptor;
+import com.jerusalem.cart.service.CartService;
+import com.jerusalem.cart.vo.CartItem;
 import com.jerusalem.cart.vo.UserInfoTo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.concurrent.ExecutionException;
 
 /****
  * @Author: jerusalem
@@ -13,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  *****/
 @Controller
 public class CartController {
+
+    @Autowired
+    CartService cartService;
 
     /***
      * 获取购物车页面
@@ -34,7 +43,9 @@ public class CartController {
      * @return
      */
     @GetMapping("/addToCart")
-    public String addToCart(@RequestParam("skuId") Long skuId, @RequestParam("num")Integer num){
+    public String addToCart(@RequestParam("skuId") Long skuId, @RequestParam("num")Integer num, Model model) throws ExecutionException, InterruptedException {
+        CartItem cartItem = cartService.addToCart(skuId,num);
+        model.addAttribute("item",cartItem);
         return "success";
     }
 }

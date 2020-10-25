@@ -1,7 +1,7 @@
 package com.jerusalem.ware.service.impl;
 
 import com.jerusalem.common.utils.R;
-import com.jerusalem.goods.feign.SkuInfoFeign;
+import com.jerusalem.goods.feign.SpuInfoFeign;
 import com.jerusalem.common.to.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     private WareSkuDao wareSkuDao;
 
     @Autowired
-    private SkuInfoFeign skuInfoFeign;
+    private SpuInfoFeign spuInfoFeign;
 
     /**
     * 根据仓库、SKU ID进行分页查询
@@ -82,7 +82,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             //TODO 还可以用什么办法让异常出现以后不回滚？高级
             //catch异常,远程查询sku的名字，如果失败，整个事务无需回滚
             try {
-                R info = skuInfoFeign.info(skuId);
+                R info = spuInfoFeign.info(skuId);
                 Map<String,Object> data = (Map<String, Object>) info.get("skuInfo");
                 if(info.getCode() == 0){
                     skuEntity.setSkuName((String) data.get("skuName"));

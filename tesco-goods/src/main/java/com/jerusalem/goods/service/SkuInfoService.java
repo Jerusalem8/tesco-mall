@@ -7,6 +7,7 @@ import com.jerusalem.goods.vo.SkuItemVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /****
  * 服务层接口
@@ -42,6 +43,6 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      * @param skuId
      * @return
      */
-    SkuItemVo skuItem(Long skuId);
+    SkuItemVo skuItem(Long skuId) throws ExecutionException, InterruptedException;
 }
 
