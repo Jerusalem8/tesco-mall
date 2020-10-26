@@ -1191,12 +1191,11 @@
 		</div>
 	</body>
 
-	<script src="/static/item/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/static/item/js/js.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript">
-	</script>
+	<script src="/static/item/js/jquery1.9.js" type="text/javascript"></script>
+	<script src="/static/item/js/js.js" type="text/javascript"></script>
+	<script type="text/javascript"></script>
 <script>
-	$(".sku_attr_value").click(function () {
+	$(".sku_attr_value").click(function() {
 		//1.点击的元素先添加上自定义的属性
 		var skus = new Array();
 		$(this).addClass("clicked");
@@ -1216,12 +1215,12 @@
 		//4.跳转
 		location.href = "http://item.tesco.com/"+filterEle[0]+".html";
 	});
-	$(function () {
+	$(function() {
 		$(".sku_attr_value").parent.css({"border":"solid 1px #CCC"});
 		$("a[class='sku_attr_value checked']").css({"border":"solid 1px red"});
 
-	})
-	$("#addToCartA").click(function () {
+	});
+	$("#addToCartA").click(function() {
 		var num = $("#numInput").val();
 		var skuId = $(this).attr("skuId");
 		location.href = "http://cart.tesco.com/addToCart?skuId="+skuId+"&num="+num;

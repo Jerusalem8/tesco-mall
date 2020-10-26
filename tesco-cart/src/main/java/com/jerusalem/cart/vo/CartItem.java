@@ -92,7 +92,7 @@ public class CartItem {
      * @return
      */
     public BigDecimal getTotalPrice() {
-        this.price.multiply(new BigDecimal("" + this.count));
+        BigDecimal totalPrice = this.price.multiply(new BigDecimal("" + this.count));
         return totalPrice;
     }
 

@@ -23,7 +23,7 @@ public class Cart {
     private Integer countNum;
     private Integer countType;
     private BigDecimal totalAmount;
-    private BigDecimal reduce = new BigDecimal("0.00");
+    private BigDecimal reduce = new BigDecimal("9.99");
 
     /**
      * 自定义计算
@@ -56,7 +56,6 @@ public class Cart {
         }
         return count;
     }
-
 
     public BigDecimal getTotalAmount() {
         BigDecimal amount = new BigDecimal("0");

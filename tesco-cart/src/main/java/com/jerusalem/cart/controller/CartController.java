@@ -2,6 +2,7 @@ package com.jerusalem.cart.controller;
 
 import com.jerusalem.cart.interceptor.CartInterceptor;
 import com.jerusalem.cart.service.CartService;
+import com.jerusalem.cart.vo.Cart;
 import com.jerusalem.cart.vo.CartItem;
 import com.jerusalem.cart.vo.UserInfoTo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.concurrent.ExecutionException;
 
@@ -31,21 +33,73 @@ public class CartController {
      * @return
      */
     @GetMapping("/cartList.html")
-    public String cartListPage(){
-        //快速得到用户信息
-        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
-        System.out.println(userInfoTo);
+    public String cartListPage(Model model) throws ExecutionException, InterruptedException {
+        Cart cart = cartService.getCart();
+        model.addAttribute("cart",cart);
         return "cartList";
     }
 
     /***
      * 添加商品到购物车
+     * RedirectAttributes：重定向携带数据
+     *              addFlashAttribute:将数据放在Session中可以在页面取出，但是只能取一次
+     *              addAttribute：将数据放在URL后
      * @return
      */
     @GetMapping("/addToCart")
-    public String addToCart(@RequestParam("skuId") Long skuId, @RequestParam("num")Integer num, Model model) throws ExecutionException, InterruptedException {
-        CartItem cartItem = cartService.addToCart(skuId,num);
+    public String addToCart(@RequestParam("skuId") Long skuId, @RequestParam("num")Integer num,
+                            RedirectAttributes attributes) throws ExecutionException, InterruptedException {
+        //调用方法，添加到购物车，暂不展示数据
+        cartService.addToCart(skuId,num);
+        attributes.addAttribute("skuId",skuId);
+        return "redirect:http://cart.tesco.com/addToCartSuccessPage.html";
+    }
+
+    /***
+     * 跳转到成功页（与添加购物车操作分离开）
+     * 实现：页面刷新时，只是再次查询购物车中的信息，不会再次添加
+     * @return
+     */
+    @GetMapping("/addToCartSuccessPage.html")
+    public String addToCartSuccessPage(@RequestParam("skuId") Long skuId,Model model){
+        //重定向到成功页面，再次查询购物车数据
+        CartItem cartItem = cartService.getCartItem(skuId);
         model.addAttribute("item",cartItem);
         return "success";
+    }
+
+    /***
+     * 购物项选中状态的改变
+     * @param skuId
+     * @param check
+     * @return
+     */
+    @GetMapping("/checkItem")
+    public String checkItem(@RequestParam("skuId") Long skuId,@RequestParam("check") Integer check){
+        cartService.checkItem(skuId,check);
+        return "redirect:http://cart.tesco.com/cartList.html";
+    }
+
+    /***
+     * 购物项数量的改变
+     * @param skuId
+     * @param num
+     * @return
+     */
+    @GetMapping("/countItem")
+    public String countItem(@RequestParam("skuId") Long skuId,@RequestParam("num") Integer num){
+        cartService.changeItemCount(skuId,num);
+        return "redirect:http://cart.tesco.com/cartList.html";
+    }
+
+    /***
+     * 删除购物项
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/deleteItem")
+    public String deleteItem(@RequestParam("skuId") Long skuId){
+        cartService.deleteItem(skuId);
+        return "redirect:http://cart.tesco.com/cartList.html";
     }
 }

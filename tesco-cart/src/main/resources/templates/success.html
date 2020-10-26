@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="/static/cart/css/success.css" />
  </head>
 
-    <body>
+<body>
     <!--头部-->
     <div class="alert-info">
         <div class="hd_wrap_top">
@@ -48,9 +48,9 @@
 
     <div class="main">
         <div class="success-wrap">
-        <div class="w" id="result">
-        <div class="m succeed-box">
-        <div class="mc success-cont">
+            <div class="w" id="result">
+                <div class="m succeed-box">
+                    <div th:if="${item!=null}" class="mc success-cont">
         <div class="success-lcol">
         <div class="success-top"><b class="succ-icon"></b>
         <h3 class="ftx-02">商品已成功加入购物车</h3></div>
@@ -78,11 +78,14 @@
    </div>
     </div>
     </div>
+                    <div th:if="${item==null}" class="mc success-cont">
+                        <h2>购物车中无此商品</h2><a href="http://tesco.com">去购物</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </body>
+</body>
     <script type="text/javascript" src="/static/cart/js/success.js"></script>
 
 </html>
