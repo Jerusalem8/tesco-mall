@@ -13,6 +13,17 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+  rabbitmq:
+    host: 192.168.75.156
+    port: 5672
+    virtual-host: /
+    publisher-confirm-type: correlated    # 开启消息抵达发送端确认
+    publisher-returns: true    # 开启发送端消息抵达队列确认
+    template:
+      mandatory: true     #开启消息抵达队列，以异步方式优先回调returnConfirm
+    listener:
+      simple:
+        acknowledge-mode: manual    #手动ack消息
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   main:

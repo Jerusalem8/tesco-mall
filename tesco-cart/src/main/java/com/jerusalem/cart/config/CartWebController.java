@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /****
  * @Author: jerusalem
- * @Description: TescoWebController
+ * @Description: CartWebController
  * 利用SpringMvc viewcontroller：将请求和页面进行映射
  * 无需写只用来进行页面跳转的空方法
  * @Date 2020/9/22 11:18
