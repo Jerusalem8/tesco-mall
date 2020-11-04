@@ -2,11 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>购物车 - 乐购</title>
+    <link rel="icon" href="/static/index/img/favicon.ico" type="image/x-icon" />
     <script type="text/javascript" src="/static/cart/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/static/cart/bootstrap/js/bootstrap.js"></script>
     <script type="text/javascript" src="/static/cart/js/swiper.min.js"></script>
-	<script src="js/swiper.min.js"></script>
+	<script src="/static/cart/js/swiper.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/cart/css/swiper.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/cart/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/static/cart/css/success.css" />
@@ -29,7 +30,7 @@
         <a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="link_regist">免费注册</a>
         <li class="spacer"></li>
         <li>
-        <a th:if="${session.loginUser!=null}">我的订单</a>
+        <a href="http://order.tesco.com/list.html" th:if="${session.loginUser!=null}">我的订单</a>
         </li>
         </ul>
         </div>
@@ -45,7 +46,6 @@
     </div>
     </div>
     </div>
-
     <div class="main">
         <div class="success-wrap">
             <div class="w" id="result">
@@ -56,7 +56,7 @@
         <h3 class="ftx-02">商品已成功加入购物车</h3></div>
     <div class="p-item">
         <div class="p-img">
-        <a href="/javascript:;" target="_blank"><img style="height: 60px;width:60px;"  th:src="${item.image}" src="/img/shop1.jpg"></a>
+        <a href="/javascript:;" target="_blank"><img style="height: 60px;width:60px;"  th:src="${item.image}" src="/static/cart/img/shop1.jpg"></a>
         </div>
         <div class="p-info">
         <div class="p-name">

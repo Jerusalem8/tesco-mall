@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>乐购商城 - 商品详情</title>
+		<link rel="icon" href="/static/index/img/favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" type="text/css" href="/static/item/scss/shop.css" />
 		<link rel="stylesheet" type="text/css" href="/static/item/scss/jd.css"/>
 		<link rel="stylesheet" href="/static/item/scss/header.css" />
@@ -11,244 +12,242 @@
 	<body>
 		<div id="max">
 		<header>
-			<!--品牌官方网站-->
-					<div class="min">
-						<ul class="header_ul_left">
-							<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">乐购首页</a></li>
-							<li class="glyphicon glyphicon-map-marker"> <a href="javascript:;">北京</a>
-								<ol id="beijing">
-									<li style="background: red;"><a href="javascript:;" style="color: white;">北京</a></li>
-									<li><a href="javascript:;">上海</a></li>
-									<li><a href="javascript:;">天津</a></li>
-									<li><a href="javascript:;">重庆</a></li>
-									<li><a href="javascript:;">河北</a></li>
-									<li><a href="javascript:;">山西</a></li>
-									<li><a href="javascript:;">河南</a></li>
-									<li><a href="javascript:;">辽宁</a></li>
-									<li><a href="javascript:;">吉林</a></li>
-									<li><a href="javascript:;">黑龙江</a></li>
-									<li><a href="javascript:;">内蒙古</a></li>
-									<li><a href="javascript:;">江苏</a></li>
-									<li><a href="javascript:;">山东</a></li>
-									<li><a href="javascript:;">安徽</a></li>
-									<li><a href="javascript:;">浙江</a></li>
-									<li><a href="javascript:;">福建</a></li>
-									<li><a href="javascript:;">湖北</a></li>
-									<li><a href="javascript:;">湖南</a></li>
-									<li><a href="javascript:;">广东</a></li>
-									<li><a href="javascript:;">广西</a></li>
-									<li><a href="javascript:;">江西</a></li>
-									<li><a href="javascript:;">四川</a></li>
-									<li><a href="javascript:;">海南</a></li>
-									<li><a href="javascript:;">贵州</a></li>
-									<li><a href="javascript:;">云南</a></li>
-									<li><a href="javascript:;">西藏</a></li>
-									<li><a href="javascript:;">陕西</a></li>
-									<li><a href="javascript:;">甘肃</a></li>
-									<li><a href="javascript:;">青海</a></li>
-									<li><a href="javascript:;">宁夏</a></li>
-									<li><a href="javascript:;">新疆</a></li>
-									<li><a href="javascript:;">港澳</a></li>
-									<li><a href="javascript:;">台湾</a></li>
-									<li><a href="javascript:;">钓鱼岛</a></li>
-									<li><a href="javascript:;">海外</a></li>
-								</ol>
+			<div class="min">
+				<ul class="header_ul_left">
+					<li class="glyphicon glyphicon-home"> <a href="shouye.html" class="aa">乐购首页</a></li>
+					<!--定位-->
+					<li class="glyphicon glyphicon-map-marker"> <a href="javascript:;">北京</a>
+						<ol id="beijing">
+							<li style="background: red;"><a href="javascript:;" style="color: white;">北京</a></li>
+							<li><a href="javascript:;">上海</a></li>
+							<li><a href="javascript:;">天津</a></li>
+							<li><a href="javascript:;">重庆</a></li>
+							<li><a href="javascript:;">河北</a></li>
+							<li><a href="javascript:;">山西</a></li>
+							<li><a href="javascript:;">河南</a></li>
+							<li><a href="javascript:;">辽宁</a></li>
+							<li><a href="javascript:;">吉林</a></li>
+							<li><a href="javascript:;">黑龙江</a></li>
+							<li><a href="javascript:;">内蒙古</a></li>
+							<li><a href="javascript:;">江苏</a></li>
+							<li><a href="javascript:;">山东</a></li>
+							<li><a href="javascript:;">安徽</a></li>
+							<li><a href="javascript:;">浙江</a></li>
+							<li><a href="javascript:;">福建</a></li>
+							<li><a href="javascript:;">湖北</a></li>
+							<li><a href="javascript:;">湖南</a></li>
+							<li><a href="javascript:;">广东</a></li>
+							<li><a href="javascript:;">广西</a></li>
+							<li><a href="javascript:;">江西</a></li>
+							<li><a href="javascript:;">四川</a></li>
+							<li><a href="javascript:;">海南</a></li>
+							<li><a href="javascript:;">贵州</a></li>
+							<li><a href="javascript:;">云南</a></li>
+							<li><a href="javascript:;">西藏</a></li>
+							<li><a href="javascript:;">陕西</a></li>
+							<li><a href="javascript:;">甘肃</a></li>
+							<li><a href="javascript:;">青海</a></li>
+							<li><a href="javascript:;">宁夏</a></li>
+							<li><a href="javascript:;">新疆</a></li>
+							<li><a href="javascript:;">港澳</a></li>
+							<li><a href="javascript:;">台湾</a></li>
+							<li><a href="javascript:;">钓鱼岛</a></li>
+							<li><a href="javascript:;">海外</a></li>
+						</ol>
+					</li>
+				</ul>
+				<ul class="header_ul_right">
+					<li style="border: 0;">
+						<a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
+						<a th:if="${session.loginUser!=null}"><b>欢迎，[[${session.loginUser.nickname}]]</b></a>
+					</li>
+					<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
+					<li><a href="http://order.tesco.com/list.html" class="aa" th:if="${session.loginUser!=null}">我的订单</a> |</li>
+					<li class="jingdong"><a href="javascript:;" th:if="${session.loginUser!=null}">我的乐购</a><span class="glyphicon glyphicon-menu-down">|</span>
+						<ol class="jingdong_ol">
+							<li><a href="javascript:;">待处理订单</a></li>
+							<li><a href="javascript:;">消息</a></li>
+							<li><a href="javascript:;">返修退换货</a></li>
+							<li><a href="javascript:;">我的回答</a></li>
+							<li><a href="javascript:;">降价商品</a></li>
+							<li><a href="javascript:;">我的关注</a></li>
+							<li style="width: 100%;height: 1px;background: lavender;margin-top: 15px;"></li>
+							<li style="margin-top: 0;"><a href="javascript:;">我的乐豆</a></li>
+							<li style="margin-top: 0;"><a href="javascript:;">我的优惠券</a></li>
+							<li style="margin-bottom: 10px;"><a href="javascript:;">我的白条</a></li>
+						</ol>
+					</li>
+					<li class="fuwu"><a href="javascript:;">客户服务</a><span class="glyphicon glyphicon-menu-down"></span> |
+						<ol class="fuwu_ol">
+							<h6>客户</h6>
+							<li><a href="javascript:;">帮助中心</a></li>
+							<li><a href="javascript:;">售后服务</a></li>
+							<li><a href="javascript:;">在线客服</a></li>
+							<li><a href="javascript:;">意见建议</a></li>
+							<li><a href="javascript:;">电话客服</a></li>
+							<li><a href="javascript:;">客服邮箱</a></li>
+							<li style="margin-bottom: -5px;"><a href="javascript:;">金融咨询</a></li>
+							<li style="margin-bottom: -5px;"><a href="javascript:;">售全球客服</a></li>
+							<h6 style="border-top: 1px dashed darkgray;height: 30px;line-height: 30px;">商户</h6>
+							<li style="margin-top: -5px;"><a href="javascript:;">合作招商</a></li>
+							<li style="margin-top: -5px;"><a href="javascript:;">学习中心</a></li>
+							<li><a href="javascript:;">商家后台</a></li>
+							<li><a href="javascript:;">乐购工作台</a></li>
+							<li><a href="javascript:;">商家帮助</a></li>
+							<li><a href="javascript:;">规则平台</a></li>
+						</ol>
+					</li>
+					<li class="daohang"><a href="javascript:;">网站导航</a><span class="glyphicon glyphicon-menu-down"></span> |
+						<ol class="daohang_ol">
+							<li style="width: 34%;">
+								<h5>特色主题</h5>
+								<p>
+									<a href="javascript:;">乐购试用</a>
+									<a href="javascript:;">乐购金融</a>
+									<a href="javascript:;">全球售</a>
+									<a href="javascript:;">国际站</a>
+								</p>
+								<p>
+									<a href="javascript:;">乐购会员</a>
+									<a href="javascript:;">乐购预售</a>
+									<a href="javascript:;">买什么</a>
+									<a href="javascript:;">俄语站</a>
+								</p>
+								<p>
+									<a href="javascript:;">装机大师</a>
+									<a href="javascript:;">0元评测</a>
+									<a href="javascript:;">定期送</a>
+									<a href="javascript:;">港澳售</a>
+								</p>
+								<p>
+									<a href="javascript:;">优惠券</a>
+									<a href="javascript:;">秒杀</a>
+									<a href="javascript:;">闪购</a>
+									<a href="javascript:;">印尼站</a>
+								</p>
+								<p>
+									<a href="javascript:;">乐购金融科技</a>
+									<a href="javascript:;">In货推荐</a>
+									<a href="javascript:;">陪伴计划</a>
+									<a href="javascript:;">出海招商</a>
+								</p>
 							</li>
-						</ul>
-						<ul class="header_ul_right">
+							<li>
+								<h5>行业频道</h5>
+								<p>
+									<a href="javascript:;" class="aa_2">手机</a>
+									<a href="javascript:;" class="aa_2">智能数码</a>
+									<a href="javascript:;" class="aa_2">玩3C</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">电脑办公</a>
+									<a href="javascript:;" class="aa_2">家用电器</a>
+									<a href="javascript:;" class="aa_2">乐购智能</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">服装城</a>
+									<a href="javascript:;" class="aa_2">美妆馆</a>
+									<a href="javascript:;" class="aa_2">家装城</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">母婴</a>
+									<a href="javascript:;" class="aa_2">食品</a>
+									<a href="javascript:;" class="aa_2">运动户外</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">农资频道</a>
+									<a href="javascript:;" class="aa_2">整车</a>
+									<a href="javascript:;" class="aa_2">图书</a>
+								</p>
+							</li>
+							<li>
+								<h5>生活服务</h5>
+								<p>
+									<a href="javascript:;" class="aa_2">乐购众筹</a>
+									<a href="javascript:;" class="aa_2">白条</a>
+									<a href="javascript:;" class="aa_2">乐购金融APP</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">乐购小金库</a>
+									<a href="javascript:;" class="aa_2">理财</a>
+									<a href="javascript:;" class="aa_2">智能家电</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">话费</a>
+									<a href="javascript:;" class="aa_2">水电煤</a>
+									<a href="javascript:;" class="aa_2">彩票</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">旅行</a>
+									<a href="javascript:;" class="aa_2">机票酒店</a>
+									<a href="javascript:;" class="aa_2">电影票</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">乐购到家</a>
+									<a href="javascript:;" class="aa_2">乐购众测</a>
+									<a href="javascript:;" class="aa_2">游戏</a>
+								</p>
+							</li>
 							<li style="border: 0;">
-								<a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
-								<a th:if="${session.loginUser!=null}"><b>欢迎，[[${session.loginUser.nickname}]]</b></a>
+								<h5>更多精选</h5>
+								<p>
+									<a href="javascript:;" class="aa_2">合作招商</a>
+									<a href="javascript:;" class="aa_2">乐购通信</a>
+									<a href="javascript:;" class="aa_2">乐购E卡</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">企业采购</a>
+									<a href="javascript:;" class="aa_2">服务市场</a>
+									<a href="javascript:;" class="aa_2">办公生活馆</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">乡村招募</a>
+									<a href="javascript:;" class="aa_2">校园加盟</a>
+									<a href="javascript:;" class="aa_2">京友邦</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">乐购社区</a>
+									<a href="javascript:;" class="aa_2">智能社区</a>
+									<a href="javascript:;" class="aa_2">游戏社区</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="aa_2">知识产权维权</a>
+									<a href="javascript:;" class="aa_2"></a>
+									<a href="javascript:;" class="aa_2"></a>
+								</p>
 							</li>
-							<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
-							<li><a href="javascript:;" class="aa" th:if="${session.loginUser!=null}">我的订单</a> |</li>
-							<li class="jingdong"><a href="javascript:;" th:if="${session.loginUser!=null}">我的乐购</a><span class="glyphicon glyphicon-menu-down">|</span>
-								<ol class="jingdong_ol">
-									<li><a href="javascript:;">待处理订单</a></li>
-									<li><a href="javascript:;">消息</a></li>
-									<li><a href="javascript:;">返修退换货</a></li>
-									<li><a href="javascript:;">我的回答</a></li>
-									<li><a href="javascript:;">降价商品</a></li>
-									<li><a href="javascript:;">我的关注</a></li>
-									<li style="width: 100%;height: 1px;background: lavender;margin-top: 15px;"></li>
-									<li style="margin-top: 0;"><a href="javascript:;">我的京豆</a></li>
-									<li style="margin-top: 0;"><a href="javascript:;">我的优惠券</a></li>
-									<li style="margin-bottom: 10px;"><a href="javascript:;">我的白条</a></li>
-								</ol>
-							</li>
-							<li><a href="javascript:;" class="aa">乐购会员</a> |</li>
-							<li><a href="javascript:;" class="aa">企业采购</a> |</li>
-							<li class="fuwu"><a href="javascript:;">客户服务</a><span class="glyphicon glyphicon-menu-down"></span> |
-								<ol class="fuwu_ol">
-									<h6>客户</h6>
-									<li><a href="javascript:;">帮助中心</a></li>
-									<li><a href="javascript:;">售后服务</a></li>
-									<li><a href="javascript:;">在线客服</a></li>
-									<li><a href="javascript:;">意见建议</a></li>
-									<li><a href="javascript:;">电话客服</a></li>
-									<li><a href="javascript:;">客服邮箱</a></li>
-									<li style="margin-bottom: -5px;"><a href="javascript:;">金融咨询</a></li>
-									<li style="margin-bottom: -5px;"><a href="javascript:;">售全球客服</a></li>
-									<h6 style="border-top: 1px dashed darkgray;height: 30px;line-height: 30px;">商户</h6>
-									<li style="margin-top: -5px;"><a href="javascript:;">合作招商</a></li>
-									<li style="margin-top: -5px;"><a href="javascript:;">学习中心</a></li>
-									<li><a href="javascript:;">商家后台</a></li>
-									<li><a href="javascript:;">京麦工作台</a></li>
-									<li><a href="javascript:;">商家帮助</a></li>
-									<li><a href="javascript:;">规则平台</a></li>
-								</ol>
-							</li>
-							<li class="daohang"><a href="javascript:;">网站导航</a><span class="glyphicon glyphicon-menu-down"></span> |
-								<ol class="daohang_ol">
-									<li style="width: 34%;">
-										<h5>特色主题</h5>
-										<p>
-											<a href="javascript:;">乐购试用</a>
-											<a href="javascript:;">乐购金融</a>
-											<a href="javascript:;">全球售</a>
-											<a href="javascript:;">国际站</a>
-										</p>
-										<p>
-											<a href="javascript:;">乐购会员</a>
-											<a href="javascript:;">乐购预售</a>
-											<a href="javascript:;">买什么</a>
-											<a href="javascript:;">俄语站</a>
-										</p>
-										<p>
-											<a href="javascript:;">装机大师</a>
-											<a href="javascript:;">0元评测</a>
-											<a href="javascript:;">定期送</a>
-											<a href="javascript:;">港澳售</a>
-										</p>
-										<p>
-											<a href="javascript:;">优惠券</a>
-											<a href="javascript:;">秒杀</a>
-											<a href="javascript:;">闪购</a>
-											<a href="javascript:;">印尼站</a>
-										</p>
-										<p>
-											<a href="javascript:;">乐购金融科技</a>
-											<a href="javascript:;">In货推荐</a>
-											<a href="javascript:;">陪伴计划</a>
-											<a href="javascript:;">出海招商</a>
-										</p>
-									</li>
-									<li>
-										<h5>行业频道</h5>
-										<p>
-											<a href="javascript:;" class="aa_2">手机</a>
-											<a href="javascript:;" class="aa_2">智能数码</a>
-											<a href="javascript:;" class="aa_2">玩3C</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">电脑办公</a>
-											<a href="javascript:;" class="aa_2">家用电器</a>
-											<a href="javascript:;" class="aa_2">乐购智能</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">服装城</a>
-											<a href="javascript:;" class="aa_2">美妆馆</a>
-											<a href="javascript:;" class="aa_2">家装城</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">母婴</a>
-											<a href="javascript:;" class="aa_2">食品</a>
-											<a href="javascript:;" class="aa_2">运动户外</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">农资频道</a>
-											<a href="javascript:;" class="aa_2">整车</a>
-											<a href="javascript:;" class="aa_2">图书</a>
-										</p>
-									</li>
-									<li>
-										<h5>生活服务</h5>
-										<p>
-											<a href="javascript:;" class="aa_2">乐购众筹</a>
-											<a href="javascript:;" class="aa_2">白条</a>
-											<a href="javascript:;" class="aa_2">乐购金融APP</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">乐购小金库</a>
-											<a href="javascript:;" class="aa_2">理财</a>
-											<a href="javascript:;" class="aa_2">智能家电</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">话费</a>
-											<a href="javascript:;" class="aa_2">水电煤</a>
-											<a href="javascript:;" class="aa_2">彩票</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">旅行</a>
-											<a href="javascript:;" class="aa_2">机票酒店</a>
-											<a href="javascript:;" class="aa_2">电影票</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">乐购到家</a>
-											<a href="javascript:;" class="aa_2">乐购众测</a>
-											<a href="javascript:;" class="aa_2">游戏</a>
-										</p>
-									</li>
-									<li style="border: 0;">
-										<h5>更多精选</h5>
-										<p>
-											<a href="javascript:;" class="aa_2">合作招商</a>
-											<a href="javascript:;" class="aa_2">乐购通信</a>
-											<a href="javascript:;" class="aa_2">乐购E卡</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">企业采购</a>
-											<a href="javascript:;" class="aa_2">服务市场</a>
-											<a href="javascript:;" class="aa_2">办公生活馆</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">乡村招募</a>
-											<a href="javascript:;" class="aa_2">校园加盟</a>
-											<a href="javascript:;" class="aa_2">京友邦</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">乐购社区</a>
-											<a href="javascript:;" class="aa_2">智能社区</a>
-											<a href="javascript:;" class="aa_2">游戏社区</a>
-										</p>
-										<p>
-											<a href="javascript:;" class="aa_2">知识产权维权</a>
-											<a href="javascript:;" class="aa_2"></a>
-											<a href="javascript:;" class="aa_2"></a>
-										</p>
-									</li>
-								</ol>
-							</li>
-							<li class="sjjd" style="border: 0;"><a href="javascript:;" class="aa">手机乐购</a>
-								<div class="er">
-									<div class="er_1">
-										<div class="er_1_1">
-											<h6><a href="#">手机乐购</a></h6>
-											<p>新人专享大礼包</p>
+						</ol>
+					</li>
+					<li class="sjjd" style="border: 0;"><a href="javascript:;" class="aa">手机乐购</a>
+						<div class="er">
+							<div class="er_1">
+								<div class="er_1_1">
+									<h6><a href="#">手机乐购</a></h6>
+									<p>新人专享大礼包</p>
 
-										</div>
-									</div>
-									<div class="er_1">
-										<div class="er_1_1">
-											<h6><a href="#">关注乐购微信</a></h6>
-											<p>微信扫一扫关注新粉最高180元惊喜礼包</p>
-										</div>
-									</div>
-									<!--我的理财-->
-									<div class="er_1" style="border: 0;">
-										<img src="/static/item/img/5874a555Ne8192324.jpg"/>
-										<div class="er_1_1">
-											<h6><a href="#">乐购金融客户端</a></h6>
-											<p>新人专享大礼包</p>
-											<div><a href="#"><img src="/static/item/img/11.png"/></a><a href="#"><img src="/static/item/img/22.png"/></a></div>
-										</div>
-									</div>
 								</div>
-							</li>
-						</ul>
-					</div>
-				</header>
-				<nav>
+							</div>
+							<div class="er_1">
+								<div class="er_1_1">
+									<h6><a href="#">关注乐购微信</a></h6>
+									<p>微信扫一扫关注新粉最高180元惊喜礼包</p>
+								</div>
+							</div>
+							<!--我的理财-->
+							<div class="er_1" style="border: 0;">
+								<img src="/static/item/img/5874a555Ne8192324.jpg"/>
+								<div class="er_1_1">
+									<h6><a href="#">乐购金融客户端</a></h6>
+									<p>新人专享大礼包</p>
+									<div><a href="#"><img src="/static/item/img/11.png"/></a><a href="#"><img src="/static/item/img/22.png"/></a></div>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</header>
+			<nav>
 				<div class="nav_min">
 					<div class="nav_top">
 						<div class="nav_top_one"><a href="#"><img src="/static/item/img/111.png"/></a></div>
@@ -261,9 +260,7 @@
 					</div>
 					<div class="nav_down">
 						<ul class="nav_down_ul">
-							<li class="nav_down_ul_1" style="width: 24%;float: left;"><a href="javascript:;">全部商品分类</a>
-
-							</li>
+							<li class="nav_down_ul_1" style="width: 24%;float: left;"><a href="javascript:;">全部商品分类</a></li>
 							<li class="ul_li"><a href="javascript:;">服装城</a></li>
 							<li class="ul_li"><a href="javascript:;">美妆馆</a></li>
 							<li class="ul_li"><a href="javascript:;">超市</a></li>
@@ -276,10 +273,7 @@
 					</div>
 				</div>
 			</nav>
-
-				</div>
-
-
+		</div>
 			<div class="crumb-wrap">
 			<div class="w">
 				<div class="crumb">
@@ -296,90 +290,18 @@
 					</div>
 					<div class="crumb-item sep">></div>
 					<div class="crumb-item">
-						<div class="crumb-item-one">
-							华为 (HUAWEI)
-							<img src="/static/item/img/4a79b87a68623d4e8a73aff3e25fa99b.png" alt="" class="img" />
-							<div class="crumb-item-two ">
-								<div class="crumb-item-con clear">
-									<ul class="con-ul">
-										<li>
-											<img src="/static/item/img/5825a5a6Nde8ecb75.jpg" alt="" />
-										</li>
-										<li>
-											<p>
-												荣耀8青春版 全网通标配 3GB+32GB 幻海蓝
-											</p>
-											<p>
-												￥1099.00
-											</p>
-										</li>
-									</ul>
-									<ul class="con-ul">
-										<li>
-											<img src="/static/item/img/5919637aN271a1301.jpg" alt="" />
-										</li>
-										<li>
-											<p>
-												荣耀8青春版 全网通标配 3GB+32GB 幻海蓝
-											</p>
-											<p>
-												￥1099.00
-											</p>
-										</li>
-									</ul>
-									<ul class="con-ul">
-										<li>
-											<img src="/static/item/img/599a806bN9d829c1c.jpg" alt="" />
-										</li>
-										<li>
-											<p>
-												荣耀8青春版 全网通标配 3GB+32GB 幻海蓝
-											</p>
-											<p>
-												￥1099.00
-											</p>
-										</li>
-									</ul>
-								</div>
-								<div class="crumb-item-cons clear">
-									<ul>
-										<li>华为(huawei)</li>
-										<li>小米(xiaomi)</li>
-										<li>APPle</li>
-										<li>魅族(meizu)</li>
-										<li>锤子</li>
-
-									</ul>
-									<ul>
-										<li>三星</li>
-										<li>vivo</li>
-										<li>飞利浦</li>
-										<li>360</li>
-										<li>更多>></li>
-
-									</ul>
-								</div>
-							</div>
-
-						</div>
-
-					</div>
-					<div class="crumb-item sep">></div>
-					<div class="crumb-item">
 						华为Mate 10
 					</div>
 				</div>
-
 				<div class="contact">
 					<ul class="contact-ul">
 						<li>
 							<a href="#">
 								华为乐购自营官方旗舰店
 							</a>
-
 							<span class="contact-sp">
 								<span class="contact-sp1">
-								JD
+								LG
 							</span>
 							<span class="contact-sp2">
 								自营
@@ -411,7 +333,6 @@
 								<img src="/static/item/img/1466134037230.jpg" class="contact-img" />
 								<p>手机下单</p>
 							</li>
-
 						</ul>
 						<div class="contact-two">
 							<span><img src="/static/item/img/a400e3d61d5645459f769b00d9f431e7.png" alt="" />进店逛逛</span>
@@ -419,14 +340,13 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 <div class="Shop">
+		<!--商品详情-->
 		<div class="box">
 			<div class="box-one ">
 				<div class="boxx">
-
 					<div class="imgbox">
 						<div class="probox">
 							<img class="img1" alt="" th:src="${item.skuInfo.skuDefaultImg}">
@@ -436,9 +356,7 @@
 							<img class="img1" alt="" th:src="${item.skuInfo.skuDefaultImg}">
 						</div>
 					</div>
-
 					<div class="box-lh">
-
 						<div class="box-lh-one">
 							<ul>
 								<li th:each="img:${item.skuImages}" th:if="${#strings.isEmpty()}"><img th:src="${img.imgUrl}"/></li>
@@ -449,9 +367,7 @@
 								<div id="right">
 									>
 								</div>
-
 						</div>
-
 						<div class="boxx-one">
 							<ul>
 								<li>
@@ -464,12 +380,11 @@
 									</span>
 								</li>
 								<li>
-
 								</li>
 							</ul>
 						</div>
-
 					</div>
+				<!--商品主体内容-->
 					<div class="box-two">
 						<div class="box-name" th:text="${item.skuInfo.skuTitle}">华为 HUAWEI Mate 10 6GB+128GB 亮黑色 移动联通电信4G手机 双卡双待</div>
 						<div class="box-hide" th:text="${item.skuInfo.skuSubtitle}">预订用户预计11月30日左右陆续发货！麒麟970芯片！AI智能拍照！</div>
@@ -485,9 +400,7 @@
 									</li>
 									<li>
 										<img src="/static/item/img/36860afb69afa241beeb33ae86678093.png" /> 预约剩余
-										<span id="timer">
-
-									</span>
+										<span id="timer"></span>
 									</li>
 								</ul>
 							</div>
@@ -572,7 +485,6 @@
 										</dl>
 
 									</div>
-
 								</li>
 								<li>
 									<span th:text="${item.hasStock?'有货，欢迎购买':'无货，此商品暂时售完'}"></span>
@@ -599,12 +511,10 @@
 								</dl>
 							</div>
 						</div>
-
 						<div class="box-btns clear">
 							<div class="box-btns-one">
 								<input type="text" name="" id="numInput" value="1" />
 								<div class="box-btns-one1">
-
 									<div>
 										<button id="jia">
 									+
@@ -639,17 +549,15 @@
 									</dd>
 								</dl>
 							</div>
-
 							<div class="box-footer">
 								<dl>
 									<dt>温馨提示</dt>
-									<dd>·本商品不能使用 东券 京券</dd>
+									<dd>·本商品不能使用乐券</dd>
 									<dd>·请完成预约后及时抢购！</dd>
 								</dl>
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<!--欲约抢购流程-->
@@ -712,20 +620,6 @@
 								</p>
 								<p><strong class="J-p-20348283521">￥13999.00</strong></p>
 							</li>
-							<li>
-								<a href="##"><img src="/static/item/img/59ec0131Nf239df75.jpg" /></a>
-								<p>
-									<a target="_blank" title="斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器 静音大吸力吸尘器TF-X60" href="//item.jd.com/16683419775.html">斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器 静音大吸力吸尘器TF-X60</a>
-								</p>
-								<p><strong class="J-p-16683419775">￥1599.00</strong></p>
-							</li>
-							<li>
-								<a href="##"><img src="/static/item/img/59015444N27317512.jpg" /></a>
-								<p>
-									<a target="_blank" title="斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金" href="//item.jd.com/12187770381.html">斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金</a>
-								</p>
-								<p><strong class="J-p-12187770381">￥2599.00</strong></p>
-							</li>
 						</ul>
 					</div>
 					<!--看了又看-->
@@ -747,23 +641,7 @@
 								</p>
 								<p><strong class="J-p-3749093">￥4899.00</strong></p>
 							</li>
-							<li>
-								<!--shopjieshao-->
-								<a href="##"><img src="/static/item/img/59eb0df9Nd66d7585.jpg" /></a>
-								<p>
-									<a target="_blank" title="华为（HUAWEI） 华为 Mate10 手机 亮黑色 全网通(4+64G)标准版" href="//item.jd.com/12306211773.html">华为（HUAWEI） 华为 Mate10 手机 亮黑色 全网通(4+64G)标准版</a>
-								</p>
-								<p><strong class="J-p-12306211773">￥4088.00</strong></p>
-							</li>
-							<li>
-								<a href="##"><img src="/static/item/img/5a002ba3N126c2f73.jpg" /></a>
-								<p>
-									<a target="_blank" title="斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金" href="//item.jd.com/12187770381.html">斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金</a>
-								</p>
-								<p><strong class="J-p-12187770381">￥2599.00</strong></p>
-							</li>
 						</ul>
-						<img src="/static/item/img/5a084a1aNa1aa0a71.jpg" />
 					</div>
 				</div>
 				<!--商品介绍-->
@@ -784,7 +662,6 @@
 						<li class="shuoming">
 							<a href="##">预约说明</a>
 						</li>
-
 					</ul>
 					<button class="Lijiyuyuessss">
 							立即预约
@@ -806,7 +683,6 @@
 							<a href="#li5">预约说明</a>
 						</li>
 					</ul>
-
 					<!--商品详情-->
 					<div class="huawei">
 						<ul class="xuanxiangka">
@@ -817,11 +693,10 @@
 									<div class="guiGe" th:each="baseAttrGroup:${item.spuBaseAttrGroupVos}">
 										<h3 th:text="${baseAttrGroup.groupName}">主体</h3>
 										<dl>
-											<div th:each="baseAttr:${baseAttrGroup:attrs}">
+											<div th:each="baseAttr:${baseAttrGroup.attrs}">
 												<dt th:text="${baseAttr.attrName}">品牌</dt>
 												<dd th:text="${baseAttr.attrValue}">华为</dd>
 											</div>
-
 										</dl>
 									</div>
 									<div class="package-list">
@@ -862,7 +737,6 @@
 					(注：如厂家在商品介绍中有售后保障的说明，则此商品按照厂家说明执行售后保障服务。)您可以查询本品牌在各地售后服务中心的练习方式<a href="#">请点击这儿查询...</a><br /><br /><br />
 				</div>
 			</div>
-
 			<div class="lianBao ">
 				<span class="oImg">
 					<img src="/static/item/img/2017.jpg" alt="" />
@@ -901,10 +775,8 @@
 				</div>
 			</div>
 		</div>
-
-
 	</div>
-							</li>
+</li>
 							<!--评价-->
 							<li class="PINgjia actives" id="li4">
 								<div class="h3">

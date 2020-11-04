@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8" />
+		<link rel="icon" href="/static/index/img/favicon.ico" type="image/x-icon" />
 		<script src="/static/order/confirm/js/jquery-3.1.1.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="/static/order/confirm/css/JD2.css" />
 		<title>结算页 - 乐购</title>
 	</head>
-
 	<body>
 		<!--顶部-->
 		<header>
@@ -69,16 +69,18 @@
 
 						</div>
 					</li>
-
 				</ul>
 				<ul class="header-right">
-					<li>乐购<img src="/static/order/confirm/img/03.png" style="margin-bottom: 0px;margin-left3: 3px;" /><img src="/static/order/confirm/img/06.png" /></li>
-					<li>|</li>
-					<li class="spacer"></li>
-					<li><a href="">我的订单</a></li>
+					<li>
+						<a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
+						<a th:if="${session.loginUser!=null}">[[${session.loginUser.nickname}]]</a>
+					</li>
+					<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
+					<span>|</span>
+					<li><a href="http://order.tesco.com/list.html" th:if="${session.loginUser!=null}">我的订单</a></li>
 					<li class="spacer"></li>
 					<li>
-						<a href="">我的乐购商城</a>
+						<a href="">个人中心</a>
 						<i class="fa fa-angle-down"></i>
 						<div class="header-r-1 aa header-r-11">
 							<div>
@@ -105,17 +107,13 @@
 							</div>
 							<div>
 								<h4><a href="">我的足迹</a><a href="">更多 ></a> </h4>
-								<a href=""><img src="image/59ae02fcN529cc4a1.jpg"/></a>
-								<a href=""><img src="image/59ce706fN6f3f2a4a.jpg"/></a>
-								<a href=""><img src="image/57b191f2N15993cbb.jpg"/></a>
-								<a href=""><img src="image/58ff269fN7b7e087b.jpg"/></a>
+								<a href=""><img src="/static/order/image/59ae02fcN529cc4a1.jpg"/></a>
+								<a href=""><img src="/static/order/image/59ce706fN6f3f2a4a.jpg"/></a>
+								<a href=""><img src="/static/order/image/57b191f2N15993cbb.jpg"/></a>
+								<a href=""><img src="/static/order/image/58ff269fN7b7e087b.jpg"/></a>
 							</div>
 						</div>
 					</li>
-					<li class="spacer"></li>
-					<li><a href="">乐购商城会员</a></li>
-					<li class="spacer"></li>
-					<li><a href="">企业采购</a></li>
 					<li class="spacer"></li>
 					<li>
 						<a href="">客户服务</a>
@@ -299,7 +297,8 @@
 
 		<!--logo图片-->
 		<div class="top-1">
-			<img src="/static/order/confirm/img/logo1.jpg" class="img1" /><span>结算页</span>
+			<img src="/static/index/img/logo.png" class="img1" />
+			<span>结算页</span>
 			<!--右侧绿色-->
 			<img src="/static/order/confirm/img/08.png" class="img2" />
 		</div>
@@ -325,17 +324,14 @@
 			<p>省运费·无续重·随时取</p>
 			<p class="xiang">详情</p>
 		</div>
-
 		<!--地址-->
 		<div class="top-5">
 			<p>北京昌平区</p><span>北京市  昌平区城区晨曦小区-16号楼 吉利大学  齐天大圣 150****2245</span><img src="/static/order/confirm/img/09.png" /><span>距收货人0米</span>
 			<p class="p3">距离最近</p><span class="xiu">修改自提点</span>
 		</div>
 		<div class="hh1" /></div>
-
 		<!--支付方式-->
 		<h4 class="h4">支付方式</h4>
-
 		<div class="top-6">
 			<p>货到付款</p>
 			<p><span>惠</span>在线支付</p>
@@ -372,7 +368,6 @@
 					<img src="/static/order/confirm/img/im_11.png" />
 					<span>京准达运费大促（限自营中小件）</span>
 				</div>
-
 				</p>
 				<p class="kg" style="color:#666666;margin-top: 13px;font-size: 12px">总重量 :<span style="color:#999999;font-size: 12px">0.095kg</span></p>
 			</div>
@@ -388,7 +383,6 @@
 						<p class="tui-1"><img src="/static/order/confirm/img/i_07.png" />支持7天无理由退货</p>
 					</div>
 				</div>
-
 				<div class="hh1"></div>
 				<p>退换无忧 <span class="money">￥ 0.00</span></p>
 			</div>
@@ -442,17 +436,14 @@
 					<span>退换无忧： </span>
 					<span class="rmb"> &nbsp ￥0.00</span>
 				</p>
-
 			</div>
-
 			<div class="yfze">
 				<p class="yfze_a"><span class="z">应付总额：</span><span class="hq">￥28.90</span></p>
 				<p class="yfze_b">寄送至： 北京 朝阳区 三环到四环之间 朝阳北路复兴国际大厦23层麦田房产 IT-中心研发二部 收货人：赵存权 188****5052</p>
 			</div>
-			<button class="tijiao">提交订单</button>
+			<button class="tijiao" href="http://order.tesco.com/pay.html">提交订单</button>
 		</div>
 		</div>
-
 		<div class="headera">
 			<div class="Logo-tu">
 				<span><img src="/static/order/confirm/img/service_items_1.png"/></span>
@@ -474,12 +465,6 @@
 					</dd>
 					<dd>
 						<a href="##">常见问题</a>
-					</dd>
-					<dd>
-						<a href="##">大家电</a>
-					</dd>
-					<dd>
-						<a href="##">练习客服</a>
 					</dd>
 				</dl>
 				<dl>
@@ -513,12 +498,8 @@
 						<a href="##">分期付款</a>
 					</dd>
 					<dd>
-						<a href="##">邮局汇款</a>
-					</dd>
-					<dd>
 						<a href="##">公司转账</a>
 					</dd>
-					<dd></dd>
 				</dl>
 				<dl>
 					<dt><a href="##">售后服务</a></dt>
@@ -534,19 +515,10 @@
 					<dd>
 						<a href="##">返修/退换货</a>
 					</dd>
-					<dd>
-						<a href="##">取消订单</a>
-					</dd>
 					<dd></dd>
 				</dl>
 				<dl class="dls">
 					<dt><a href="##">特色服务</a></dt>
-					<dd>
-						<a href="##">夺宝岛</a>
-					</dd>
-					<dd>
-						<a href="##">DIY装机</a>
-					</dd>
 					<dd>
 						<a href="##">延保服务</a>
 					</dd>
@@ -600,7 +572,7 @@
 					</li>
 					<li>|</li>
 					<li>
-						<a href="##">谷粒学院社区</a>
+						<a href="##">乐购社区</a>
 					</li>
 					<li>|</li>
 					<li>
@@ -612,7 +584,7 @@
 					</li>
 					<li>|</li>
 					<li>
-						<a href="##">乐购商城公益</a>
+						<a href="##">乐购公益</a>
 					</li>
 					<li>|</li>
 					<li>
@@ -639,12 +611,8 @@
 				<a href="##">：4006561155 </a>
 			</p>
 			<p class="p1">
-				<a href="##"> Copyright © 2004-2017 谷粒学院gulimall.com 版权所有</a>|
+				<a href="##"> Copyright © 2020  乐购商城TESCO.COM 版权所有</a>|
 				<a href="##"> 消费者维权热线：4006067733 经营证照</a>|
-			</p>
-			<p class="p1">
-				<a href="##"> 乐购商城旗下网站：乐购商城支付</a>|
-				<a href="##"> 乐购商城云</a>
 			</p>
 			<p class="p3">
 				<img src="/static/order/confirm/img/54b8871eNa9a7067e.png" />

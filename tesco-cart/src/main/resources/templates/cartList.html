@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>乐购 - 购物车</title>
-		<link rel="icon" href="/static/cart/img/心04.png" type="/image/x-icon" />
+		<link rel="icon" href="/static/index/img/favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="/static/cart/css/One_bdyStyle.css">
 		<link rel="stylesheet" href="/static/cart/css/index.css">
 		<script src="/static/cart/js/jquery-3.1.1.min.js" charset="utf-8"></script>
@@ -26,7 +26,7 @@
 						</li>
 						<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}">免费注册</a></li>
 						<li class="spacer"></li>
-						<li><a href="" th:if="${session.loginUser!=null}">我的订单</a></li>
+						<li><a href="http://order.tesco.com/list.html" th:if="${session.loginUser!=null}">我的订单</a></li>
 						<li class="spacer"></li>
 					</ul>
 					<div style="clear: both;"></div>
@@ -39,7 +39,9 @@
 			<div class="one_sousuo">
 				<div class="one_search_top">
 					<div class="one_top_left">
-						<a href="http://tesco.com" class="one_left_logo"><img src="img/logo1.jpg"></a>
+						<a href="http://tesco.com" class="one_left_logo">
+<!--							<img src="/static/index/img/logo.png">-->
+						</a>
 						<a href="http://cart.tesco.com/cartList.html" class="one_left_link">购物车</a>
 					</div>
 					<div class="one_top_right">
@@ -122,8 +124,8 @@
 					<div>
 						<font style="color:#e64346;font-weight:bold;" class="sumNum"> </font>&nbsp;
 						<ul>
-							<li><img src="img/buyNumleft.png" alt=""></li>
-							<li><img src="img/buyNumright.png" alt=""></li>
+							<li><img src="/static/cart/img/buyNumleft.png" alt=""></li>
+							<li><img src="/static/cart/img/buyNumright.png" alt=""></li>
 						</ul>
 					</div>
 					<div>
@@ -136,14 +138,13 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="One_isDel">
 			<p>
-				<span>删除</span><span><img src="img/错误.png" alt=""></span>
+				<span>删除</span><span><img src="/static/cart/img/错误.png" alt=""></span>
 			</p>
 			<div>
 				<dl>
-					<dt><img src="img/感叹三角形 (2).png" alt=""></dt>
+					<dt><img src="/static/cart/img/感叹三角形 (2).png" alt=""></dt>
 					<dd>
 						<li>删除商品？</li>
 						<li>您可以选择移到关注，或删除商品。</li>
@@ -152,25 +153,24 @@
 			</div>
 			<div>
 				<button type="button" onclick="deleteItem()">删除</button>
-
 			</div>
 		</div>
 		<div class="One_moveGzIfNull">
 			<p>
-				<span>删除</span><span><img src="img/错误.png" alt=""></span>
+				<span>删除</span><span><img src="/static/cart/img/错误.png" alt=""></span>
 			</p>
 			<dl>
-				<dt><img src="img/感叹三角形 (2).png" alt=""></dt>
+				<dt><img src="/static/cart/img/感叹三角形 (2).png" alt=""></dt>
 				<dd>请至少选中一件商品！</dd>
 			</dl>
 		</div>
 		<div class="One_moveMyGz">
 			<p>
-				<span>删除</span><span><img src="img/错误.png" alt=""></span>
+				<span>删除</span><span><img src="/static/cart/img/错误.png" alt=""></span>
 			</p>
 			<div>
 				<dl>
-					<dt><img src="img/感叹三角形 (2).png" alt=""></dt>
+					<dt><img src="/static/cart/img/感叹三角形 (2).png" alt=""></dt>
 					<dd>
 						<li>移到关注</li>
 						<li>移动后选中商品将不再购物车中显示</li>
@@ -184,10 +184,10 @@
 		</div>
 		<div class="One_clearShop">
 			<p>
-				<span>提示</span><span><img src="img/错误.png" alt=""></span>
+				<span>提示</span><span><img src="/static/cart/img/错误.png" alt=""></span>
 			</p>
 			<dl>
-				<dt><img src="img/感叹三角形 (2).png" alt=""></dt>
+				<dt><img src="/static/cart/img/感叹三角形 (2).png" alt=""></dt>
 				<dd>没有下柜商品!</dd>
 			</dl>
 		</div>
@@ -199,13 +199,11 @@
 	<script src="/static/cart/js/index.js" charset="utf-8"></script>
 	<script type="text/javascript">
 		function toTrade() {
-			window.location.href = "http://cart.tesco.com:8087/toTrade";
+			window.location.href = "http://order.tesco.com/confirm.html";
 		}
-
 		function toItem(skuId) {
-			window.location.href = "http://item.tesco.com:8084/" + skuId + ".html";
+			window.location.href = "http://item.tesco.com/" + skuId + ".html";
 		}
-
 		function checkSku(chkbox) {
 			var skuId = $(chkbox).attr("value");
 			var checked = $(chkbox).prop("checked");
@@ -217,7 +215,6 @@
 			$.post("checkCart", param, function(data) {
 				sumSumPrice();
 			});
-
 		}
 
 		//封装总价钱函数

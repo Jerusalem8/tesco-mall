@@ -24,6 +24,13 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual    #手动ack消息
+  redis:
+    host: 192.168.75.140
+    port: 6379
+  session:
+    store-type: redis
+  thymeleaf:
+    cache: false
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   main:
