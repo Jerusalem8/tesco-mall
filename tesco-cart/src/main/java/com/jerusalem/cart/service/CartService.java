@@ -3,6 +3,7 @@ package com.jerusalem.cart.service;
 import com.jerusalem.cart.vo.Cart;
 import com.jerusalem.cart.vo.CartItem;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /****
@@ -60,4 +61,10 @@ public interface CartService {
      * @return
      */
     void deleteItem(Long skuId);
+
+    /***
+     * 获取当前登录用户的所有选中的购物项
+     * @return
+     */
+    List<CartItem> getUserCartItems();
 }

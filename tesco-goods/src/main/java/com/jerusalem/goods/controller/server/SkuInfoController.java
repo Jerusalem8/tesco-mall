@@ -1,5 +1,6 @@
 package com.jerusalem.goods.controller.server;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,18 @@ public class SkuInfoController {
 
     @Autowired
     private SkuInfoService skuInfoService;
+
+    /****
+     * 根据id查询商品的价格
+     * @param skuId
+     * @return
+     */
+    @GetMapping("{skuId}/price")
+    public BigDecimal getPrice(@PathVariable("skuId") Long skuId){
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+        BigDecimal price = skuInfo.getPrice();
+        return price;
+    }
 
     /***
     * 根据分类、品牌、价格、关键词进行分页查询

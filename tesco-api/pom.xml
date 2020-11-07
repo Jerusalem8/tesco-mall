@@ -21,6 +21,7 @@
         <module>tesco-ware-api</module>
         <module>tesco-search-api</module>
         <module>tesco-third-api</module>
+        <module>tesco-cart-api</module>
     </modules>
 
     <dependencies>

@@ -1,14 +1,11 @@
 package com.jerusalem.user.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.user.entity.UserReceiveAddressEntity;
 import com.jerusalem.user.service.UserReceiveAddressService;
@@ -29,6 +26,21 @@ public class UserReceiveAddressController {
 
     @Autowired
     private UserReceiveAddressService userReceiveAddressService;
+
+    /***
+     * 根据用户id获取收货地址列表
+     * @param userId
+     * @return
+     */
+    @GetMapping("/{userId}/address")
+    public List<UserReceiveAddressEntity> getAddress(@PathVariable("userId") Long userId){
+        List<UserReceiveAddressEntity> list = userReceiveAddressService.getAddressList(userId);
+        return list;
+    }
+
+
+
+
 
     /***
     * 分页查询

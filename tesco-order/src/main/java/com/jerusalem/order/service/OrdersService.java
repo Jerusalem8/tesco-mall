@@ -3,6 +3,7 @@ package com.jerusalem.order.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.order.entity.OrdersEntity;
+import com.jerusalem.order.vo.OrderConfirmVo;
 
 import java.util.Map;
 
@@ -21,5 +22,11 @@ public interface OrdersService extends IService<OrdersEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 获取结算页封装信息
+     * @return
+     */
+    OrderConfirmVo confirmOrder();
 }
 

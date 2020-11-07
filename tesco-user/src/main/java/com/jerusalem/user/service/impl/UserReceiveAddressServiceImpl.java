@@ -1,6 +1,8 @@
 package com.jerusalem.user.service.impl;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,4 +38,14 @@ public class UserReceiveAddressServiceImpl extends ServiceImpl<UserReceiveAddres
         return new PageUtils(page);
     }
 
+    /***
+     * 根据ID查询用户地址列表信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<UserReceiveAddressEntity> getAddressList(Long userId) {
+        List<UserReceiveAddressEntity> addressList = this.list(new QueryWrapper<UserReceiveAddressEntity>().eq("user_id", userId));
+        return addressList;
+    }
 }

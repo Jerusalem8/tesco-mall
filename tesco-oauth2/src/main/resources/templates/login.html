@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="/static/login/JD_sass/JD1.css" />
@@ -29,7 +29,9 @@
 			</div>
 			<div id="sign">
 				<div class="si_top">
-					<p><span>乐购商城不会以任何理由要求您转账汇款，谨防诈骗。</span></p>
+					<p><span>乐购商城不会以任何理由要求您转账汇款，谨防诈骗。</span>
+					</p>
+					<span style="color: red" th:if="${session.msg != null}"><br/>[[${session.msg}]]</span>
 				</div>
 				<div class="si_cen">
 					<h2 class="act btn1">扫码登录</h2>

@@ -23,7 +23,7 @@ public class Cart {
     private Integer countNum;
     private Integer countType;
     private BigDecimal totalAmount;
-    private BigDecimal reduce = new BigDecimal("9.99");
+    private BigDecimal reduce = new BigDecimal("0.00");
 
     /**
      * 自定义计算
@@ -62,8 +62,10 @@ public class Cart {
         //1.计算总价
         if (cartItems != null && cartItems.size()>0){
             for (CartItem cartItem : cartItems) {
-                BigDecimal totalPrice = cartItem.getTotalPrice();
-                amount = amount.add(totalPrice);
+                if (cartItem.getCheck()){
+                    BigDecimal totalPrice = cartItem.getTotalPrice();
+                    amount = amount.add(totalPrice);
+                }
             }
         }
         //2.减去优惠

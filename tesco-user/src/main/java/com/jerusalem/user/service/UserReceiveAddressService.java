@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.user.entity.UserReceiveAddressEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -21,5 +22,12 @@ public interface UserReceiveAddressService extends IService<UserReceiveAddressEn
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 根据ID查询用户地址列表信息
+     * @param userId
+     * @return
+     */
+    List<UserReceiveAddressEntity> getAddressList(Long userId);
 }
 
