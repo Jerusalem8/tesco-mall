@@ -6,6 +6,7 @@ import com.jerusalem.order.entity.OrdersEntity;
 import com.jerusalem.order.vo.OrderConfirmVo;
 
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /****
  * 服务层接口
@@ -27,6 +28,6 @@ public interface OrdersService extends IService<OrdersEntity> {
      * 获取结算页封装信息
      * @return
      */
-    OrderConfirmVo confirmOrder();
+    OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
 }
 

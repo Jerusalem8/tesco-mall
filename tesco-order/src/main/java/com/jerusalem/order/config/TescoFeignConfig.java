@@ -29,8 +29,10 @@ public class TescoFeignConfig {
                 ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
                 HttpServletRequest request = requestAttributes.getRequest();//老请求
                 //同步请求头信息（cookie等）
-                String cookie = request.getHeader("Cookie");
-                requestTemplate.header("Cookie",cookie);//新请求同步cookie
+                if (request != null){
+                    String cookie = request.getHeader("Cookie");
+                    requestTemplate.header("Cookie",cookie);//新请求同步cookie
+                }
             }
         };
     }

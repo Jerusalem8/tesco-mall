@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +25,8 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.order.dao.OrdersDao;
 import com.jerusalem.order.entity.OrdersEntity;
 import com.jerusalem.order.service.OrdersService;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 /****
  * 服务层接口实现类
@@ -37,6 +43,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     CartFeign cartFeign;
+
+    @Autowired
+    ThreadPoolExecutor threadPoolExecutor;
 
     /**
     * 分页查询
@@ -57,21 +66,36 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
      * @return
      */
     @Override
-    public OrderConfirmVo confirmOrder() {
+    public OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException {
         OrderConfirmVo orderConfirmVo = new OrderConfirmVo();
         UserResponseVo userResponseVo = LoginInterceptor.loginUser.get();
-        //1.远程查询用户的所有收货地址信息
-        List<UserAddressVo> addressList = userReceiveAddressFeign.getAddress(userResponseVo.getId());
-        orderConfirmVo.setUserAddressVos(addressList);
-        //2.远程查询购物车选中的购物项
-        //feign远程调用请求头丢失问题：添加拦截器，通信新老请求数据
-        List<OrderItemVo> userCartItems = cartFeign.getUserCartItems();
-        orderConfirmVo.setOrderItemVos(userCartItems);
+        //上下文环境的保持器,拿到刚进来的请求
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        //异步编排两个远程调用任务
+        CompletableFuture<Void> addressFuture = CompletableFuture.runAsync(() -> {
+            //副线程共享请求信息
+            RequestContextHolder.setRequestAttributes(requestAttributes);
+            //1.远程查询用户的所有收货地址信息
+            List<UserAddressVo> addressList = userReceiveAddressFeign.getAddress(userResponseVo.getId());
+            orderConfirmVo.setUserAddressVos(addressList);
+        }, threadPoolExecutor);
+        CompletableFuture<Void> orderItemFuture = CompletableFuture.runAsync(() -> {
+            //副线程共享请求信息
+            RequestContextHolder.setRequestAttributes(requestAttributes);
+            //2.远程查询购物车选中的购物项
+            //feign远程调用请求头丢失问题：添加拦截器，通信新老请求数据
+            List<OrderItemVo> userCartItems = cartFeign.getUserCartItems();
+            orderConfirmVo.setOrderItemVos(userCartItems);
+        }, threadPoolExecutor);
+
         //3.查询用户积分
         Integer integration = userResponseVo.getIntegration();
         orderConfirmVo.setIntegration(integration);
         //4.其他数据自动计算
         //TODO 5.防重令牌
+
+        //等待所有任务完成
+        CompletableFuture.allOf(addressFuture,orderItemFuture).get();
         return orderConfirmVo;
     }
 }

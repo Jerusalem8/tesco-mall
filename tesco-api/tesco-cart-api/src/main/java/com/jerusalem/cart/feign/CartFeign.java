@@ -4,6 +4,7 @@ import com.jerusalem.common.vo.OrderItemVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
  * @Date 2020/11/7 14:05
  *****/
 @FeignClient(name="cart-service")
-@RequestMapping("cart")
 public interface CartFeign {
 
     /***

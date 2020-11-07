@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -26,6 +27,17 @@ public class CartController {
 
     @Autowired
     CartService cartService;
+
+    /***
+     * 获取当前登录用户的所有选中的购物项
+     * @return
+     */
+    @GetMapping("/cartItems")
+    @ResponseBody       //返回JSON数据
+    public List<CartItem> getUserCartItems(){
+        List<CartItem> cartItems = cartService.getUserCartItems();
+        return cartItems;
+    }
 
     /***
      * 获取购物车页面
