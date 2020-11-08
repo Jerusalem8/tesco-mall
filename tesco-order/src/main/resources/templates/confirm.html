@@ -305,12 +305,12 @@
 		</div>
 
 		<!--主体部分-->
-		<p class="p1">填写并核对订单信息</p>
+		<p class="p1"><b>填写并核对订单信息</b></p>
 		<div class="section">
 			<!--收货人信息-->
 			<div class="top-2">
 				<span>收货人信息</span>
-				<span>新增收货地址</span>
+				<span><b>新增收货地址</b></span>
 			</div>
 			<!--地址-->
 			<div class="top-3 addr-item" th:each="address:${orderConfirm.userAddressVos}">
@@ -420,11 +420,18 @@
 			<div class="yfze">
 				<p class="yfze_a"><span class="hq"><b style="font-size: 14px">实付金额：￥</b><b style="font-size: 14px" id="payPriceEle"></b></span></p>
 				<p class="yfze_b">
-					<b>收货人：</b><span id="receiveEle"></span>&nbsp;&nbsp;
-					<b>寄送至：</b><span id="receiveAddressEle"></span>
+					<b style="font-size: 13px">收货人：</b><span id="receiveEle" style="font-size: 13px"></span>&nbsp;&nbsp;
+					<b style="font-size: 13px">寄送至：</b><span id="receiveAddressEle" style="font-size: 13px"></span>
 				</p>
 			</div>
-			<button class="tijiao" href="http://order.tesco.com/pay.html">提交订单</button>
+			<form action="http://order.tesco.com/submitOrder" method="post">
+				<!--提交订单要提交的数据-->
+				<input id="addrIdInput" type="hidden" name="addrId">
+				<input id="payPriceInput" type="hidden" name="payPrice">
+				<!--设置订单令牌并隐藏（作用，防止重复提交订单）-->
+				<input type="hidden" name="orderToken" th:value="${orderConfirm.orderToken}"/>
+				<button class="tijiao" type="submit">提交订单</button>
+			</form>
 		</div>
 		</div>
 
@@ -657,6 +664,8 @@
 			});
 			//查运费
 			function getFare(addrId) {
+				//给表单回填选择的地址
+				$("#addrIdInput").val(addrId);
 				$.get("http://tesco.com/api/ware/ware/info/fare?addrId="+addrId,function (response) {
 					var fare = response.data.fare;
 					//设置运费，并进行格式化
@@ -664,6 +673,7 @@
 					$("#fareEle").text(fare2);
 					var totalPrice = [[${orderConfirm.totalPrice}]];
 					var payPrice = totalPrice*1 + fare*1;
+					$("#payPriceInput").val(payPrice);
 					var payPrice2 = toDecimal(payPrice);
 					//设置实付金额，并进行格式化
 					$("#payPriceEle").text(payPrice2);

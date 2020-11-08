@@ -7,18 +7,22 @@ import com.jerusalem.common.vo.OrderItemVo;
 import com.jerusalem.common.vo.SkuStockVo;
 import com.jerusalem.common.vo.UserAddressVo;
 import com.jerusalem.common.vo.UserResponseVo;
+import com.jerusalem.order.constant.OrderTokenConstant;
 import com.jerusalem.order.interceptor.LoginInterceptor;
 import com.jerusalem.order.vo.OrderConfirmVo;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
 import com.jerusalem.ware.feign.WareSkuFeign;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -54,6 +58,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     ThreadPoolExecutor threadPoolExecutor;
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     /**
     * 分页查询
@@ -111,8 +118,13 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         Integer integration = userResponseVo.getIntegration();
         orderConfirmVo.setIntegration(integration);
         //4.其他数据自动计算
-        //TODO 5.防重令牌
-
+        //5.防重令牌(重点)
+        String token = UUID.randomUUID().toString().replace("-", "");
+        //存放到redis中，并设置过期时间
+        String tokenKey = OrderTokenConstant.USER_ORDER_TOKEN_PREFIX+userResponseVo.getId();
+        redisTemplate.opsForValue().set(token,token,30, TimeUnit.MINUTES);
+        //同时给页面发一份
+        orderConfirmVo.setOrderToken(token);
         //等待所有任务完成
         CompletableFuture.allOf(addressFuture,orderItemFuture).get();
         return orderConfirmVo;
