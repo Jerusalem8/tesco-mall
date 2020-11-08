@@ -1,5 +1,6 @@
 package com.jerusalem.user.feign;
 
+import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.UserAddressVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,4 +25,11 @@ public interface UserReceiveAddressFeign {
      */
     @GetMapping("/{userId}/address")
     List<UserAddressVo> getAddress(@PathVariable("userId")Long userId);
+
+    /***
+     * 根据id获取收货地址信息
+     * @return
+     */
+    @GetMapping("/info/{id}")
+    R info(@PathVariable("id") Long id);
 }

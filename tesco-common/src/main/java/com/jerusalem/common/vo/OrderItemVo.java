@@ -22,6 +22,7 @@ public class OrderItemVo {
      * 价格
      * 数量
      * 总价
+     * 重量
      */
     private Long skuId;
     private String title;
@@ -30,4 +31,5 @@ public class OrderItemVo {
     private BigDecimal price;
     private Integer count;
     private BigDecimal totalPrice;
+    private BigDecimal weight;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /****
  * @Author: jerusalem
@@ -34,6 +35,27 @@ public class OrderConfirmVo {
      */
     @Getter @Setter
     Integer integration;
+
+    /***
+     * 商品的库存信息
+     */
+    @Getter @Setter
+    Map<Long,Boolean> skuStocks;
+
+    /***
+     * 商品总件数
+     * @return
+     */
+    public Integer getTotalCount(){
+        Integer totalCount = 0;
+        if (orderItemVos != null){
+            for (OrderItemVo orderItemVo : orderItemVos) {
+                Integer count = orderItemVo.getCount();
+                totalCount += count;
+            }
+        }
+        return totalCount;
+    }
 
     /***
      * 订单总额

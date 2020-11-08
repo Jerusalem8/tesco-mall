@@ -3,7 +3,7 @@ package com.jerusalem.goods.service.impl;
 import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.common.constant.GoodsConstant;
 import com.jerusalem.common.esTo.SkuEsModel;
-import com.jerusalem.common.to.SkuStockVo;
+import com.jerusalem.common.vo.SkuStockVo;
 import com.jerusalem.common.utils.R;
 import com.jerusalem.goods.entity.*;
 import com.jerusalem.goods.service.*;

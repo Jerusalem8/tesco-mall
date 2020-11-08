@@ -1,12 +1,16 @@
 package com.jerusalem.order.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.cart.feign.CartFeign;
+import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.OrderItemVo;
+import com.jerusalem.common.vo.SkuStockVo;
 import com.jerusalem.common.vo.UserAddressVo;
 import com.jerusalem.common.vo.UserResponseVo;
 import com.jerusalem.order.interceptor.LoginInterceptor;
 import com.jerusalem.order.vo.OrderConfirmVo;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
+import com.jerusalem.ware.feign.WareSkuFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -43,6 +48,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     CartFeign cartFeign;
+
+    @Autowired
+    WareSkuFeign wareSkuFeign;
 
     @Autowired
     ThreadPoolExecutor threadPoolExecutor;
@@ -86,7 +94,18 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
             //feign远程调用请求头丢失问题：添加拦截器，通信新老请求数据
             List<OrderItemVo> userCartItems = cartFeign.getUserCartItems();
             orderConfirmVo.setOrderItemVos(userCartItems);
-        }, threadPoolExecutor);
+        }, threadPoolExecutor).thenRunAsync(()->{
+            //异步批量查询库存状态
+            List<OrderItemVo> orderItemVos = orderConfirmVo.getOrderItemVos();
+            //将所有商品的id封装成一个map
+            List<Long> skuIdList = orderItemVos.stream().map(orderItemVo -> orderItemVo.getSkuId()).collect(Collectors.toList());
+            R skuStock = wareSkuFeign.getSkuStock(skuIdList);
+            List<SkuStockVo> skuStockVos = skuStock.getData(new TypeReference<List<SkuStockVo>>(){});
+            if (skuStockVos != null){
+                Map<Long, Boolean> skuStockMap = skuStockVos.stream().collect(Collectors.toMap(SkuStockVo::getSkuId, SkuStockVo::getHasStock));
+                orderConfirmVo.setSkuStocks(skuStockMap);
+            }
+        },threadPoolExecutor);
 
         //3.查询用户积分
         Integer integration = userResponseVo.getIntegration();

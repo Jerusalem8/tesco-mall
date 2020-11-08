@@ -1,8 +1,10 @@
 package com.jerusalem.ware.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.jerusalem.ware.vo.AddressWithFareVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,21 @@ public class WareInfoController {
 
     @Autowired
     private WareInfoService wareInfoService;
+
+    /***
+     * 根据收货地址id获取运费
+     * @param addrId
+     * @return
+     */
+    @GetMapping("/fare")
+    public R getFare(@RequestParam("addrId") Long addrId){
+        AddressWithFareVo addressWithFare = wareInfoService.getFare(addrId);
+        return R.ok().setData(addressWithFare);
+    }
+
+
+
+
 
     /***
     * 根据关键词进行分页查询

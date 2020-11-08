@@ -1,4 +1,4 @@
-package com.jerusalem.common.to;
+package com.jerusalem.common.vo;
 
 import lombok.Data;
 

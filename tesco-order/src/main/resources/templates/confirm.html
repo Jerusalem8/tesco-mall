@@ -70,6 +70,7 @@
 						</div>
 					</li>
 				</ul>
+				<!--顶部右侧-->
 				<ul class="header-right">
 					<li>
 						<a href="http://auth.tesco.com/login.html" th:if="${session.loginUser==null}">你好，请登录</a>
@@ -143,7 +144,7 @@
 								</ol>
 								<ol>
 									<dd><a href="">学习中心</a></dd>
-									<dd><a href="">京麦工作台</a></dd>
+									<dd><a href="">乐购工作台</a></dd>
 									<dd><a href="">规则平台</a></dd>
 								</ol>
 							</div>
@@ -299,7 +300,7 @@
 		<div class="top-1">
 			<img src="/static/index/img/logo.png" class="img1" />
 			<span>结算页</span>
-			<!--右侧绿色-->
+			<!--右侧绿色流程线-->
 			<img src="/static/order/confirm/img/08.png" class="img2" />
 		</div>
 
@@ -311,10 +312,9 @@
 				<span>收货人信息</span>
 				<span>新增收货地址</span>
 			</div>
-
 			<!--地址-->
-			<div class="top-3">
-				<p>家里</p><span>齐天大圣  北京市  昌平区城区晨曦小区-16号楼 吉利大学  150****2245</span>
+			<div class="top-3 addr-item" th:each="address:${orderConfirm.userAddressVos}">
+				<p th:attr="def=${address.defaultStatus},addrId=${address.id}">[[${address.name}]]</p><span>[[${address.province}]]  [[${address.city}]] [[${address.detailAddress}]]  [[${address.phone}]]</span>
 			</div>
 			<p class="p2">更多地址︾</p>
 			<div class="hh1"/></div>
@@ -323,11 +323,6 @@
 			<p>乐购商城自提</p>
 			<p>省运费·无续重·随时取</p>
 			<p class="xiang">详情</p>
-		</div>
-		<!--地址-->
-		<div class="top-5">
-			<p>北京昌平区</p><span>北京市  昌平区城区晨曦小区-16号楼 吉利大学  齐天大圣 150****2245</span><img src="/static/order/confirm/img/09.png" /><span>距收货人0米</span>
-			<p class="p3">距离最近</p><span class="xiu">修改自提点</span>
 		</div>
 		<div class="hh1" /></div>
 		<!--支付方式-->
@@ -346,7 +341,7 @@
 					乐购商城快递
 				</div>
 				<p class="biao">
-					<span class="til">标 准 达 ：</span>
+					<span class="til">标准达：</span>
 					<span class="con">预计 12月16日[今天] 15:00-19:00 送达</span>
 					<a href="#">修改</a>
 				</p>
@@ -363,7 +358,6 @@
 							自签收后7天内退货，15天内换<span style="font-size: 12px;margin-left: 5px"> ￥ 0.50</span><br />
 						<span class="nul">货，</span>可享1次上门取件服务 ﹀
 						</span>
-
 				<div class="updata-2">
 					<img src="/static/order/confirm/img/im_11.png" />
 					<span>京准达运费大促（限自营中小件）</span>
@@ -374,17 +368,19 @@
 			<div class="to_right">
 				<h5>商家：乐购商城自营</h5>
 				<div><button>换购</button><span>已购满20.00元，再加49.90元，可返回购物车领取赠品</span></div>
-				<!--图片-->
-				<div class="yun1">
-					<img src="/static/order/confirm/img/im_03.png" class="yun"/>
+				<!--商品-->
+				<div class="yun1" th:each="orderItem:${orderConfirm.orderItemVos}">
+					<img th:src="${orderItem.image}" class="yun"/>
 					<div class="mi">
-						<p>小米（MI）小米手环2 智能运动 心率检测 来 <span style="color: red;"> ￥ 149.00</span> <span> x1 </span> <span>有货</span></p>
-						<p>电提醒 久坐提醒 LED显示器 时间显示 防水记 <span>0.095kg</span></p>
-						<p class="tui-1"><img src="/static/order/confirm/img/i_07.png" />支持7天无理由退货</p>
+						<p>[[${orderItem.title}]]
+							<span style="color: red;">￥ [[${#numbers.formatDecimal(orderItem.price,1,2)}]]</span>
+							<span>x [[${orderItem.count}]]</span>
+							<span style="color: blue;">[[${orderConfirm.skuStocks[orderItem.skuId]?"有货":"无货"}]]</span>
+						</p>
+						<p>0.095kg</p>
+						<p class="tui-1"><img src="/static/order/confirm/img/i_07.png" />退换无忧 支持7天无理由退货</p>
 					</div>
 				</div>
-				<div class="hh1"></div>
-				<p>退换无忧 <span class="money">￥ 0.00</span></p>
 			</div>
 		</div>
 		<div class="bto">
@@ -415,35 +411,24 @@
 		</div>
 		<div class="xia">
 			<div class="qian">
-				<p class="qian_y">
-					<span>1</span>
-					<span>件商品，总商品金额：</span>
-					<span class="rmb">￥28.90</span>
-				</p>
-				<p class="qian_y">
-					<span>返现：</span>
-					<span class="rmb">  -￥0.00</span>
-				</p>
-				<p class="qian_y">
-					<span>运费： </span>
-					<span class="rmb"> &nbsp ￥0.00</span>
-				</p>
-				<p class="qian_y">
-					<span>服务费： </span>
-					<span class="rmb"> &nbsp ￥0.00</span>
-				</p>
-				<p class="qian_y">
-					<span>退换无忧： </span>
-					<span class="rmb"> &nbsp ￥0.00</span>
-				</p>
+				<p class="qian_y"><span><b style="font-size: 10px">共[[${orderConfirm.totalCount}]]件商品</b></span></p>
+				<p class="qian_y"><span class="rmb"><b style="font-size: 10px">总金额：￥[[${#numbers.formatDecimal(orderConfirm.totalPrice,1,2)}]]</b></span></p>
+				<p class="qian_y"><span class="rmb"><b style="font-size: 10px">优惠减免：-￥0.00</b></span></p>
+				<p class="qian_y"><span class="rmb"><b style="font-size: 10px">运费： ￥</b><b style="font-size: 10px" id="fareEle"></b></span></p>
+				<p class="qian_y"><span class="rmb"><b style="font-size: 10px">退换无忧：￥0.00</b></span></p>
 			</div>
 			<div class="yfze">
-				<p class="yfze_a"><span class="z">应付总额：</span><span class="hq">￥28.90</span></p>
-				<p class="yfze_b">寄送至： 北京 朝阳区 三环到四环之间 朝阳北路复兴国际大厦23层麦田房产 IT-中心研发二部 收货人：赵存权 188****5052</p>
+				<p class="yfze_a"><span class="hq"><b style="font-size: 14px">实付金额：￥</b><b style="font-size: 14px" id="payPriceEle"></b></span></p>
+				<p class="yfze_b">
+					<b>收货人：</b><span id="receiveEle"></span>&nbsp;&nbsp;
+					<b>寄送至：</b><span id="receiveAddressEle"></span>
+				</p>
 			</div>
 			<button class="tijiao" href="http://order.tesco.com/pay.html">提交订单</button>
 		</div>
 		</div>
+
+		<!--底部footer-->
 		<div class="headera">
 			<div class="Logo-tu">
 				<span><img src="/static/order/confirm/img/service_items_1.png"/></span>
@@ -623,6 +608,7 @@
 				<img src="/static/order/confirm/img/56a89b8fNfbaade9a.jpg" />
 			</p>
 		</div>
+
 		<script>
 			$(document).ready(function () {
                 $('.header-right li:nth-of-type(6)').hover(function(){
@@ -650,8 +636,62 @@
                 },function(){
                     $('.h-r-1').css('display','none')
                 })
+				highlight();
+                //第一次页面加载完成，也要自动查运费
+				getFare($(".addr-item p[def='1']").attr("addrId"));
             })
+
+			//收货地址高亮
+			function highlight() {
+				$(".addr-item p").css({"border":"2px solid gray"})
+				$(".addr-item p[def='1']").css({"border":"2px solid red"})
+			}
+			$(".addr-item p").click(function () {
+				$(".addr-item p").attr("def","0")
+				$(this).attr("def","1");
+				highlight();
+				//获取当前地址的id
+				var addrId = $(this).attr("addrId");
+				//发送ajax请求获取运费信息
+				getFare(addrId);
+			});
+			//查运费
+			function getFare(addrId) {
+				$.get("http://tesco.com/api/ware/ware/info/fare?addrId="+addrId,function (response) {
+					var fare = response.data.fare;
+					//设置运费，并进行格式化
+					var fare2 = toDecimal(fare);
+					$("#fareEle").text(fare2);
+					var totalPrice = [[${orderConfirm.totalPrice}]];
+					var payPrice = totalPrice*1 + fare*1;
+					var payPrice2 = toDecimal(payPrice);
+					//设置实付金额，并进行格式化
+					$("#payPriceEle").text(payPrice2);
+					//设置收货信息
+					var receiveAddress = response.data.userAddressVo.province+" "+response.data.userAddressVo.city+" "+response.data.userAddressVo.detailAddress;
+					$("#receiveAddressEle").text(receiveAddress);
+					var receive = response.data.userAddressVo.name;
+					$("#receiveEle").text(receive);
+				})
+			}
+			//强制保留两位小数
+			function toDecimal(x) {
+				var f = parseFloat(x);
+				if (isNaN(f)) {
+					return false;
+				}
+				var f = Math.round(x*100)/100;
+				var s = f.toString();
+				var rs = s.indexOf('.');
+				if (rs < 0) {
+					rs = s.length;
+					s += '.';
+				}
+				while (s.length <= rs + 2) {
+					s += '0';
+				}
+				return s;
+			}
 		</script>
 	</body>
-
 </html>

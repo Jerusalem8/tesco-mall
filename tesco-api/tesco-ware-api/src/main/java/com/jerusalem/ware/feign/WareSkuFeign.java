@@ -1,6 +1,5 @@
 package com.jerusalem.ware.feign;
 
-import com.jerusalem.common.to.SkuStockVo;
 import com.jerusalem.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,7 @@ import java.util.List;
 public interface WareSkuFeign {
 
     /***
-     * 查询Sku是否有库存
+     * 批量查询Sku是否有库存
      * @param skuIds
      * @return
      */

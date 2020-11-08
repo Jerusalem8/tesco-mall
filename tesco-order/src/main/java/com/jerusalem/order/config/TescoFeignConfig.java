@@ -4,7 +4,6 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -27,11 +26,13 @@ public class TescoFeignConfig {
             public void apply(RequestTemplate requestTemplate) {
                 //上下文环境的保持器,拿到刚进来的请求
                 ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-                HttpServletRequest request = requestAttributes.getRequest();//老请求
-                //同步请求头信息（cookie等）
-                if (request != null){
-                    String cookie = request.getHeader("Cookie");
-                    requestTemplate.header("Cookie",cookie);//新请求同步cookie
+                if (requestAttributes!=null){
+                    HttpServletRequest request = requestAttributes.getRequest();//老请求
+                    //同步请求头信息（cookie等）
+                    if (request != null){
+                        String cookie = request.getHeader("Cookie");
+                        requestTemplate.header("Cookie",cookie);//新请求同步cookie
+                    }
                 }
             }
         };

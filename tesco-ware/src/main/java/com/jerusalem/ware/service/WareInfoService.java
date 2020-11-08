@@ -3,6 +3,7 @@ package com.jerusalem.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.ware.entity.WareInfoEntity;
+import com.jerusalem.ware.vo.AddressWithFareVo;
 
 import java.util.Map;
 
@@ -21,5 +22,12 @@ public interface WareInfoService extends IService<WareInfoEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 根据收货地址获取运费
+     * @param addrId
+     * @return
+     */
+    AddressWithFareVo getFare(Long addrId);
 }
 

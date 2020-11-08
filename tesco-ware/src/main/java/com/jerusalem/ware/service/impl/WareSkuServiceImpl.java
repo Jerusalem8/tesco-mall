@@ -2,7 +2,7 @@ package com.jerusalem.ware.service.impl;
 
 import com.jerusalem.common.utils.R;
 import com.jerusalem.goods.feign.SpuInfoFeign;
-import com.jerusalem.common.to.SkuStockVo;
+import com.jerusalem.common.vo.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

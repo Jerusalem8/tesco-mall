@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableDiscoveryClient
 @MapperScan(basePackages = {"com.jerusalem.ware.dao"})
-@EnableFeignClients(basePackages = {"com.jerusalem.goods.feign"})
+@EnableFeignClients(basePackages = {"com.jerusalem.goods.feign","com.jerusalem.user.feign"})
 public class WareApplication {
     public static void main(String[] args) {
         SpringApplication.run(WareApplication.class, args);

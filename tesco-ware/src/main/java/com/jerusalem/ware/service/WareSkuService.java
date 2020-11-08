@@ -3,7 +3,7 @@ package com.jerusalem.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.ware.entity.WareSkuEntity;
-import com.jerusalem.common.to.SkuStockVo;
+import com.jerusalem.common.vo.SkuStockVo;
 
 import java.util.List;
 import java.util.Map;

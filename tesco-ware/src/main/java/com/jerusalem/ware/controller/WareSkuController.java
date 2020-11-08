@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.jerusalem.common.to.SkuStockVo;
+import com.jerusalem.common.vo.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class WareSkuController {
     private WareSkuService wareSkuService;
 
     /***
-     * 查询Sku是否有库存
+     * 批量查询Sku是否有库存
      * @param skuIds
      * @return
      */

@@ -38,7 +38,15 @@ public class UserReceiveAddressController {
         return list;
     }
 
-
+    /***
+     * 根据id获取收货地址信息
+     * @return
+     */
+    @GetMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+        UserReceiveAddressEntity userReceiveAddress = userReceiveAddressService.getById(id);
+        return R.ok().put("userReceiveAddress", userReceiveAddress);
+    }
 
 
 
@@ -52,17 +60,6 @@ public class UserReceiveAddressController {
         PageUtils page = userReceiveAddressService.queryPage(params);
 
         return R.ok().put("page", page);
-    }
-
-    /***
-    * 查询
-    * @return
-    */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		UserReceiveAddressEntity userReceiveAddress = userReceiveAddressService.getById(id);
-
-        return R.ok().put("userReceiveAddress", userReceiveAddress);
     }
 
     /***
