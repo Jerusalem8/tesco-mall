@@ -11,6 +11,7 @@ import com.jerusalem.common.vo.UserResponseVo;
 import com.jerusalem.goods.feign.SpuInfoFeign;
 import com.jerusalem.order.constant.OrderTokenConstant;
 import com.jerusalem.order.entity.OrderItemEntity;
+import com.jerusalem.order.enume.OrderStatusEnum;
 import com.jerusalem.order.interceptor.LoginInterceptor;
 import com.jerusalem.order.to.OrderCreateTo;
 import com.jerusalem.order.vo.*;
@@ -22,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -178,6 +180,18 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
             //验证成功，执行后续业务逻辑
             //2.创建订单
             OrderCreateTo order = createOrder();
+            //3.验价
+            BigDecimal payAmount = order.getOrder().getPayAmount();
+            BigDecimal payPrice = orderSubmitVo.getPayPrice();
+            //取两者的绝对值，绝对值小于0.01即可，无需完全相等
+            double abs = Math.abs(payAmount.subtract(payPrice).doubleValue());
+            if (abs < 0.01){
+                //金额对比成功
+            }else{
+                //金额对比失败
+                responseVo.setCode(2);
+                return responseVo;
+            }
         }
         return null;
     }
@@ -197,11 +211,10 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         OrdersEntity order = buildOrder(orderSn);
         //2.获取所有的订单项
         List<OrderItemEntity> orderItems = buildOrderItems(orderSn);
-        //TODO 3.验价(暂时只实现计算价格)
+        //3.计算价格及价格信息设置
         computePrice(order,orderItems);
         return orderCreateTo;
     }
-
 
     /***
      * 抽取公共方法
@@ -227,6 +240,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         ordersEntity.setReceiverPostCode(addrWithFareVo.getUserAddressVo().getPostCode());
         ordersEntity.setReceiverProvince(addrWithFareVo.getUserAddressVo().getProvince());
         ordersEntity.setReceiverRegion(addrWithFareVo.getUserAddressVo().getRegion());
+        //设置订单状态信息
+        ordersEntity.setStatus(OrderStatusEnum.CREATE_NEW.getCode());
+        //默认确认时间
+        ordersEntity.setAutoConfirmDay(7);
+        //默认未删除
+        ordersEntity.setDeleteStatus(0);
         return ordersEntity;
     }
 
@@ -252,7 +271,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
     /***
      * 抽取的公共方法
      * 构建订单项
-     * 1.订单号 2.SPU信息 3.SKU信息 4.优惠信息（暂不实现） 5。积分信息
+     * 1.订单号 2.SPU信息 3.SKU信息 4.优惠信息（暂不实现） 5。积分信息 6.价格
      * @param orderItemVo
      * @return
      */
@@ -276,17 +295,54 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         itemEntity.setSkuAttrsVals(skuAttr);
         itemEntity.setSkuQuantity(orderItemVo.getCount());
         //5.积分信息（暂时以价格作为成长积分）
-        itemEntity.setGiftGrowth(orderItemVo.getPrice().intValue());
-        itemEntity.setGiftIntegration(orderItemVo.getPrice().intValue());
+        itemEntity.setGiftGrowth(orderItemVo.getPrice().multiply(new BigDecimal(orderItemVo.getCount().toString())).intValue());
+        itemEntity.setGiftIntegration(orderItemVo.getPrice().multiply(new BigDecimal(orderItemVo.getCount().toString())).intValue());
+        //6.价格
+        itemEntity.setPromotionAmount(new BigDecimal("0"));
+        itemEntity.setCouponAmount(new BigDecimal("0"));
+        itemEntity.setIntegrationAmount(new BigDecimal("0"));
+        //总金额
+        BigDecimal orderPrice = itemEntity.getSkuPrice().multiply(new BigDecimal(itemEntity.getSkuQuantity().toString()));
+        //实际金额 = 总金额 - 各项优惠
+        BigDecimal realAmount = orderPrice
+                .subtract(itemEntity.getCouponAmount())
+                .subtract(itemEntity.getPromotionAmount())
+                .subtract(itemEntity.getIntegrationAmount());
+        itemEntity.setRealAmount(realAmount);
         return itemEntity;
     }
 
     /***
      * 抽取公共方法
-     * 计算价格
+     * 计算价格及价格信息设置
      * @param order
      * @param orderItems
      */
     private void computePrice(OrdersEntity order, List<OrderItemEntity> orderItems) {
+        BigDecimal total = new BigDecimal("0.0");
+        BigDecimal coupon = new BigDecimal("0.0");
+        BigDecimal integration = new BigDecimal("0.0");
+        BigDecimal promotion = new BigDecimal("0.0");
+        BigDecimal giftGrowth = new BigDecimal("0.0");
+        BigDecimal giftIntegration = new BigDecimal("0.0");
+        //订单的各种总额，叠加每一个订单项的价格信息
+        for (OrderItemEntity orderItem : orderItems) {
+            total = total.add(orderItem.getRealAmount());
+            coupon = coupon.add(orderItem.getCouponAmount());
+            integration = integration.add(orderItem.getIntegrationAmount());
+            promotion = promotion.add(orderItem.getPromotionAmount());
+            giftGrowth = giftGrowth.add(new BigDecimal(orderItem.getGiftGrowth().toString()));
+            giftIntegration = giftIntegration.add(new BigDecimal(orderItem.getGiftIntegration().toString()));
+        }
+        //填充各种价格信息
+        order.setTotalAmount(total);
+        //实际价格 = 总价格 - 运费
+        order.setPayAmount(total.add(order.getFreightAmount()));
+        order.setPromotionAmount(promotion);
+        order.setIntegrationAmount(integration);
+        order.setCouponAmount(coupon);
+        //设置积分信息
+        order.setIntegration(giftIntegration.intValue());
+        order.setGrowth(giftGrowth.intValue());
     }
 }
