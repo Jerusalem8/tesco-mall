@@ -31,6 +31,17 @@ public class SpuInfoController {
     private ProductAttrValueService productAttrValueService;
 
     /***
+     * 根据skuId查询Spu信息
+     * @param skuId
+     * @return
+     */
+    @GetMapping("skuId/{id}")
+    public R getSpuInfoBySkuId(@PathVariable("skuId") Long skuId){
+        SpuInfoEntity spuInfo = spuInfoService.getSpuInfoBySkuId(skuId);
+        return  R.ok().setData(spuInfo);
+    }
+
+    /***
     * 根据分类、品牌、状态、关键词进行分页查询
     * @param params
     * @return

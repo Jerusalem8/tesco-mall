@@ -21,7 +21,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableRabbit
 @MapperScan(basePackages = {"com.jerusalem.order.dao"})
-@EnableFeignClients(basePackages = {"com.jerusalem.cart.feign","com.jerusalem.user.feign","com.jerusalem.ware.feign"})
+@EnableFeignClients(basePackages = {"com.jerusalem.cart.feign","com.jerusalem.user.feign","com.jerusalem.ware.feign","com.jerusalem.goods.feign"})
 public class OrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderApplication.class, args);

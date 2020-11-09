@@ -197,4 +197,17 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             //TODO 重复调用问题，接口幂等性，重试机制
         }
     }
+
+    /***
+     * 根据skuId查询Spu信息
+     * @param skuId
+     * @return
+     */
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+        Long spuId = skuInfo.getSpuId();
+        SpuInfoEntity spuInfo = getById(spuId);
+        return spuInfo;
+    }
 }

@@ -24,4 +24,12 @@ public interface SpuInfoFeign {
      */
     @GetMapping("/info/{id}")
     R info(@PathVariable("id") Long id);
+
+    /***
+     * 根据skuId查询Spu信息
+     * @param skuId
+     * @return
+     */
+    @GetMapping("skuId/{id}")
+    R getSpuInfoBySkuId(@PathVariable("skuId") Long skuId);
 }

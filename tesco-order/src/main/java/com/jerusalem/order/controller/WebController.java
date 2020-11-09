@@ -3,6 +3,7 @@ package com.jerusalem.order.controller;
 import com.jerusalem.order.service.OrdersService;
 import com.jerusalem.order.vo.OrderConfirmVo;
 import com.jerusalem.order.vo.OrderSubmitVo;
+import com.jerusalem.order.vo.SubmitOrderResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +36,19 @@ public class WebController {
     }
 
     /***
-     * 提交订单
+     * 提交订单（下单功能）
      * @param orderSubmitVo
      * @return
      */
     @PostMapping("/submitOrder")
     public String submitOrder(OrderSubmitVo orderSubmitVo){
-        //TODO 去创建订单，验令牌，验价格，锁库存
-        System.out.println("订单提交的数据"+orderSubmitVo);
-        return null;
+        SubmitOrderResponseVo orderResponse = ordersService.submitOrder(orderSubmitVo);
+        if (orderResponse.getCode() == 0){
+            //下单成功跳转到支付页
+            return "pay";
+        }else {
+            //下单失败重定向到订单结算页
+            return "redirect:http://order.tesco.com/toTrade";
+        }
     }
 }
