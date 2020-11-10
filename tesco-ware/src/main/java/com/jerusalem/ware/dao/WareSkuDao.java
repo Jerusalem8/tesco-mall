@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /****
  * 持久层
  * 商品库存
@@ -32,4 +34,21 @@ public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
      * @return
      */
     Long getSkuStock(Long skuId);
+
+    /***
+     * 根据skuId查询该商品有库存的城市
+     * @param skuId
+     * @return
+     */
+    List<Long> SkuHasStockWareId(@Param("skuId")Long skuId);
+
+    /***
+     * 锁定库存
+     *
+     * @param skuId
+     * @param wareId
+     * @param num
+     * @return
+     */
+    Long lockStock(@Param("skuId")Long skuId, @Param("wareId")Long wareId, @Param("num")Integer num);
 }

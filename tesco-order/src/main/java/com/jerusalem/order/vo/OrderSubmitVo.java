@@ -16,7 +16,7 @@ public class OrderSubmitVo {
     private Long addrId;    //收货地址Id
     private Integer payType;    //支付方式
     private String orderToken;  //订单防重令牌
-    private BigDecimal payPrice;    //应付金额  //TODO 验价
+    private BigDecimal payPrice;    //应付金额
     private String note;    //订单备注
 
     //无需提交需要购买的商品，去购物车获取一遍即可

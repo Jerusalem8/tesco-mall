@@ -31,5 +31,5 @@ public interface SpuInfoFeign {
      * @return
      */
     @GetMapping("skuId/{id}")
-    R getSpuInfoBySkuId(@PathVariable("skuId") Long skuId);
+    R getSpuInfoBySkuId(@PathVariable("id") Long skuId);
 }

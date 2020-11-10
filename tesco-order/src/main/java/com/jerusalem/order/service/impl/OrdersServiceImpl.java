@@ -3,16 +3,16 @@ package com.jerusalem.order.service.impl;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.jerusalem.cart.feign.CartFeign;
+import com.jerusalem.common.exception.NoStockException;
 import com.jerusalem.common.utils.R;
-import com.jerusalem.common.vo.OrderItemVo;
-import com.jerusalem.common.vo.SkuStockVo;
-import com.jerusalem.common.vo.UserAddressVo;
-import com.jerusalem.common.vo.UserResponseVo;
+import com.jerusalem.common.vo.*;
 import com.jerusalem.goods.feign.SpuInfoFeign;
+import com.jerusalem.order.enume.OrderCodeEnume;
 import com.jerusalem.order.constant.OrderTokenConstant;
 import com.jerusalem.order.entity.OrderItemEntity;
 import com.jerusalem.order.enume.OrderStatusEnum;
 import com.jerusalem.order.interceptor.LoginInterceptor;
+import com.jerusalem.order.service.OrderItemService;
 import com.jerusalem.order.to.OrderCreateTo;
 import com.jerusalem.order.vo.*;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
@@ -24,10 +24,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -43,6 +40,7 @@ import com.jerusalem.common.utils.Query;
 import com.jerusalem.order.dao.OrdersDao;
 import com.jerusalem.order.entity.OrdersEntity;
 import com.jerusalem.order.service.OrdersService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -82,6 +80,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     StringRedisTemplate redisTemplate;
+
+    @Autowired
+    OrderItemService orderItemService;
 
     /**
     * 分页查询
@@ -143,7 +144,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         String token = UUID.randomUUID().toString().replace("-", "");
         //存放到redis中，并设置过期时间
         String tokenKey = OrderTokenConstant.USER_ORDER_TOKEN_PREFIX+userResponseVo.getId();
-        redisTemplate.opsForValue().set(token,token,30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(tokenKey,token,30, TimeUnit.MINUTES);
         //同时给页面发一份
         orderConfirmVo.setOrderToken(token);
         //等待所有任务完成
@@ -153,19 +154,25 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     /***
      * 提交订单
+     * TODO 本地事务在分布式下的问题 - 本地事务在分布式系统中，只能控制住自己的回滚，控制不了其他服务的回滚
+     * TODO 分布式事务的回滚机制
+     * TODO 分布式事务的最大原因：网络问题
      * @param orderSubmitVo
      * @return
      */
+    @Transactional  //本地事务
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
         //获取当前系统登录用户
         UserResponseVo userResponseVo = LoginInterceptor.loginUser.get();
+        //初始状态码0，出现问题是状态码改变
+        responseVo.setCode(0);
         //将前端传来的所有数据放入ThreadLocal共享
         submitVoThreadLocal.set(orderSubmitVo);
         //1.验证令牌【令牌的对比和删除必须保证原子性】【0-验证失败 1-验证成功】
         //验证脚本
-        String script = "if redis.call('get',KEYS[1])==ARGV[1] then return redis.call('del'.KEYS[1]) else return 0 end";
+        String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
         //redis中令牌的key
         String tokenKey = OrderTokenConstant.USER_ORDER_TOKEN_PREFIX + userResponseVo.getId();
         //前端传来的token
@@ -174,7 +181,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         Long result = redisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class), Arrays.asList(tokenKey), orderToken);
         if (result == 0L){
             //验证失败，设置失败状态码，返回
-            responseVo.setCode(1);
+            responseVo.setCode(OrderCodeEnume.TOKEN_EXCEPTION.getCode());
             return responseVo;
         }else {
             //验证成功，执行后续业务逻辑
@@ -186,14 +193,49 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
             //取两者的绝对值，绝对值小于0.01即可，无需完全相等
             double abs = Math.abs(payAmount.subtract(payPrice).doubleValue());
             if (abs < 0.01){
-                //金额对比成功
+                //4.金额对比成功，保存订单
+                saveOrder(order);
+                //5.远程锁定库存【只要有异常，回滚订单数据】【重点内容】
+                //封装锁定库存所需要的信息
+                LockStockVo lockStockVo = new LockStockVo();
+                lockStockVo.setOrderSn(order.getOrder().getOrderSn());
+                List<OrderItemVo> locks = order.getOrderItems().stream().map(item -> {
+                    OrderItemVo orderItemVo = new OrderItemVo();
+                    orderItemVo.setSkuId(item.getSkuId());
+                    orderItemVo.setCount(item.getSkuQuantity());
+                    orderItemVo.setTitle(item.getSkuName());
+                    return orderItemVo;
+                }).collect(Collectors.toList());
+                lockStockVo.setOrderItemLocks(locks);
+                R r = wareSkuFeign.lockStock(lockStockVo);
+                if (r.getCode() == 0){
+                    //锁定成功,返回订单
+                    responseVo.setOrder(order.getOrder());
+                    return responseVo;
+                }else {
+                    //锁定库存失败，抛异常回滚
+                    String msg = (String) r.get("msg");
+                    throw new NoStockException(msg);
+                }
+                //TODO 6.远程扣减积分
             }else{
                 //金额对比失败
-                responseVo.setCode(2);
+                responseVo.setCode(OrderCodeEnume.PRICE_EXCEPTION.getCode());
                 return responseVo;
             }
         }
-        return null;
+    }
+
+    /***
+     * 保存订单
+     * @param order
+     */
+    private void saveOrder(OrderCreateTo order) {
+        OrdersEntity ordersEntity = order.getOrder();
+        ordersEntity.setModifyTime(new Date());
+        this.save(ordersEntity);
+        List<OrderItemEntity> orderItems = order.getOrderItems();
+        orderItemService.saveBatch(orderItems);
     }
 
     /***
@@ -213,6 +255,8 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         List<OrderItemEntity> orderItems = buildOrderItems(orderSn);
         //3.计算价格及价格信息设置
         computePrice(order,orderItems);
+        orderCreateTo.setOrder(order);
+        orderCreateTo.setOrderItems(orderItems);
         return orderCreateTo;
     }
 
@@ -223,10 +267,14 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
      * @return
      */
     private OrdersEntity buildOrder(String orderSn) {
+        UserResponseVo userResponseVo = LoginInterceptor.loginUser.get();
         //获取共享数据
         OrderSubmitVo orderSubmitVo = submitVoThreadLocal.get();
         OrdersEntity ordersEntity = new OrdersEntity();
+        //设置订单号
         ordersEntity.setOrderSn(orderSn);
+        //设置用户Id
+        ordersEntity.setMemberId(userResponseVo.getId());
         //获取收货地址信息
         R r = wareInfoFeign.getFare(orderSubmitVo.getAddrId());
         AddressWithFareVo addrWithFareVo = r.getData(new TypeReference<AddressWithFareVo>() {

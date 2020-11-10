@@ -1,8 +1,12 @@
 package com.jerusalem.ware.service.impl;
 
+import com.jerusalem.common.exception.NoStockException;
 import com.jerusalem.common.utils.R;
+import com.jerusalem.common.vo.LockStockVo;
+import com.jerusalem.common.vo.OrderItemVo;
 import com.jerusalem.goods.feign.SpuInfoFeign;
 import com.jerusalem.common.vo.SkuStockVo;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +118,70 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             return skuStockVo;
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    /***
+     * 锁定库存
+     * 事务机制：必须所有商品的所有库存锁定成功，否则回滚
+     * rollbackFor = NoStockException.class  表示遇到NoStockException.class回滚
+     * 默认也是回滚（遇到运行时异常都回滚）
+     * @param lockStockVo
+     * @return
+     */
+    @Transactional(rollbackFor = NoStockException.class)
+    @Override
+    public Boolean lockStock(LockStockVo lockStockVo) {
+        //1.查出所有商品有库存的仓库的ID
+        List<OrderItemVo> orderItemLocks = lockStockVo.getOrderItemLocks();
+        List<SkuHasStockWare> hasStockWares = orderItemLocks.stream().map(item -> {
+            SkuHasStockWare skuHasStockWare = new SkuHasStockWare();
+            Long skuId = item.getSkuId();
+            skuHasStockWare.setSkuId(skuId);
+            List<Long> wareIds = baseMapper.SkuHasStockWareId(skuId);
+            skuHasStockWare.setWareIds(wareIds);
+            Integer count = item.getCount();
+            skuHasStockWare.setNum(count);
+            return skuHasStockWare;
+        }).collect(Collectors.toList());
+
+        //2.锁定库存
+        for (SkuHasStockWare hasStockWare : hasStockWares) {
+            Boolean skuStocked = false; //感知当前商品的库存是否锁定成功
+            Long skuId = hasStockWare.getSkuId();
+            Integer num = hasStockWare.getNum();
+            List<Long> wareIds = hasStockWare.getWareIds();
+            if (wareIds == null || wareIds.size() == 0){
+                //无仓库有该商品的库存
+                throw new NoStockException(skuId);
+            }
+            for (Long wareId : wareIds) {
+                //返回数据库表影响行数 1-成功 0-失败
+                Long count = wareSkuDao.lockStock(skuId,wareId,num);
+                if (count == 1){
+                    //锁定库存成功，更改锁住状态，退出循环，进行下一个商品
+                    skuStocked = true;
+                    break;
+                }else {
+                    //当前仓库锁定库存失败，继续下一个仓库
+                }
+            }
+            if (skuStocked == false){
+                //当前商品库存锁定失败，即该商品所有仓库的库存都不足
+                throw new NoStockException(skuId);
+            }
+        }
+        //能进行到此处，一定是所有商品都锁定成功,返回true
+        return true;
+    }
+
+    /***
+     * 内部类
+     * 某商品有库存的仓库的id集合
+     */
+    @Data
+    class SkuHasStockWare{
+        private Long skuId;
+        private Integer num;
+        private List<Long> wareIds;
     }
 }

@@ -14,7 +14,7 @@
 				<ul class="header-left">
 					<li>
 						<img src="/static/order/confirm/img/header_1.png"/>
-						<a href="">乐购商城首页</a>
+						<a href="http://tesco.com">乐购商城首页</a>
 					</li>
 					<li class="header-l-2">
 						<i class="fa fa-map-marker" style="color: #5C5452;"></i>
@@ -305,7 +305,9 @@
 		</div>
 
 		<!--主体部分-->
-		<p class="p1"><b>填写并核对订单信息</b></p>
+		<p class="p1"><b>填写并核对订单信息</b>
+			<span style="color: red" th:if="${msg!=null}" th:text="${msg}"></span>
+		</p>
 		<div class="section">
 			<!--收货人信息-->
 			<div class="top-2">

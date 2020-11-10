@@ -16,6 +16,13 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * 4. @EnableRabbit：开启功能
  * 5. 监听消息：@RabbitListener() --- 标在 类+方法 上（监听哪些队列即可）
  *             @RabbitHandle() --- 标在方法上（重载区分不同的消息）
+ *
+ *  本地事务失效问题：
+ *      同一个对象内事务方法互调默认失效，原因：绕过了代理对象，事务使用代理对象来控制的
+ *      解决方法：使用代理对象调用事务方法
+ *      1.引入aop-starter 引入了aspectj
+ *      2.开启@EnableAspectJAutoRroxy ->开启aspectj动态代理功能 -》 即使没有接口，也可以创建动态代理
+ *      3.本类互调用调用对象
  ****/
 @SpringBootApplication
 @EnableDiscoveryClient

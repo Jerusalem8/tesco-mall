@@ -3,11 +3,12 @@ package com.jerusalem.ware.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import com.jerusalem.common.exception.BizCodeEnume;
+import com.jerusalem.common.exception.NoStockException;
+import com.jerusalem.common.vo.LockStockVo;
 import com.jerusalem.common.vo.SkuStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.jerusalem.ware.service.WareSkuService;
 import com.jerusalem.common.utils.PageUtils;
@@ -27,6 +28,23 @@ public class WareSkuController {
 
     @Autowired
     private WareSkuService wareSkuService;
+
+    /***
+     * 锁定库存
+     * @param lockStockVo
+     * @return
+     */
+    @PostMapping("/lock")
+    public R lockStock(@RequestBody LockStockVo lockStockVo){
+        try{
+            //一切正常
+            Boolean isStocked = wareSkuService.lockStock(lockStockVo);
+            return R.ok();
+        }catch (NoStockException e){
+            //捕捉到异常
+            return R.error(BizCodeEnume.NO_STOCK_EXCEPION.getCode(),BizCodeEnume.NO_STOCK_EXCEPION.getMsg());
+        }
+    }
 
     /***
      * 批量查询Sku是否有库存

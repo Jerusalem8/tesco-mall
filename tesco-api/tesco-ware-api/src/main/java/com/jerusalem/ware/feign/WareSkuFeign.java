@@ -1,6 +1,7 @@
 package com.jerusalem.ware.feign;
 
 import com.jerusalem.common.utils.R;
+import com.jerusalem.common.vo.LockStockVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,4 +25,12 @@ public interface WareSkuFeign {
      */
     @PostMapping("/stock")
     R getSkuStock(@RequestBody List<Long> skuIds);
+
+    /***
+     * 锁定库存
+     * @param lockStockVo
+     * @return
+     */
+    @PostMapping("/lock")
+    R lockStock(@RequestBody LockStockVo lockStockVo);
 }

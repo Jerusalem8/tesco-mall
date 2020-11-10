@@ -3,6 +3,7 @@ package com.jerusalem.order.dao;
 import com.jerusalem.order.entity.OrderItemEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /****
  * 持久层
@@ -12,6 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2020-04-09 17:49:06
  */
 @Mapper
+@Repository
 public interface OrderItemDao extends BaseMapper<OrderItemEntity> {
 	
 }

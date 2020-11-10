@@ -2,6 +2,7 @@ package com.jerusalem.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
+import com.jerusalem.common.vo.LockStockVo;
 import com.jerusalem.ware.entity.WareSkuEntity;
 import com.jerusalem.common.vo.SkuStockVo;
 
@@ -38,5 +39,12 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      * @return
      */
     List<SkuStockVo> getSkuHasStock(List<Long> skuIds);
+
+    /***
+     * 锁定库存
+     * @param lockStockVo
+     * @return
+     */
+    Boolean lockStock(LockStockVo lockStockVo);
 }
 
