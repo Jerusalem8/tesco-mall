@@ -18,6 +18,7 @@ import com.jerusalem.order.vo.*;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
 import com.jerusalem.ware.feign.WareInfoFeign;
 import com.jerusalem.ware.feign.WareSkuFeign;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -161,6 +162,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
      * @return
      */
     @Transactional  //本地事务
+    @GlobalTransactional   //分布式事务
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
@@ -211,6 +213,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
                 if (r.getCode() == 0){
                     //锁定成功,返回订单
                     responseVo.setOrder(order.getOrder());
+                    int i = 10/0;
                     return responseVo;
                 }else {
                     //锁定库存失败，抛异常回滚
