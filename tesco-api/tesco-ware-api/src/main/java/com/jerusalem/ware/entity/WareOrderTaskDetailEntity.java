@@ -2,7 +2,9 @@ package com.jerusalem.ware.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @email 3276586184@qq.com
  * @date 2020-04-09 17:54:29
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @TableName("ware_order_task_detail")
 public class WareOrderTaskDetailEntity implements Serializable {
@@ -39,5 +43,15 @@ public class WareOrderTaskDetailEntity implements Serializable {
 	 * 工作单id
 	 */
 	private Long taskId;
+
+	/**
+	 * 仓库id
+	 */
+	private Long wareId;
+
+	/**
+	 * 锁定状态
+	 */
+	private Integer lockStatus;
 
 }

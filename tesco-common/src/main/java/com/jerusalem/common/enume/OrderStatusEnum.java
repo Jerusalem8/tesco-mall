@@ -1,4 +1,4 @@
-package com.jerusalem.order.enume;
+package com.jerusalem.common.enume;
 
 /****
  * @Author: jerusalem

@@ -3,6 +3,7 @@ package com.jerusalem.order.interceptor;
 import com.jerusalem.common.constant.AuthConstant;
 import com.jerusalem.common.vo.UserResponseVo;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,15 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        /***
+         * 放行库存系统的个别请求
+         */
+        String uri = request.getRequestURI();
+        boolean match = new AntPathMatcher().match("/order/orders/status/**", uri);
+        if (match){
+            return true;
+        }
+
         UserResponseVo userResponseVo = (UserResponseVo) request.getSession().getAttribute(AuthConstant.LOGIN_USER);
         if (userResponseVo != null){
             //全系统共享

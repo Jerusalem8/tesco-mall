@@ -61,7 +61,8 @@ public class ProductServiceImpl implements ProductService {
 
     /***
      * //TODO 高级部分完善
-     * 实现商品的新增
+     * 实现商品的新增（简单场景）-》 分布式事务AT模式适合
+     * @GlobalTransactional
      * @param spuVo
      */
     @Transactional

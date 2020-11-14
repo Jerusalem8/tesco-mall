@@ -3,6 +3,7 @@ package com.jerusalem.order.service.impl;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.jerusalem.cart.feign.CartFeign;
+import com.jerusalem.common.enume.OrderStatusEnum;
 import com.jerusalem.common.exception.NoStockException;
 import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.*;
@@ -10,7 +11,6 @@ import com.jerusalem.goods.feign.SpuInfoFeign;
 import com.jerusalem.order.enume.OrderCodeEnume;
 import com.jerusalem.order.constant.OrderTokenConstant;
 import com.jerusalem.order.entity.OrderItemEntity;
-import com.jerusalem.order.enume.OrderStatusEnum;
 import com.jerusalem.order.interceptor.LoginInterceptor;
 import com.jerusalem.order.service.OrderItemService;
 import com.jerusalem.order.to.OrderCreateTo;
@@ -18,7 +18,6 @@ import com.jerusalem.order.vo.*;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
 import com.jerusalem.ware.feign.WareInfoFeign;
 import com.jerusalem.ware.feign.WareSkuFeign;
-import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -158,11 +157,12 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
      * TODO 本地事务在分布式下的问题 - 本地事务在分布式系统中，只能控制住自己的回滚，控制不了其他服务的回滚
      * TODO 分布式事务的回滚机制
      * TODO 分布式事务的最大原因：网络问题
+     * 高并发场景 - 不使用2PC模式，引入MQ
      * @param orderSubmitVo
      * @return
      */
-    @Transactional  //本地事务
-    @GlobalTransactional   //分布式事务
+//    @Transactional  //本地事务
+//    @GlobalTransactional   //分布式事务
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
         SubmitOrderResponseVo responseVo = new SubmitOrderResponseVo();
@@ -227,6 +227,17 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
                 return responseVo;
             }
         }
+    }
+
+    /***
+     * 根据订单号查询订单信息
+     * @param orderSn
+     * @return
+     */
+    @Override
+    public OrdersEntity getOrderByOrderSn(String orderSn) {
+        OrdersEntity ordersEntity = this.getOne(new QueryWrapper<OrdersEntity>().eq("order_sn", orderSn));
+        return ordersEntity;
     }
 
     /***

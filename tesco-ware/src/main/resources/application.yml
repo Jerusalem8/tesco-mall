@@ -13,6 +13,13 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+  rabbitmq:
+    host: 192.168.75.156
+    port: 5672
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual    #手动ack消息
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   main:
@@ -30,3 +37,10 @@ logging:
   level:
     com.jerusalem.ware: debug
 
+#设置feign调用超时时间
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 60000
+        readTimeout: 60000
