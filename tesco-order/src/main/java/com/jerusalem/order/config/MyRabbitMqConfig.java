@@ -94,6 +94,18 @@ public class MyRabbitMqConfig {
         return new Jackson2JsonMessageConverter();
     }
 
+    //TODO 解决消息丢失问题（关键）
+    //TODO 1.消息确认机制（pulisher、consumer【手动Ack】）
+    //TODO 2.发送消息时在数据库做好日志记录，定期将发送失败的消息重新发送
+
+    //TODO 解决消息重复问题
+    //TODO 1.将消费者的业务逻辑接口设计为幂等的
+    //TODO 2.设置防重表，唯一标识，处理过不再处理
+
+    //TODO 解决消息积压问题(mq性能下降) 原因：消费者宕机或者消费能力不足
+    //TODO 1.上线更多的消费者
+    //TODO 2.上线专门的队列消费服务，将消息批量取出来，记录数据库，离线慢慢处理
+
     /***
      * 定制 RabbitTemplate
      * @PostConstruct： MyRabbitMqConfig对象创建完成之后，执行此方法
