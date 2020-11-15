@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.jerusalem.cart.feign.CartFeign;
 import com.jerusalem.common.enume.OrderStatusEnum;
 import com.jerusalem.common.exception.NoStockException;
+import com.jerusalem.common.to.OrderTo;
 import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.*;
 import com.jerusalem.goods.feign.SpuInfoFeign;
@@ -18,6 +19,8 @@ import com.jerusalem.order.vo.*;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
 import com.jerusalem.ware.feign.WareInfoFeign;
 import com.jerusalem.ware.feign.WareSkuFeign;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -83,6 +86,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     OrderItemService orderItemService;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     /**
     * 分页查询
@@ -161,7 +167,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
      * @param orderSubmitVo
      * @return
      */
-//    @Transactional  //本地事务
+    @Transactional  //本地事务
 //    @GlobalTransactional   //分布式事务
     @Override
     public SubmitOrderResponseVo submitOrder(OrderSubmitVo orderSubmitVo) {
@@ -211,9 +217,11 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
                 lockStockVo.setOrderItemLocks(locks);
                 R r = wareSkuFeign.lockStock(lockStockVo);
                 if (r.getCode() == 0){
-                    //锁定成功,返回订单
+                    //锁定成功,返回订单，发送消息给mq
                     responseVo.setOrder(order.getOrder());
-                    int i = 10/0;
+                    //模拟测试bug
+//                    int i = 10/0;
+                    rabbitTemplate.convertAndSend("order-event-exchange","order.create",order.getOrder());
                     return responseVo;
                 }else {
                     //锁定库存失败，抛异常回滚
@@ -239,6 +247,29 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         OrdersEntity ordersEntity = this.getOne(new QueryWrapper<OrdersEntity>().eq("order_sn", orderSn));
         return ordersEntity;
     }
+
+    /***
+     * 关闭订单
+     * @param ordersEntity
+     */
+    @Override
+    public void closeOrder(OrdersEntity ordersEntity) {
+        OrdersEntity entity = this.getById(ordersEntity.getId());
+        //待付款状态，关闭订单
+        if (entity.getStatus() == OrderStatusEnum.CREATE_NEW.getCode()){
+            OrdersEntity updateEntity = new OrdersEntity();
+            updateEntity.setId(entity.getId());
+            updateEntity.setStatus(OrderStatusEnum.CANCLED.getCode());
+            this.updateById(updateEntity);
+            OrderTo orderTo = new OrderTo();
+            BeanUtils.copyProperties(entity,orderTo);
+            //再次发消息给mq，以确保库存解锁
+            rabbitTemplate.convertAndSend("order-event-exchange","order.release.other",orderTo);
+        }
+    }
+
+
+
 
     /***
      * 保存订单

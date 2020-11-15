@@ -1,6 +1,7 @@
 package com.jerusalem.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jerusalem.common.to.OrderTo;
 import com.jerusalem.common.to.StockLockedTo;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.vo.LockStockVo;
@@ -53,5 +54,12 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      * @param stockLockedTo
      */
     void unLockStock(StockLockedTo stockLockedTo);
+
+    /***
+     * 重载解锁库存的方法
+     * 接受订单关闭消息，解锁库存（防止网络原因导致的库存无法解锁）
+     * @param orderTo
+     */
+    void unLockStock(OrderTo orderTo);
 }
 

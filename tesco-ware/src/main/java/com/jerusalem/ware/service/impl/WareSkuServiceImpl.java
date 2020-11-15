@@ -3,6 +3,7 @@ package com.jerusalem.ware.service.impl;
 import com.alibaba.fastjson.TypeReference;
 import com.jerusalem.common.enume.OrderStatusEnum;
 import com.jerusalem.common.exception.NoStockException;
+import com.jerusalem.common.to.OrderTo;
 import com.jerusalem.common.to.StockDetailTo;
 import com.jerusalem.common.to.StockLockedTo;
 import com.jerusalem.common.utils.R;
@@ -238,9 +239,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
                 //订单数据返回成功
                 OrdersEntity ordersEntity = r.getData(new TypeReference<OrdersEntity>() {
                 });
-                Integer status = ordersEntity.getStatus();
                 //订单不存在或订单的状态为已取消，解锁
-                if (ordersEntity == null ||status == OrderStatusEnum.CANCLED.getCode()){
+                if (ordersEntity == null || ordersEntity.getStatus() == OrderStatusEnum.CANCLED.getCode()){
                     baseMapper.unLockStock(detailEntity.getSkuId(),detailEntity.getWareId(),detailEntity.getSkuNum());
                     if (detailEntity.getLockStatus() == 1){
                         WareOrderTaskDetailEntity entity = new WareOrderTaskDetailEntity();
@@ -255,6 +255,36 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             }
         }else {
             //库存工作单详情不存在，库存本身锁定失败，自己回滚，无需解锁
+        }
+    }
+
+    /***
+     * 重载解锁库存的方法
+     * 接受订单关闭消息，解锁库存（防止网络原因导致的库存无法解锁）
+     * @param orderTo
+     */
+    @Transactional
+    @Override
+    public void unLockStock(OrderTo orderTo) {
+        String orderSn = orderTo.getOrderSn();
+        //查询最新的库存工作单状态，防止重复解锁
+        WareOrderTaskEntity wareOrderTaskEntity = wareOrderTaskService.getOrderTaskByOrderSn(orderSn);
+        //根据库存工作单id找到没有解锁的库存，进行解锁
+        Long taskId = wareOrderTaskEntity.getId();
+        List<WareOrderTaskDetailEntity> detailList = wareOrderTaskDetailService.list(
+                new QueryWrapper<WareOrderTaskDetailEntity>()
+                        .eq("task_id", taskId)
+                        .eq("lock_status",1));
+        for (WareOrderTaskDetailEntity detailEntity : detailList) {
+            Long skuId = detailEntity.getSkuId();
+            Long wareId = detailEntity.getWareId();
+            Integer skuNum = detailEntity.getSkuNum();
+            baseMapper.unLockStock(skuId,wareId,skuNum);
+            //更新库存工作单的状态
+            WareOrderTaskDetailEntity updateEntity = new WareOrderTaskDetailEntity();
+            updateEntity.setId(detailEntity.getId());
+            updateEntity.setLockStatus(2);
+            wareOrderTaskDetailService.updateById(updateEntity);
         }
     }
 

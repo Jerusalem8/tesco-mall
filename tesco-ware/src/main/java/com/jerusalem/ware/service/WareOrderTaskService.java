@@ -21,5 +21,12 @@ public interface WareOrderTaskService extends IService<WareOrderTaskEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 查询库存工作单
+     * @param orderSn
+     * @return
+     */
+    WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn);
 }
 

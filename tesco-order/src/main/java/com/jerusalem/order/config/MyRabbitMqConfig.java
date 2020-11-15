@@ -74,6 +74,16 @@ public class MyRabbitMqConfig {
         return new Binding("order.release.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.release", null);
     }
 
+    /***
+     * 订单释放直接和库存释放进行绑定
+     * 防止：订单服务因特殊原因宕机、延迟，库存锁定业务早于订单业务执行完毕，订单状态后期发生改变，导致库存无法解锁
+     * @return
+     */
+    @Bean
+    public Binding orderToStockReleaseBinding(){
+        return new Binding("stock.release.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.release.other.#", null);
+    }
+
 
     /***
      * 消息类型转换器
