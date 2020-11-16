@@ -1,5 +1,6 @@
 package com.jerusalem.order.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /****
  * 实体类
@@ -190,4 +192,9 @@ public class OrdersEntity implements Serializable {
 	 */
 	private Date modifyTime;
 
+	/**
+	 * 订单项
+	 */
+	@TableField(exist = false)
+	private List<OrderItemEntity> itemEntityList;
 }

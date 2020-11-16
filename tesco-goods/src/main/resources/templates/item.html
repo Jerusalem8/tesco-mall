@@ -62,7 +62,7 @@
 						<a th:if="${session.loginUser!=null}"><b>欢迎，[[${session.loginUser.nickname}]]</b></a>
 					</li>
 					<li><a href="http://auth.tesco.com/register.html" th:if="${session.loginUser==null}" class="li_2">免费注册</a></li>
-					<li><a href="http://order.tesco.com/list.html" class="aa" th:if="${session.loginUser!=null}">我的订单</a> |</li>
+					<li><a href="http://order.tesco.com/orderList.html" class="aa" th:if="${session.loginUser!=null}">我的订单</a> |</li>
 					<li class="jingdong"><a href="javascript:;" th:if="${session.loginUser!=null}">我的乐购</a><span class="glyphicon glyphicon-menu-down">|</span>
 						<ol class="jingdong_ol">
 							<li><a href="javascript:;">待处理订单</a></li>

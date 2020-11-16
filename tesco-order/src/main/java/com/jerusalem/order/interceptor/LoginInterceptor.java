@@ -29,8 +29,11 @@ public class LoginInterceptor implements HandlerInterceptor {
          * 放行库存系统的个别请求
          */
         String uri = request.getRequestURI();
-        boolean match = new AntPathMatcher().match("/order/orders/status/**", uri);
-        if (match){
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        boolean match = antPathMatcher.match("/order/orders/status/**", uri);
+        //放行支付成功异步通知回调
+        boolean match1 = antPathMatcher.match("/payed/notify", uri);
+        if (match || match1){
             return true;
         }
 

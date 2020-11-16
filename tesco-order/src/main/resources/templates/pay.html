@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<title>支付页 - 乐购</title>
     <link rel="stylesheet" href="/static/order/pay/css/style.css">
+    <link rel="icon" href="/static/index/img/favicon.ico" type="image/x-icon" />
     <script src="/static/order/pay/js/jquery-3.1.1.min.js" charset="utf-8"></script>
 	</head>
 	<body>
@@ -70,12 +71,6 @@
           <ul>
             <li>
               <span>
-                <img src="/static/order/pay/img/XJKCONSUME.png" alt="">谷粒学院小金库
-              </span>
-              <span>未开通小金库</span>
-            </li>
-            <li>
-              <span>
                 <img src="/static/order/pay/img/CMB.png" alt="">招商银行
               </span>
               <span>信用卡(4337)</span>
@@ -101,13 +96,14 @@
             <img src="/static/order/pay/img/weixin.png" alt="">微信支付
           </li>
 		  <li>
-            <img src="/static/order/pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">支付宝
+            <img src="/static/order/pay/img/zhifubao.png" style="weight:auto;height:30px;" alt="">
+            <a th:href="'http://order.tesco.com/payOrder?orderSn='+${submitOrderResponse.order.orderSn}">支付宝</a>
           </li>
         </ul>
       </div>
       <div class="Jd_foots">
         <p>
-          <span>Copyright @2004-2017 谷粒学院gulimall.com 版权所有</span>
+          <span>Copyright @2020 乐购商城tesco.com 版权所有</span>
           <span>
             <img src="/static/order/pay/img/foots.png" alt="">
           </span>

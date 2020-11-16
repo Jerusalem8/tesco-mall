@@ -31,7 +31,7 @@ spring:
     store-type: redis
   thymeleaf:
     cache: false
-  jackson:
+  mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   main:
     allow-bean-definition-overriding: true
@@ -44,7 +44,19 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
+# 支付宝的相关属性配置
+alipay:
+  app_id: 2016110200785278
+  merchant_private_key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDwd/y4V9zeNqv0BLwSRH0dhKDLTxklOUud4mhwB/efyj3RoFxnzbPtMzJ+9LbLvXY40GxMgf4LCZyB77NWT2WA6oi0h/I5I5WpSZy8qh4HBzDiOcI5QWi6ysbl4A//foO+hyUMFz0scqU3wxhDib5HArNVYQ4bnE6TcvfD5LH0rwkX0cQk0pa/QIwg0qJ95AZrjuOTBWbB351XvpJLKXmilOnsbaYMWJjr9NREUusNpNtQcVCFO10L11VmN0B+NNL4M/gYXGZDNbc7Y1gK67u2SuWBVsSf32BmtyIIknYd4XG74mbmE1uJRbLPUArv/nSNNx1abr8Ie0gcEi2INJINAgMBAAECggEAWazlWfmqLFRHG+EIIefYoMFtFWSSBAex41cji2PtPHG3TA15aFyV1Mda9W1dHe2xwM45FO8FRih3bR1uy6kgOUs9X9Wyxww2K8N/5/uo5wYPfM39WEzEOaSVN/SvAqCzkMHlVvTzoze91WW0Dru3cdPX/OcM088enm4pZ6xJkO1cbIM4umcX0kTgitRZtm3Eg5MtjaP66AI/G2B80lZMh9powdpwZHxOYXCOmfIi+gw0nwqlb9RwAWRM8viXHbBw/5VqZU8F6gJKa8VzSmZrGlgnvUqBUe5orjl67kVvsgbBAPDhSh4bNqRmttcOvjc5gD7sqVVPUHqihyxHMct2AQKBgQD7blDCDPDI/uUAN/UIf9cz0zAD5Fofm26x0YiCFJgrHt1/GZmFKu2qpK/mh30NSdwZ8qetAD2owTacI6fZyp3JH8vXtaqZpiIA7RxOeCGyTIVIfP44PWyexsfJcanSae9OSuR4pXH1lHo6+6AC+ug81Oc9XW+hWJBdXi59lCOknQKBgQD01qycjl952zUN4caCgAZW5Y0Iu/oKm14ooyAbPqnJjEZeYH73lHFaZnPwOa9vhx+qtQcuw6bO9jL3h2IhABnxdctSTM8CvFTGqp+JcwMg88BlZwkKHhKdH97TcEZDFy2E0RZgRNOe43Pthx7WCvqmwbFdAsIFaMDnNA5F+GVQMQKBgQCZ4YRPn3fmrAofvh+bmhJtx30FhMabvZdcAS+Y3V3cVkGdvl81H3biD3UQlC+26FNrFhYFTbZvCAGSQkhChT1YkLtDRA4rh4AcLQI8DE4jP637FXTJmt5Vtrcj1Qromqk5s6BtLmS2tq6wVrwx1ro4MN1tszfU+c0xN6kgdn/yCQKBgEo5eoLLtq4egmr+80tEvKdDWAo50oe8qkLvkSAxUw/C8uJRpqwv2F1rieJd2o2ZDUSXNOI8dilwAeuAo4MVoMfOyiDdIDTYG2tO9qaYs24d90nGfrsOet4fd1HqS6KzOB13tazhsLYOhmqP+A0zruE2/yoPV/qD01dENL+Jmk1BAoGAOR0jIt8/dCpzbflASvHhkVQHqKc6nUqUfow+1KRZldDbE6vPuiOxETbuxQ4GBPma5ZpDbHf9Th9ROQs92R2kUVvYGSGd8HAafWTut99DM9tfU/UDxQTZv3azAtEnSlBk9aha5l4pmwUHlzPNZXGmCpCL6k5sh43/JS9Gg026Mmk=
+  alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjktgrEJI2Mo66pCxkPIAPWJNbRfi5zJ/SHuJWqdAUiS5sbzLxrRqFuiedQofpu321T2+F1btwInGRfokT4cJDldLggo+CaOsRFVY+HnwmzNd5w8D8h2K+Z228XYrByHjbLII339LtEJs+a17WrpKT6RaItOiUAR7jXOL9OPb7Tvs5X2Th5MYbPCLSaSoMm+YuNiG7DxgwLSf3Q6f7bdiYzBTErZQ309uL0raljKZi7Gs2naP8F9ahZzvOSnyuw9SAFyasRXA3j+qScUsQqCbdl6UQtutp2JGRK3PVbc7ZdRKlnwY/TsY1Oruc118BoV5f/bQt4eVhlFXKyLwedHB+wIDAQAB
+  notify_url: http://gy419qxubt.52http.net/payed/notify
+  return_url: http://order.tesco.com/orderList.html
+  sign_type: RSA2
+  charset: utf-8
+  gatewayUrl: https://openapi.alipaydev.com/gateway.do
+  timeout: 30m
+
 logging:
   level:
-    com.jerusalem.order: debug
+    com.jerusalem.order: info
 

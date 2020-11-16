@@ -3,9 +3,7 @@ package com.jerusalem.order.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.order.entity.OrdersEntity;
-import com.jerusalem.order.vo.OrderConfirmVo;
-import com.jerusalem.order.vo.OrderSubmitVo;
-import com.jerusalem.order.vo.SubmitOrderResponseVo;
+import com.jerusalem.order.vo.*;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -51,5 +49,26 @@ public interface OrdersService extends IService<OrdersEntity> {
      * @param ordersEntity
      */
     void closeOrder(OrdersEntity ordersEntity);
+
+    /***
+     * 获取订单的支付信息
+     * @param orderSn
+     * @return
+     */
+    PayVo getPayOrder(String orderSn);
+
+    /****
+     * 分页查询订单列表及订单项
+     * @param params
+     * @return
+     */
+    PageUtils queryPageWithItem(Map<String, Object> params);
+
+    /***
+     * 处理支付回调通知
+     * @param payAsyncVo
+     * @return
+     */
+    String handlePayResult(PayAsyncVo payAsyncVo);
 }
 

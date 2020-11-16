@@ -18,11 +18,11 @@ public class OrderWebController implements WebMvcConfigurer {
      * 添加视图映射控制器
      * @param registry
      */
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/confirm.html").setViewName("confirm");
-        registry.addViewController("/detail.html").setViewName("detail");
-        registry.addViewController("/list.html").setViewName("list");
-        registry.addViewController("/pay.html").setViewName("pay");
-    }
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/confirm.html").setViewName("confirm");
+//        registry.addViewController("/wait.html").setViewName("wait");
+//        registry.addViewController("/orderList.html").setViewName("orderList");
+//        registry.addViewController("/pay.html").setViewName("pay");
+//    }
 }

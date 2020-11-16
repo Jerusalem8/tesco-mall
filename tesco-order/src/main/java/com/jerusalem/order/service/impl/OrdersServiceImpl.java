@@ -1,6 +1,7 @@
 package com.jerusalem.order.service.impl;
 
 import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.jerusalem.cart.feign.CartFeign;
 import com.jerusalem.common.enume.OrderStatusEnum;
@@ -9,11 +10,13 @@ import com.jerusalem.common.to.OrderTo;
 import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.*;
 import com.jerusalem.goods.feign.SpuInfoFeign;
+import com.jerusalem.order.entity.PaymentInfoEntity;
 import com.jerusalem.order.enume.OrderCodeEnume;
 import com.jerusalem.order.constant.OrderTokenConstant;
 import com.jerusalem.order.entity.OrderItemEntity;
 import com.jerusalem.order.interceptor.LoginInterceptor;
 import com.jerusalem.order.service.OrderItemService;
+import com.jerusalem.order.service.PaymentInfoService;
 import com.jerusalem.order.to.OrderCreateTo;
 import com.jerusalem.order.vo.*;
 import com.jerusalem.user.feign.UserReceiveAddressFeign;
@@ -89,6 +92,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
 
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    PaymentInfoService paymentInfoService;
 
     /**
     * 分页查询
@@ -268,8 +274,72 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
         }
     }
 
+    /***
+     * 获取订单的支付信息
+     * @param orderSn
+     * @return
+     */
+    @Override
+    public PayVo getPayOrder(String orderSn) {
+        PayVo payVo = new PayVo();
+        OrdersEntity ordersEntity = this.getOrderByOrderSn(orderSn);
+        //对应付金额进行格式处理（向上取值，保留两位小数）
+        BigDecimal totalAmount = ordersEntity.getPayAmount().setScale(2, BigDecimal.ROUND_UP);
+        payVo.setTotal_amount(totalAmount.toString());
+        payVo.setOut_trade_no(ordersEntity.getOrderSn());
+        List<OrderItemEntity> list = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", orderSn));
+        OrderItemEntity itemEntity = list.get(0);
+        String skuName = itemEntity.getSkuName();
+        payVo.setSubject(skuName);//订单主题(将该订单的第一个订单项的名字作为订单主题)
+        payVo.setBody("七天无理由退货");//订单备注（简单处理）
+        return payVo;
+    }
 
+    /****
+     * 分页查询订单列表及订单项
+     * @param params
+     * @return
+     */
+    @Override
+    public PageUtils queryPageWithItem(Map<String, Object> params) {
+        UserResponseVo userResponseVo = LoginInterceptor.loginUser.get();
+        IPage<OrdersEntity> page = this.page(
+                new Query<OrdersEntity>().getPage(params),
+                new QueryWrapper<OrdersEntity>().eq("member_id",userResponseVo.getId()).orderByDesc("id")
+        );
+        List<OrdersEntity> ordersEntities = page.getRecords().stream().map(order -> {
+            List<OrderItemEntity> itemEntityList = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
+            order.setItemEntityList(itemEntityList);
+            return order;
+        }).collect(Collectors.toList());
+        page.setRecords(ordersEntities);
+        return new PageUtils(page);
+    }
 
+    /***
+     * 处理支付回调通知
+     * @param payAsyncVo
+     * @return
+     */
+    @Override
+    public String handlePayResult(PayAsyncVo payAsyncVo) {
+        //1.保存交易流水
+        PaymentInfoEntity paymentInfoEntity = new PaymentInfoEntity();
+        paymentInfoEntity.setAlipayTradeNo(payAsyncVo.getTrade_no());
+        paymentInfoEntity.setOrderSn(payAsyncVo.getOut_trade_no());
+        paymentInfoEntity.setPaymentStatus(payAsyncVo.getTrade_status());
+        paymentInfoEntity.setCallbackTime(payAsyncVo.getNotify_time());
+        paymentInfoService.save(paymentInfoEntity);
+        //2.修改订单的状态
+        if (payAsyncVo.getTrade_status().equals("TRADE_SUCCESS") || payAsyncVo.getTrade_status().equals("TRADE_FINISHED")){
+            String orderSn = payAsyncVo.getOut_trade_no();
+            UpdateWrapper<OrdersEntity> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.set("status",OrderStatusEnum.PAYED.getCode());
+            updateWrapper.eq("order_sn",orderSn);
+            this.update(updateWrapper);
+        }
+        return "success";
+    }
 
     /***
      * 保存订单
