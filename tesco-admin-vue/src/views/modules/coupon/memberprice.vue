@@ -7,12 +7,12 @@
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
         <el-button
-          v-if="isAuth('coupon:memberprice:save')"
+          v-if="isAuth('coupon:userprice:save')"
           type="primary"
           @click="addOrUpdateHandle()"
         >新增</el-button>
         <el-button
-          v-if="isAuth('coupon:memberprice:delete')"
+          v-if="isAuth('coupon:userprice:delete')"
           type="danger"
           @click="deleteHandle()"
           :disabled="dataListSelections.length <= 0"
@@ -29,9 +29,9 @@
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
       <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
       <el-table-column prop="skuId" header-align="center" align="center" label="sku_id"></el-table-column>
-      <el-table-column prop="memberLevelId" header-align="center" align="center" label="会员等级id"></el-table-column>
-      <el-table-column prop="memberLevelName" header-align="center" align="center" label="会员等级名"></el-table-column>
-      <el-table-column prop="memberPrice" header-align="center" align="center" label="会员对应价格"></el-table-column>
+      <el-table-column prop="userLevelId" header-align="center" align="center" label="会员等级id"></el-table-column>
+      <el-table-column prop="userLevelName" header-align="center" align="center" label="会员等级名"></el-table-column>
+      <el-table-column prop="userPrice" header-align="center" align="center" label="会员对应价格"></el-table-column>
       <el-table-column
         prop="addOther"
         header-align="center"
@@ -92,7 +92,7 @@ export default {
     getDataList() {
       this.dataListLoading = true;
       this.$http({
-        url: this.$http.adornUrl("/coupon/memberprice/list"),
+        url: this.$http.adornUrl("/coupon/userprice/list"),
         method: "get",
         params: this.$http.adornParams({
           page: this.pageIndex,
@@ -149,7 +149,7 @@ export default {
         }
       ).then(() => {
         this.$http({
-          url: this.$http.adornUrl("/coupon/memberprice/delete"),
+          url: this.$http.adornUrl("/coupon/userprice/delete"),
           method: "post",
           data: this.$http.adornData(ids, false)
         }).then(({ data }) => {

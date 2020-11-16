@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2020-04-25 13:53:20
  */
 @RestController
-@RequestMapping("sale/userprice")
+@RequestMapping("coupon/userprice")
 public class UserPriceController {
 
     @Autowired

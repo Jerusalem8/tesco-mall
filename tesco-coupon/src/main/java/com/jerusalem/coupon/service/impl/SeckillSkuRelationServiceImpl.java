@@ -3,6 +3,7 @@ package com.jerusalem.coupon.service.impl;
 import com.jerusalem.coupon.dao.SeckillSkuRelationDao;
 import com.jerusalem.coupon.entity.SeckillSkuRelationEntity;
 import com.jerusalem.coupon.service.SeckillSkuRelationService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,10 +30,13 @@ public class SeckillSkuRelationServiceImpl extends ServiceImpl<SeckillSkuRelatio
     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SeckillSkuRelationEntity> page = this.page(
-                new Query<SeckillSkuRelationEntity>().getPage(params),
-                new QueryWrapper<SeckillSkuRelationEntity>()
-        );
+        QueryWrapper<SeckillSkuRelationEntity> queryWrapper = new QueryWrapper<>();
+        //场次ID
+        String promotionSessionId = (String) params.get("promotionSessionId");
+        if (!StringUtils.isEmpty(promotionSessionId)){
+            queryWrapper.eq("promotion_session_id",promotionSessionId);
+        }
+        IPage<SeckillSkuRelationEntity> page = this.page(new Query<SeckillSkuRelationEntity>().getPage(params),queryWrapper);
         return new PageUtils(page);
     }
 

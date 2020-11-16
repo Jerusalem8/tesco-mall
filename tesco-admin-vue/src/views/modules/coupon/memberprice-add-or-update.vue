@@ -15,13 +15,13 @@
         <el-input v-model="dataForm.skuId" placeholder="sku_id"></el-input>
       </el-form-item>
       <el-form-item label="会员等级id" prop="memberLevelId">
-        <el-input v-model="dataForm.memberLevelId" placeholder="会员等级id"></el-input>
+        <el-input v-model="dataForm.userLevelId" placeholder="会员等级id"></el-input>
       </el-form-item>
       <el-form-item label="会员等级名" prop="memberLevelName">
-        <el-input v-model="dataForm.memberLevelName" placeholder="会员等级名"></el-input>
+        <el-input v-model="dataForm.userLevelName" placeholder="会员等级名"></el-input>
       </el-form-item>
       <el-form-item label="会员对应价格" prop="memberPrice">
-        <el-input v-model="dataForm.memberPrice" placeholder="会员对应价格"></el-input>
+        <el-input v-model="dataForm.userPrice" placeholder="会员对应价格"></el-input>
       </el-form-item>
       <el-form-item label="可否叠加其他优惠" prop="addOther">
         <el-switch
@@ -48,20 +48,20 @@ export default {
       dataForm: {
         id: 0,
         skuId: "",
-        memberLevelId: "",
-        memberLevelName: "",
-        memberPrice: "",
+        userLevelId: "",
+        userLevelName: "",
+        userPrice: "",
         addOther: ""
       },
       dataRule: {
         skuId: [{ required: true, message: "sku_id不能为空", trigger: "blur" }],
-        memberLevelId: [
+        userLevelId: [
           { required: true, message: "会员等级id不能为空", trigger: "blur" }
         ],
-        memberLevelName: [
+        userLevelName: [
           { required: true, message: "会员等级名不能为空", trigger: "blur" }
         ],
-        memberPrice: [
+        userPrice: [
           { required: true, message: "会员对应价格不能为空", trigger: "blur" }
         ],
         addOther: [
@@ -83,17 +83,17 @@ export default {
         if (this.dataForm.id) {
           this.$http({
             url: this.$http.adornUrl(
-              `/coupon/memberprice/info/${this.dataForm.id}`
+              `/coupon/userprice/info/${this.dataForm.id}`
             ),
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.skuId = data.memberPrice.skuId;
-              this.dataForm.memberLevelId = data.memberPrice.memberLevelId;
-              this.dataForm.memberLevelName = data.memberPrice.memberLevelName;
-              this.dataForm.memberPrice = data.memberPrice.memberPrice;
-              this.dataForm.addOther = data.memberPrice.addOther;
+              this.dataForm.skuId = data.userPrice.skuId;
+              this.dataForm.userLevelId = data.userPrice.userLevelId;
+              this.dataForm.userLevelName = data.userPrice.userLevelName;
+              this.dataForm.userPrice = data.userPrice.userPrice;
+              this.dataForm.addOther = data.userPrice.addOther;
             }
           });
         }
@@ -105,15 +105,15 @@ export default {
         if (valid) {
           this.$http({
             url: this.$http.adornUrl(
-              `/coupon/memberprice/${!this.dataForm.id ? "save" : "update"}`
+              `/coupon/userprice/${!this.dataForm.id ? "save" : "update"}`
             ),
             method: "post",
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               skuId: this.dataForm.skuId,
-              memberLevelId: this.dataForm.memberLevelId,
-              memberLevelName: this.dataForm.memberLevelName,
-              memberPrice: this.dataForm.memberPrice,
+              userLevelId: this.dataForm.userLevelId,
+              userLevelName: this.dataForm.userLevelName,
+              userPrice: this.dataForm.userPrice,
               addOther: this.dataForm.addOther
             })
           }).then(({ data }) => {

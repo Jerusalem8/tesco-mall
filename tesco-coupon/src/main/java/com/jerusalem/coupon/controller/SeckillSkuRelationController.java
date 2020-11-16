@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2020-04-25 13:53:20
  */
 @RestController
-@RequestMapping("sale/seckillskurelation")
+@RequestMapping("coupon/seckillskurelation")
 public class SeckillSkuRelationController {
 
     @Autowired

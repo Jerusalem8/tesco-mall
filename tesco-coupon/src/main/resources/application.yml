@@ -13,7 +13,7 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
-  jackson:
+  mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   main:
     allow-bean-definition-overriding: true

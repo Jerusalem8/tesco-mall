@@ -1,0 +1,18 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: seckill-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.75.130:8848
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.jerusalem.order: info
