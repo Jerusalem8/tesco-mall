@@ -1,119 +1,151 @@
-/*==============================================================*/
-/* Database: tesco-ware                                          */
-/*==============================================================*/
+/*
+ Navicat Premium Data Transfer
 
-drop table if exists purchase;
+ Source Server         : Docker-MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 50722
+ Source Host           : 192.168.75.136:3306
+ Source Schema         : tesco-ware
 
-drop table if exists purchase_detail;
+ Target Server Type    : MySQL
+ Target Server Version : 50722
+ File Encoding         : 65001
 
-drop table if exists ware_info;
+ Date: 16/11/2020 20:53:16
+*/
 
-drop table if exists ware_order_task;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-drop table if exists ware_order_task_detail;
+-- ----------------------------
+-- Table structure for mq_message
+-- ----------------------------
+DROP TABLE IF EXISTS `mq_message`;
+CREATE TABLE `mq_message`  (
+  `message_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `to_exchange` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `routing_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `class_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `message_status` int(1) NULL DEFAULT 0 COMMENT '0-Êñ∞Âª∫ 1-Â∑≤ÂèëÈÄÅ 2-ÈîôËØØÊäµËææ 3-Â∑≤ÊäµËææ',
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`message_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-drop table if exists ware_sku;
+-- ----------------------------
+-- Table structure for purchase
+-- ----------------------------
+DROP TABLE IF EXISTS `purchase`;
+CREATE TABLE `purchase`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ÈááË¥≠Âçïid',
+  `assignee_id` bigint(20) NULL DEFAULT NULL COMMENT 'ÈááË¥≠‰∫∫id',
+  `assignee_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ÈááË¥≠‰∫∫Âêç',
+  `phone` char(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ËÅîÁ≥ªÊñπÂºè',
+  `priority` int(4) NULL DEFAULT NULL COMMENT '‰ºòÂÖàÁ∫ß',
+  `status` int(4) NULL DEFAULT NULL COMMENT 'Áä∂ÊÄÅ',
+  `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìid',
+  `amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ÊÄªÈáëÈ¢ù',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'ÂàõÂª∫Êó•Êúü',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT 'Êõ¥Êñ∞Êó•Êúü',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ÈááË¥≠‰ø°ÊÅØ' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: purchase                                          */
-/*==============================================================*/
-create table purchase
-(
-   id                   bigint not null auto_increment comment '≤…π∫µ•id',
-   assignee_id          bigint comment '≤…π∫»Àid',
-   assignee_name        varchar(255) comment '≤…π∫»À√˚',
-   phone                char(13) comment '¡™œµ∑Ω Ω',
-   priority             int(4) comment '”≈œ»º∂',
-   status               int(4) comment '◊¥Ã¨',
-   ware_id              bigint comment '≤÷ø‚id',
-   amount               decimal(18,4) comment '◊‹Ω∂Ó',
-   create_time          datetime comment '¥¥Ω®»’∆⁄',
-   update_time          datetime comment '∏¸–¬»’∆⁄',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for purchase_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `purchase_detail`;
+CREATE TABLE `purchase_detail`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `purchase_id` bigint(20) NULL DEFAULT NULL COMMENT 'ÈááË¥≠Âçïid',
+  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'ÈááË¥≠ÂïÜÂìÅid',
+  `sku_num` int(11) NULL DEFAULT NULL COMMENT 'ÈááË¥≠Êï∞Èáè',
+  `sku_price` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ÈááË¥≠ÈáëÈ¢ù',
+  `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìid',
+  `status` int(11) NULL DEFAULT NULL COMMENT 'Áä∂ÊÄÅ[0Êñ∞Âª∫Ôºå1Â∑≤ÂàÜÈÖçÔºå2Ê≠£Âú®ÈááË¥≠Ôºå3Â∑≤ÂÆåÊàêÔºå4ÈááË¥≠Â§±Ë¥•]',
+  `reason` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ÈááË¥≠Â§±Ë¥•ÁöÑÂéüÂõ†',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-alter table purchase comment '≤…π∫–≈œ¢';
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime(0) NOT NULL,
+  `log_modified` datetime(0) NOT NULL,
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: purchase_detail                                   */
-/*==============================================================*/
-create table purchase_detail
-(
-   id                   bigint not null auto_increment,
-   purchase_id          bigint comment '≤…π∫µ•id',
-   sku_id               bigint comment '≤…π∫…Ã∆∑id',
-   sku_num              int comment '≤…π∫ ˝¡ø',
-   sku_price            decimal(18,4) comment '≤…π∫Ω∂Ó',
-   ware_id              bigint comment '≤÷ø‚id',
-   status               int comment '◊¥Ã¨[0–¬Ω®£¨1“—∑÷≈‰£¨2’˝‘⁄≤…π∫£¨3“—ÕÍ≥…£¨4≤…π∫ ß∞‹]',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for ware_info
+-- ----------------------------
+DROP TABLE IF EXISTS `ware_info`;
+CREATE TABLE `ware_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìÂêç',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìÂú∞ÂùÄ',
+  `areacode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Âå∫ÂüüÁºñÁ†Å',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '‰ªìÂ∫ì‰ø°ÊÅØ' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: ware_info                                         */
-/*==============================================================*/
-create table ware_info
-(
-   id                   bigint not null auto_increment comment 'id',
-   name                 varchar(255) comment '≤÷ø‚√˚',
-   address              varchar(255) comment '≤÷ø‚µÿ÷∑',
-   areacode             varchar(20) comment '«¯”Ú±‡¬Î',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for ware_order_task
+-- ----------------------------
+DROP TABLE IF EXISTS `ware_order_task`;
+CREATE TABLE `ware_order_task`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_id` bigint(20) NULL DEFAULT NULL COMMENT 'order_id',
+  `order_sn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'order_sn',
+  `consignee` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Êî∂Ë¥ß‰∫∫',
+  `consignee_tel` char(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Êî∂Ë¥ß‰∫∫ÁîµËØù',
+  `delivery_address` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ÈÖçÈÄÅÂú∞ÂùÄ',
+  `order_comment` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ËÆ¢ÂçïÂ§áÊ≥®',
+  `payment_way` tinyint(1) NULL DEFAULT NULL COMMENT '‰ªòÊ¨æÊñπÂºè„Äê 1:Âú®Á∫ø‰ªòÊ¨æ 2:Ë¥ßÂà∞‰ªòÊ¨æ„Äë',
+  `task_status` tinyint(2) NULL DEFAULT NULL COMMENT '‰ªªÂä°Áä∂ÊÄÅ',
+  `order_body` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ËÆ¢ÂçïÊèèËø∞',
+  `tracking_no` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Áâ©ÊµÅÂçïÂè∑',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìid',
+  `task_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Â∑•‰ΩúÂçïÂ§áÊ≥®',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Â∫ìÂ≠òÂ∑•‰ΩúÂçï' ROW_FORMAT = Dynamic;
 
-alter table ware_info comment '≤÷ø‚–≈œ¢';
+-- ----------------------------
+-- Table structure for ware_order_task_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `ware_order_task_detail`;
+CREATE TABLE `ware_order_task_detail`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'sku_id',
+  `sku_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'sku_name',
+  `sku_num` int(11) NULL DEFAULT NULL COMMENT 'Ë¥≠‰π∞‰∏™Êï∞',
+  `task_id` bigint(20) NULL DEFAULT NULL COMMENT 'Â∑•‰ΩúÂçïid',
+  `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìid',
+  `lock_status` int(1) NULL DEFAULT NULL COMMENT '1-Â∑≤ÈîÅÂÆö 2-Â∑≤Ëß£ÈîÅ 3-Â∑≤Êâ£Âáè',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'Â∫ìÂ≠òÂ∑•‰ΩúÂçï' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: ware_order_task                                   */
-/*==============================================================*/
-create table ware_order_task
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_id             bigint comment 'order_id',
-   order_sn             varchar(255) comment 'order_sn',
-   consignee            varchar(100) comment ' ’ªı»À',
-   consignee_tel        char(15) comment ' ’ªı»ÀµÁª∞',
-   delivery_address     varchar(500) comment '≈‰ÀÕµÿ÷∑',
-   order_comment        varchar(200) comment '∂©µ•±∏◊¢',
-   payment_way          tinyint(1) comment '∏∂øÓ∑Ω Ω°æ 1:‘⁄œﬂ∏∂øÓ 2:ªıµΩ∏∂øÓ°ø',
-   task_status          tinyint(2) comment '»ŒŒÒ◊¥Ã¨',
-   order_body           varchar(255) comment '∂©µ•√Ë ˆ',
-   tracking_no          char(30) comment 'ŒÔ¡˜µ•∫≈',
-   create_time          datetime comment 'create_time',
-   ware_id              bigint comment '≤÷ø‚id',
-   task_comment         varchar(500) comment 'π§◊˜µ•±∏◊¢',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for ware_sku
+-- ----------------------------
+DROP TABLE IF EXISTS `ware_sku`;
+CREATE TABLE `ware_sku`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'sku_id',
+  `ware_id` bigint(20) NULL DEFAULT NULL COMMENT '‰ªìÂ∫ìid',
+  `stock` int(11) NULL DEFAULT NULL COMMENT 'Â∫ìÂ≠òÊï∞',
+  `sku_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'sku_name',
+  `stock_locked` int(11) NULL DEFAULT 0 COMMENT 'ÈîÅÂÆöÂ∫ìÂ≠ò',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ÂïÜÂìÅÂ∫ìÂ≠ò' ROW_FORMAT = Dynamic;
 
-alter table ware_order_task comment 'ø‚¥Êπ§◊˜µ•';
-
-/*==============================================================*/
-/* Table: ware_order_task_detail                            */
-/*==============================================================*/
-create table ware_order_task_detail
-(
-   id                   bigint not null auto_increment comment 'id',
-   sku_id               bigint comment 'sku_id',
-   sku_name             varchar(255) comment 'sku_name',
-   sku_num              int comment 'π∫¬Ú∏ˆ ˝',
-   task_id              bigint comment 'π§◊˜µ•id',
-   primary key (id)
-);
-
-alter table ware_order_task_detail comment 'ø‚¥Êπ§◊˜µ•';
-
-/*==============================================================*/
-/* Table: ware_sku                                          */
-/*==============================================================*/
-create table ware_sku
-(
-   id                   bigint not null auto_increment comment 'id',
-   sku_id               bigint comment 'sku_id',
-   ware_id              bigint comment '≤÷ø‚id',
-   stock                int comment 'ø‚¥Ê ˝',
-   sku_name             varchar(200) comment 'sku_name',
-   stock_locked         int comment 'À¯∂®ø‚¥Ê',
-   primary key (id)
-);
-
-alter table ware_sku comment '…Ã∆∑ø‚¥Ê';
+SET FOREIGN_KEY_CHECKS = 1;

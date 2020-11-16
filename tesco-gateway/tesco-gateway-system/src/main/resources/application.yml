@@ -38,6 +38,13 @@ spring:
             - Path=/api/ware/**
           filters:
             - StripPrefix= 1
+        # 库存微服务
+        - id: coupon-service-route
+          uri: lb://coupon-service
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - StripPrefix= 1
         # 后台管理系统（放在最后，低精确Url放于后，高精确Url放于前）
         - id: admin-service-route
           uri: lb://admin-service

@@ -1,194 +1,196 @@
-/*==============================================================*/
-/* Database: tesco-user                            */
-/*==============================================================*/
+/*
+ Navicat Premium Data Transfer
 
-drop table if exists growth_change_history;
+ Source Server         : Docker-MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 50722
+ Source Host           : 192.168.75.136:3306
+ Source Schema         : tesco-user
 
-drop table if exists integration_change_history;
+ Target Server Type    : MySQL
+ Target Server Version : 50722
+ File Encoding         : 65001
 
-drop table if exists users;
+ Date: 16/11/2020 20:53:03
+*/
 
-drop table if exists user_collect_spu;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-drop table if exists user_collect_subject;
+-- ----------------------------
+-- Table structure for growth_change_history
+-- ----------------------------
+DROP TABLE IF EXISTS `growth_change_history`;
+CREATE TABLE `growth_change_history`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'user_id',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  `change_count` int(11) NULL DEFAULT NULL COMMENT 'æ”¹å˜çš„å€¼ï¼ˆæ­£è´Ÿè®¡æ•°ï¼‰',
+  `note` varchar(0) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  `source_type` tinyint(4) NULL DEFAULT NULL COMMENT 'ç§¯åˆ†æ¥æº[0-è´­ç‰©ï¼Œ1-ç®¡ç†å‘˜ä¿®æ”¹]',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'æˆé•¿å€¼å˜åŒ–å†å²è®°å½•' ROW_FORMAT = Dynamic;
 
-drop table if exists user_level;
+-- ----------------------------
+-- Table structure for integration_change_history
+-- ----------------------------
+DROP TABLE IF EXISTS `integration_change_history`;
+CREATE TABLE `integration_change_history`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'user_id',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  `change_count` int(11) NULL DEFAULT NULL COMMENT 'å˜åŒ–çš„å€¼',
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  `source_tyoe` tinyint(4) NULL DEFAULT NULL COMMENT 'æ¥æº[0->è´­ç‰©ï¼›1->ç®¡ç†å‘˜ä¿®æ”¹;2->æ´»åŠ¨]',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç§¯åˆ†å˜åŒ–å†å²è®°å½•' ROW_FORMAT = Dynamic;
 
-drop table if exists user_login_log;
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime(0) NOT NULL,
+  `log_modified` datetime(0) NOT NULL,
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-drop table if exists user_receive_address;
+-- ----------------------------
+-- Table structure for user_collect_spu
+-- ----------------------------
+DROP TABLE IF EXISTS `user_collect_spu`;
+CREATE TABLE `user_collect_spu`  (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'ç”¨æˆ·id',
+  `spu_id` bigint(20) NULL DEFAULT NULL COMMENT 'spu_id',
+  `spu_name` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spu_name',
+  `spu_img` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spu_img',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·æ”¶è—çš„å•†å“' ROW_FORMAT = Dynamic;
 
-drop table if exists user_statistics_info;
+-- ----------------------------
+-- Table structure for user_collect_subject
+-- ----------------------------
+DROP TABLE IF EXISTS `user_collect_subject`;
+CREATE TABLE `user_collect_subject`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `subject_id` bigint(20) NULL DEFAULT NULL COMMENT 'subject_id',
+  `subject_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'subject_name',
+  `subject_img` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'subject_img',
+  `subject_urll` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ´»åŠ¨url',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·æ”¶è—çš„ä¸“é¢˜æ´»åŠ¨' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: growth_change_history                             */
-/*==============================================================*/
-create table growth_change_history
-(
-   id                   bigint not null auto_increment comment 'id',
-   user_id            bigint comment 'user_id',
-   create_time          datetime comment 'create_time',
-   change_count         int comment '¸Ä±äµÄÖµ£¨Õı¸º¼ÆÊı£©',
-   note                 varchar(0) comment '±¸×¢',
-   source_type          tinyint comment '»ı·ÖÀ´Ô´[0-¹ºÎï£¬1-¹ÜÀíÔ±ĞŞ¸Ä]',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for user_level
+-- ----------------------------
+DROP TABLE IF EXISTS `user_level`;
+CREATE TABLE `user_level`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç­‰çº§åç§°',
+  `growth_point` int(11) NULL DEFAULT NULL COMMENT 'ç­‰çº§éœ€è¦çš„æˆé•¿å€¼',
+  `default_status` tinyint(4) NULL DEFAULT NULL COMMENT 'æ˜¯å¦ä¸ºé»˜è®¤ç­‰çº§[0->ä¸æ˜¯ï¼›1->æ˜¯]',
+  `free_freight_point` decimal(18, 4) NULL DEFAULT NULL COMMENT 'å…è¿è´¹æ ‡å‡†',
+  `comment_growth_point` int(11) NULL DEFAULT NULL COMMENT 'æ¯æ¬¡è¯„ä»·è·å–çš„æˆé•¿å€¼',
+  `priviledge_free_freight` tinyint(4) NULL DEFAULT NULL COMMENT 'æ˜¯å¦æœ‰å…é‚®ç‰¹æƒ',
+  `priviledge_user_price` tinyint(4) NULL DEFAULT NULL COMMENT 'æ˜¯å¦æœ‰ç”¨æˆ·ä»·æ ¼ç‰¹æƒ',
+  `priviledge_birthday` tinyint(4) NULL DEFAULT NULL COMMENT 'æ˜¯å¦æœ‰ç”Ÿæ—¥ç‰¹æƒ',
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·ç­‰çº§' ROW_FORMAT = Dynamic;
 
-alter table growth_change_history comment '³É³¤Öµ±ä»¯ÀúÊ·¼ÇÂ¼';
+-- ----------------------------
+-- Table structure for user_login_log
+-- ----------------------------
+DROP TABLE IF EXISTS `user_login_log`;
+CREATE TABLE `user_login_log`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'user_id',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'åˆ›å»ºæ—¶é—´',
+  `ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ip',
+  `city` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'city',
+  `login_type` tinyint(1) NULL DEFAULT NULL COMMENT 'ç™»å½•ç±»å‹[1-webï¼Œ2-app]',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·ç™»å½•è®°å½•' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: integration_change_history                        */
-/*==============================================================*/
-create table integration_change_history
-(
-   id                   bigint not null auto_increment comment 'id',
-   user_id            bigint comment 'user_id',
-   create_time          datetime comment 'create_time',
-   change_count         int comment '±ä»¯µÄÖµ',
-   note                 varchar(255) comment '±¸×¢',
-   source_tyoe          tinyint comment 'À´Ô´[0->¹ºÎï£»1->¹ÜÀíÔ±ĞŞ¸Ä;2->»î¶¯]',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for user_receive_address
+-- ----------------------------
+DROP TABLE IF EXISTS `user_receive_address`;
+CREATE TABLE `user_receive_address`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'user_id',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äººå§“å',
+  `phone` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç”µè¯',
+  `post_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é‚®æ”¿ç¼–ç ',
+  `province` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'çœä»½/ç›´è¾–å¸‚',
+  `city` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'åŸå¸‚',
+  `region` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'åŒº',
+  `detail_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è¯¦ç»†åœ°å€(è¡—é“)',
+  `areacode` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'çœå¸‚åŒºä»£ç ',
+  `default_status` tinyint(1) NULL DEFAULT NULL COMMENT 'æ˜¯å¦é»˜è®¤',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·æ”¶è´§åœ°å€' ROW_FORMAT = Dynamic;
 
-alter table integration_change_history comment '»ı·Ö±ä»¯ÀúÊ·¼ÇÂ¼';
+-- ----------------------------
+-- Table structure for user_statistics_info
+-- ----------------------------
+DROP TABLE IF EXISTS `user_statistics_info`;
+CREATE TABLE `user_statistics_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `user_id` bigint(20) NULL DEFAULT NULL COMMENT 'ç”¨æˆ·id',
+  `consume_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ç´¯è®¡æ¶ˆè´¹é‡‘é¢',
+  `coupon_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ç´¯è®¡ä¼˜æƒ é‡‘é¢',
+  `order_count` int(11) NULL DEFAULT NULL COMMENT 'è®¢å•æ•°é‡',
+  `coupon_count` int(11) NULL DEFAULT NULL COMMENT 'ä¼˜æƒ åˆ¸æ•°é‡',
+  `comment_count` int(11) NULL DEFAULT NULL COMMENT 'è¯„ä»·æ•°',
+  `return_order_count` int(11) NULL DEFAULT NULL COMMENT 'é€€è´§æ•°é‡',
+  `login_count` int(11) NULL DEFAULT NULL COMMENT 'ç™»å½•æ¬¡æ•°',
+  `attend_count` int(11) NULL DEFAULT NULL COMMENT 'å…³æ³¨æ•°é‡',
+  `fans_count` int(11) NULL DEFAULT NULL COMMENT 'ç²‰ä¸æ•°é‡',
+  `collect_product_count` int(11) NULL DEFAULT NULL COMMENT 'æ”¶è—çš„å•†å“æ•°é‡',
+  `collect_subject_count` int(11) NULL DEFAULT NULL COMMENT 'æ”¶è—çš„ä¸“é¢˜æ´»åŠ¨æ•°é‡',
+  `collect_comment_count` int(11) NULL DEFAULT NULL COMMENT 'æ”¶è—çš„è¯„è®ºæ•°é‡',
+  `invite_friend_count` int(11) NULL DEFAULT NULL COMMENT 'é‚€è¯·çš„æœ‹å‹æ•°é‡',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·ç»Ÿè®¡ä¿¡æ¯' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: users                                            */
-/*==============================================================*/
-create table users
-(
-   id                   bigint not null auto_increment comment 'id',
-   level_id             bigint comment 'ÓÃ»§µÈ¼¶id',
-   username             char(64) comment 'ÓÃ»§Ãû',
-   password             varchar(64) comment 'ÃÜÂë',
-   nickname             varchar(64) comment 'êÇ³Æ',
-   mobile               varchar(20) comment 'ÊÖ»úºÅÂë',
-   email                varchar(64) comment 'ÓÊÏä',
-   header               varchar(500) comment 'Í·Ïñ',
-   gender               tinyint comment 'ĞÔ±ğ',
-   birth                date comment 'ÉúÈÕ',
-   city                 varchar(500) comment 'ËùÔÚ³ÇÊĞ',
-   job                  varchar(255) comment 'Ö°Òµ',
-   sign                 varchar(255) comment '¸öĞÔÇ©Ãû',
-   source_type          tinyint comment 'ÓÃ»§À´Ô´',
-   integration          int comment '»ı·Ö',
-   growth               int comment '³É³¤Öµ',
-   status               tinyint comment 'ÆôÓÃ×´Ì¬',
-   create_time          datetime comment '×¢²áÊ±¼ä',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `level_id` bigint(20) NULL DEFAULT NULL COMMENT 'ç”¨æˆ·ç­‰çº§id',
+  `username` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·å',
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¯†ç ',
+  `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ˜µç§°',
+  `mobile` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ‰‹æœºå·ç ',
+  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é‚®ç®±',
+  `header` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤´åƒ',
+  `gender` tinyint(4) NULL DEFAULT NULL COMMENT 'æ€§åˆ«',
+  `birth` date NULL DEFAULT NULL COMMENT 'ç”Ÿæ—¥',
+  `city` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ‰€åœ¨åŸå¸‚',
+  `job` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'èŒä¸š',
+  `sign` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ä¸ªæ€§ç­¾å',
+  `source_type` tinyint(4) NULL DEFAULT NULL COMMENT 'ç”¨æˆ·æ¥æº',
+  `integration` int(11) NULL DEFAULT NULL COMMENT 'ç§¯åˆ†',
+  `growth` int(11) NULL DEFAULT NULL COMMENT 'æˆé•¿å€¼',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT 'å¯ç”¨çŠ¶æ€',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'æ³¨å†Œæ—¶é—´',
+  `social_uid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç¤¾äº¤ç”¨æˆ·id',
+  `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è®¿é—®ä»¤ç‰Œ',
+  `expires_in` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ä»¤ç‰Œè¿‡æœŸæ—¶é—´',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ç”¨æˆ·' ROW_FORMAT = Dynamic;
 
-alter table users comment 'ÓÃ»§';
-
-/*==============================================================*/
-/* Table: user_collect_spu                                */
-/*==============================================================*/
-create table user_collect_spu
-(
-   id                   bigint not null comment 'id',
-   user_id            bigint comment 'ÓÃ»§id',
-   spu_id               bigint comment 'spu_id',
-   spu_name             varchar(500) comment 'spu_name',
-   spu_img              varchar(500) comment 'spu_img',
-   create_time          datetime comment 'create_time',
-   primary key (id)
-);
-
-alter table user_collect_spu comment 'ÓÃ»§ÊÕ²ØµÄÉÌÆ·';
-
-/*==============================================================*/
-/* Table: user_collect_subject                            */
-/*==============================================================*/
-create table user_collect_subject
-(
-   id                   bigint not null auto_increment comment 'id',
-   subject_id           bigint comment 'subject_id',
-   subject_name         varchar(255) comment 'subject_name',
-   subject_img          varchar(500) comment 'subject_img',
-   subject_urll         varchar(500) comment '»î¶¯url',
-   primary key (id)
-);
-
-alter table user_collect_subject comment 'ÓÃ»§ÊÕ²ØµÄ×¨Ìâ»î¶¯';
-
-/*==============================================================*/
-/* Table: user_level                                      */
-/*==============================================================*/
-create table user_level
-(
-   id                   bigint not null auto_increment comment 'id',
-   name                 varchar(100) comment 'µÈ¼¶Ãû³Æ',
-   growth_point         int comment 'µÈ¼¶ĞèÒªµÄ³É³¤Öµ',
-   default_status       tinyint comment 'ÊÇ·ñÎªÄ¬ÈÏµÈ¼¶[0->²»ÊÇ£»1->ÊÇ]',
-   free_freight_point   decimal(18,4) comment 'ÃâÔË·Ñ±ê×¼',
-   comment_growth_point int comment 'Ã¿´ÎÆÀ¼Û»ñÈ¡µÄ³É³¤Öµ',
-   priviledge_free_freight tinyint comment 'ÊÇ·ñÓĞÃâÓÊÌØÈ¨',
-   priviledge_user_price tinyint comment 'ÊÇ·ñÓĞÓÃ»§¼Û¸ñÌØÈ¨',
-   priviledge_birthday  tinyint comment 'ÊÇ·ñÓĞÉúÈÕÌØÈ¨',
-   note                 varchar(255) comment '±¸×¢',
-   primary key (id)
-);
-
-alter table user_level comment 'ÓÃ»§µÈ¼¶';
-
-/*==============================================================*/
-/* Table: user_login_log                                  */
-/*==============================================================*/
-create table user_login_log
-(
-   id                   bigint not null auto_increment comment 'id',
-   user_id            bigint comment 'user_id',
-   create_time          datetime comment '´´½¨Ê±¼ä',
-   ip                   varchar(64) comment 'ip',
-   city                 varchar(64) comment 'city',
-   login_type           tinyint(1) comment 'µÇÂ¼ÀàĞÍ[1-web£¬2-app]',
-   primary key (id)
-);
-
-alter table user_login_log comment 'ÓÃ»§µÇÂ¼¼ÇÂ¼';
-
-/*==============================================================*/
-/* Table: user_receive_address                            */
-/*==============================================================*/
-create table user_receive_address
-(
-   id                   bigint not null auto_increment comment 'id',
-   user_id            bigint comment 'user_id',
-   name                 varchar(255) comment 'ÊÕ»õÈËĞÕÃû',
-   phone                varchar(64) comment 'µç»°',
-   post_code            varchar(64) comment 'ÓÊÕş±àÂë',
-   province             varchar(100) comment 'Ê¡·İ/Ö±Ï½ÊĞ',
-   city                 varchar(100) comment '³ÇÊĞ',
-   region               varchar(100) comment 'Çø',
-   detail_address       varchar(255) comment 'ÏêÏ¸µØÖ·(½ÖµÀ)',
-   areacode             varchar(15) comment 'Ê¡ÊĞÇø´úÂë',
-   default_status       tinyint(1) comment 'ÊÇ·ñÄ¬ÈÏ',
-   primary key (id)
-);
-
-alter table user_receive_address comment 'ÓÃ»§ÊÕ»õµØÖ·';
-
-/*==============================================================*/
-/* Table: user_statistics_info                            */
-/*==============================================================*/
-create table user_statistics_info
-(
-   id                   bigint not null auto_increment comment 'id',
-   user_id            bigint comment 'ÓÃ»§id',
-   consume_amount       decimal(18,4) comment 'ÀÛ¼ÆÏû·Ñ½ğ¶î',
-   coupon_amount        decimal(18,4) comment 'ÀÛ¼ÆÓÅ»İ½ğ¶î',
-   order_count          int comment '¶©µ¥ÊıÁ¿',
-   coupon_count         int comment 'ÓÅ»İÈ¯ÊıÁ¿',
-   comment_count        int comment 'ÆÀ¼ÛÊı',
-   return_order_count   int comment 'ÍË»õÊıÁ¿',
-   login_count          int comment 'µÇÂ¼´ÎÊı',
-   attend_count         int comment '¹Ø×¢ÊıÁ¿',
-   fans_count           int comment '·ÛË¿ÊıÁ¿',
-   collect_product_count int comment 'ÊÕ²ØµÄÉÌÆ·ÊıÁ¿',
-   collect_subject_count int comment 'ÊÕ²ØµÄ×¨Ìâ»î¶¯ÊıÁ¿',
-   collect_comment_count int comment 'ÊÕ²ØµÄÆÀÂÛÊıÁ¿',
-   invite_friend_count  int comment 'ÑûÇëµÄÅóÓÑÊıÁ¿',
-   primary key (id)
-);
-
-alter table user_statistics_info comment 'ÓÃ»§Í³¼ÆĞÅÏ¢';
+SET FOREIGN_KEY_CHECKS = 1;

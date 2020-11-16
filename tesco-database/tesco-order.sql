@@ -1,221 +1,247 @@
-drop table if exists orders;
+/*
+ Navicat Premium Data Transfer
 
-drop table if exists order_item;
+ Source Server         : Docker-MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 50722
+ Source Host           : 192.168.75.136:3306
+ Source Schema         : tesco-order
 
-drop table if exists order_operate_history;
+ Target Server Type    : MySQL
+ Target Server Version : 50722
+ File Encoding         : 65001
 
-drop table if exists order_return_apply;
+ Date: 16/11/2020 20:52:48
+*/
 
-drop table if exists order_return_reason;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-drop table if exists order_setting;
+-- ----------------------------
+-- Table structure for mq_message
+-- ----------------------------
+DROP TABLE IF EXISTS `mq_message`;
+CREATE TABLE `mq_message`  (
+  `message_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `to_exchange` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `routing_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `class_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `message_status` int(1) NULL DEFAULT 0 COMMENT '0-æ–°å»º 1-å·²å‘é€ 2-é”™è¯¯æŠµè¾¾ 3-å·²æŠµè¾¾',
+  `create_time` datetime(0) NULL DEFAULT NULL,
+  `update_time` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`message_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
-drop table if exists payment_info;
+-- ----------------------------
+-- Table structure for order_item
+-- ----------------------------
+DROP TABLE IF EXISTS `order_item`;
+CREATE TABLE `order_item`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_id` bigint(20) NULL DEFAULT NULL COMMENT 'order_id',
+  `order_sn` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'order_sn',
+  `spu_id` bigint(20) NULL DEFAULT NULL COMMENT 'spu_id',
+  `spu_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spu_name',
+  `spu_pic` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'spu_pic',
+  `spu_brand` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å“ç‰Œ',
+  `category_id` bigint(20) NULL DEFAULT NULL COMMENT 'å•†å“åˆ†ç±»id',
+  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'å•†å“skuç¼–å·',
+  `sku_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“skuåå­—',
+  `sku_pic` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“skuå›¾ç‰‡',
+  `sku_price` decimal(18, 4) NULL DEFAULT NULL COMMENT 'å•†å“skuä»·æ ¼',
+  `sku_quantity` int(11) NULL DEFAULT NULL COMMENT 'å•†å“è´­ä¹°çš„æ•°é‡',
+  `sku_attrs_vals` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“é”€å”®å±æ€§ç»„åˆï¼ˆJSONï¼‰',
+  `promotion_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'å•†å“ä¿ƒé”€åˆ†è§£é‡‘é¢',
+  `coupon_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ä¼˜æƒ åˆ¸ä¼˜æƒ åˆ†è§£é‡‘é¢',
+  `integration_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ç§¯åˆ†ä¼˜æƒ åˆ†è§£é‡‘é¢',
+  `real_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'è¯¥å•†å“ç»è¿‡ä¼˜æƒ åçš„åˆ†è§£é‡‘é¢',
+  `gift_integration` int(11) NULL DEFAULT NULL COMMENT 'èµ é€ç§¯åˆ†',
+  `gift_growth` int(11) NULL DEFAULT NULL COMMENT 'èµ é€æˆé•¿å€¼',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 119 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'è®¢å•é¡¹ä¿¡æ¯' ROW_FORMAT = Dynamic;
 
-drop table if exists refund_info;
+-- ----------------------------
+-- Table structure for order_operate_history
+-- ----------------------------
+DROP TABLE IF EXISTS `order_operate_history`;
+CREATE TABLE `order_operate_history`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_id` bigint(20) NULL DEFAULT NULL COMMENT 'è®¢å•id',
+  `operate_man` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ“ä½œäºº[ç”¨æˆ·ï¼›ç³»ç»Ÿï¼›åå°ç®¡ç†å‘˜]',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'æ“ä½œæ—¶é—´',
+  `order_status` tinyint(4) NULL DEFAULT NULL COMMENT 'è®¢å•çŠ¶æ€ã€0->å¾…ä»˜æ¬¾ï¼›1->å¾…å‘è´§ï¼›2->å·²å‘è´§ï¼›3->å·²å®Œæˆï¼›4->å·²å…³é—­ï¼›5->æ— æ•ˆè®¢å•ã€‘',
+  `note` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤‡æ³¨',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'è®¢å•æ“ä½œå†å²è®°å½•' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: orders                                             */
-/*==============================================================*/
-create table orders
-(
-   id                   bigint not null auto_increment comment 'id',
-   member_id            bigint comment 'member_id',
-   order_sn             char(32) comment '¶©µ¥ºÅ',
-   coupon_id            bigint comment 'Ê¹ÓÃµÄÓÅ»İÈ¯',
-   create_time          datetime comment 'create_time',
-   member_username      varchar(200) comment 'ÓÃ»§Ãû',
-   total_amount         decimal(18,4) comment '¶©µ¥×Ü¶î',
-   pay_amount           decimal(18,4) comment 'Ó¦¸¶×Ü¶î',
-   freight_amount       decimal(18,4) comment 'ÔË·Ñ½ğ¶î',
-   promotion_amount     decimal(18,4) comment '´ÙÏúÓÅ»¯½ğ¶î£¨´ÙÏú¼Û¡¢Âú¼õ¡¢½×Ìİ¼Û£©',
-   integration_amount   decimal(18,4) comment '»ı·ÖµÖ¿Û½ğ¶î',
-   coupon_amount        decimal(18,4) comment 'ÓÅ»İÈ¯µÖ¿Û½ğ¶î',
-   discount_amount      decimal(18,4) comment 'ºóÌ¨µ÷Õû¶©µ¥Ê¹ÓÃµÄÕÛ¿Û½ğ¶î',
-   pay_type             tinyint comment 'Ö§¸¶·½Ê½¡¾1->Ö§¸¶±¦£»2->Î¢ĞÅ£»3->ÒøÁª£» 4->»õµ½¸¶¿î£»¡¿',
-   source_type          tinyint comment '¶©µ¥À´Ô´[0->PC¶©µ¥£»1->app¶©µ¥]',
-   status               tinyint comment '¶©µ¥×´Ì¬¡¾0->´ı¸¶¿î£»1->´ı·¢»õ£»2->ÒÑ·¢»õ£»3->ÒÑÍê³É£»4->ÒÑ¹Ø±Õ£»5->ÎŞĞ§¶©µ¥¡¿',
-   delivery_company     varchar(64) comment 'ÎïÁ÷¹«Ë¾(ÅäËÍ·½Ê½)',
-   delivery_sn          varchar(64) comment 'ÎïÁ÷µ¥ºÅ',
-   auto_confirm_day     int comment '×Ô¶¯È·ÈÏÊ±¼ä£¨Ìì£©',
-   integration          int comment '¿ÉÒÔ»ñµÃµÄ»ı·Ö',
-   growth               int comment '¿ÉÒÔ»ñµÃµÄ³É³¤Öµ',
-   bill_type            tinyint comment '·¢Æ±ÀàĞÍ[0->²»¿ª·¢Æ±£»1->µç×Ó·¢Æ±£»2->Ö½ÖÊ·¢Æ±]',
-   bill_header          varchar(255) comment '·¢Æ±Ì§Í·',
-   bill_content         varchar(255) comment '·¢Æ±ÄÚÈİ',
-   bill_receiver_phone  varchar(32) comment 'ÊÕÆ±ÈËµç»°',
-   bill_receiver_email  varchar(64) comment 'ÊÕÆ±ÈËÓÊÏä',
-   receiver_name        varchar(100) comment 'ÊÕ»õÈËĞÕÃû',
-   receiver_phone       varchar(32) comment 'ÊÕ»õÈËµç»°',
-   receiver_post_code   varchar(32) comment 'ÊÕ»õÈËÓÊ±à',
-   receiver_province    varchar(32) comment 'Ê¡·İ/Ö±Ï½ÊĞ',
-   receiver_city        varchar(32) comment '³ÇÊĞ',
-   receiver_region      varchar(32) comment 'Çø',
-   receiver_detail_address varchar(200) comment 'ÏêÏ¸µØÖ·',
-   note                 varchar(500) comment '¶©µ¥±¸×¢',
-   confirm_status       tinyint comment 'È·ÈÏÊÕ»õ×´Ì¬[0->Î´È·ÈÏ£»1->ÒÑÈ·ÈÏ]',
-   delete_status        tinyint comment 'É¾³ı×´Ì¬¡¾0->Î´É¾³ı£»1->ÒÑÉ¾³ı¡¿',
-   use_integration      int comment 'ÏÂµ¥Ê±Ê¹ÓÃµÄ»ı·Ö',
-   payment_time         datetime comment 'Ö§¸¶Ê±¼ä',
-   delivery_time        datetime comment '·¢»õÊ±¼ä',
-   receive_time         datetime comment 'È·ÈÏÊÕ»õÊ±¼ä',
-   comment_time         datetime comment 'ÆÀ¼ÛÊ±¼ä',
-   modify_time          datetime comment 'ĞŞ¸ÄÊ±¼ä',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for order_return_apply
+-- ----------------------------
+DROP TABLE IF EXISTS `order_return_apply`;
+CREATE TABLE `order_return_apply`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_id` bigint(20) NULL DEFAULT NULL COMMENT 'order_id',
+  `sku_id` bigint(20) NULL DEFAULT NULL COMMENT 'é€€è´§å•†å“id',
+  `order_sn` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è®¢å•ç¼–å·',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'ç”³è¯·æ—¶é—´',
+  `member_username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ä¼šå‘˜ç”¨æˆ·å',
+  `return_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'é€€æ¬¾é‡‘é¢',
+  `return_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é€€è´§äººå§“å',
+  `return_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é€€è´§äººç”µè¯',
+  `status` tinyint(1) NULL DEFAULT NULL COMMENT 'ç”³è¯·çŠ¶æ€[0->å¾…å¤„ç†ï¼›1->é€€è´§ä¸­ï¼›2->å·²å®Œæˆï¼›3->å·²æ‹’ç»]',
+  `handle_time` datetime(0) NULL DEFAULT NULL COMMENT 'å¤„ç†æ—¶é—´',
+  `sku_img` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“å›¾ç‰‡',
+  `sku_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“åç§°',
+  `sku_brand` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“å“ç‰Œ',
+  `sku_attrs_vals` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å•†å“é”€å”®å±æ€§(JSON)',
+  `sku_count` int(11) NULL DEFAULT NULL COMMENT 'é€€è´§æ•°é‡',
+  `sku_price` decimal(18, 4) NULL DEFAULT NULL COMMENT 'å•†å“å•ä»·',
+  `sku_real_price` decimal(18, 4) NULL DEFAULT NULL COMMENT 'å•†å“å®é™…æ”¯ä»˜å•ä»·',
+  `reason` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'åŸå› ',
+  `descriptionè¿°` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æè¿°',
+  `desc_pics` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å‡­è¯å›¾ç‰‡ï¼Œä»¥é€—å·éš”å¼€',
+  `handle_note` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤„ç†å¤‡æ³¨',
+  `handle_man` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å¤„ç†äººå‘˜',
+  `receive_man` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äºº',
+  `receive_time` datetime(0) NULL DEFAULT NULL COMMENT 'æ”¶è´§æ—¶é—´',
+  `receive_note` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§å¤‡æ³¨',
+  `receive_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§ç”µè¯',
+  `company_address` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å…¬å¸æ”¶è´§åœ°å€',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'è®¢å•é€€è´§ç”³è¯·' ROW_FORMAT = Dynamic;
 
-alter table orders comment '¶©µ¥';
+-- ----------------------------
+-- Table structure for order_return_reason
+-- ----------------------------
+DROP TABLE IF EXISTS `order_return_reason`;
+CREATE TABLE `order_return_reason`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é€€è´§åŸå› å',
+  `sort` int(11) NULL DEFAULT NULL COMMENT 'æ’åº',
+  `status` tinyint(1) NULL DEFAULT NULL COMMENT 'å¯ç”¨çŠ¶æ€',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'é€€è´§åŸå› ' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: order_item                                        */
-/*==============================================================*/
-create table order_item
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_id             bigint comment 'order_id',
-   order_sn             char(32) comment 'order_sn',
-   spu_id               bigint comment 'spu_id',
-   spu_name             varchar(255) comment 'spu_name',
-   spu_pic              varchar(500) comment 'spu_pic',
-   spu_brand            varchar(200) comment 'Æ·ÅÆ',
-   category_id          bigint comment 'ÉÌÆ··ÖÀàid',
-   sku_id               bigint comment 'ÉÌÆ·sku±àºÅ',
-   sku_name             varchar(255) comment 'ÉÌÆ·skuÃû×Ö',
-   sku_pic              varchar(500) comment 'ÉÌÆ·skuÍ¼Æ¬',
-   sku_price            decimal(18,4) comment 'ÉÌÆ·sku¼Û¸ñ',
-   sku_quantity         int comment 'ÉÌÆ·¹ºÂòµÄÊıÁ¿',
-   sku_attrs_vals       varchar(500) comment 'ÉÌÆ·ÏúÊÛÊôĞÔ×éºÏ£¨JSON£©',
-   promotion_amount     decimal(18,4) comment 'ÉÌÆ·´ÙÏú·Ö½â½ğ¶î',
-   coupon_amount        decimal(18,4) comment 'ÓÅ»İÈ¯ÓÅ»İ·Ö½â½ğ¶î',
-   integration_amount   decimal(18,4) comment '»ı·ÖÓÅ»İ·Ö½â½ğ¶î',
-   real_amount          decimal(18,4) comment '¸ÃÉÌÆ·¾­¹ıÓÅ»İºóµÄ·Ö½â½ğ¶î',
-   gift_integration     int comment 'ÔùËÍ»ı·Ö',
-   gift_growth          int comment 'ÔùËÍ³É³¤Öµ',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for order_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `order_setting`;
+CREATE TABLE `order_setting`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `flash_order_overtime` int(11) NULL DEFAULT NULL COMMENT 'ç§’æ€è®¢å•è¶…æ—¶å…³é—­æ—¶é—´(åˆ†)',
+  `normal_order_overtime` int(11) NULL DEFAULT NULL COMMENT 'æ­£å¸¸è®¢å•è¶…æ—¶æ—¶é—´(åˆ†)',
+  `confirm_overtime` int(11) NULL DEFAULT NULL COMMENT 'å‘è´§åè‡ªåŠ¨ç¡®è®¤æ”¶è´§æ—¶é—´ï¼ˆå¤©ï¼‰',
+  `finish_overtime` int(11) NULL DEFAULT NULL COMMENT 'è‡ªåŠ¨å®Œæˆäº¤æ˜“æ—¶é—´ï¼Œä¸èƒ½ç”³è¯·é€€è´§ï¼ˆå¤©ï¼‰',
+  `comment_overtime` int(11) NULL DEFAULT NULL COMMENT 'è®¢å•å®Œæˆåè‡ªåŠ¨å¥½è¯„æ—¶é—´ï¼ˆå¤©ï¼‰',
+  `member_level` tinyint(2) NULL DEFAULT NULL COMMENT 'ä¼šå‘˜ç­‰çº§ã€0-ä¸é™ä¼šå‘˜ç­‰çº§ï¼Œå…¨éƒ¨é€šç”¨ï¼›å…¶ä»–-å¯¹åº”çš„å…¶ä»–ä¼šå‘˜ç­‰çº§ã€‘',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'è®¢å•é…ç½®ä¿¡æ¯' ROW_FORMAT = Dynamic;
 
-alter table order_item comment '¶©µ¥ÏîĞÅÏ¢';
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `member_id` bigint(20) NULL DEFAULT NULL COMMENT 'member_id',
+  `order_sn` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è®¢å•å·',
+  `coupon_id` bigint(20) NULL DEFAULT NULL COMMENT 'ä½¿ç”¨çš„ä¼˜æƒ åˆ¸',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'create_time',
+  `member_username` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·å',
+  `total_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'è®¢å•æ€»é¢',
+  `pay_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'åº”ä»˜æ€»é¢',
+  `freight_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'è¿è´¹é‡‘é¢',
+  `promotion_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ä¿ƒé”€ä¼˜åŒ–é‡‘é¢ï¼ˆä¿ƒé”€ä»·ã€æ»¡å‡ã€é˜¶æ¢¯ä»·ï¼‰',
+  `integration_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ç§¯åˆ†æŠµæ‰£é‡‘é¢',
+  `coupon_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'ä¼˜æƒ åˆ¸æŠµæ‰£é‡‘é¢',
+  `discount_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'åå°è°ƒæ•´è®¢å•ä½¿ç”¨çš„æŠ˜æ‰£é‡‘é¢',
+  `pay_type` tinyint(4) NULL DEFAULT NULL COMMENT 'æ”¯ä»˜æ–¹å¼ã€1->æ”¯ä»˜å®ï¼›2->å¾®ä¿¡ï¼›3->é“¶è”ï¼› 4->è´§åˆ°ä»˜æ¬¾ï¼›ã€‘',
+  `source_type` tinyint(4) NULL DEFAULT NULL COMMENT 'è®¢å•æ¥æº[0->PCè®¢å•ï¼›1->appè®¢å•]',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT 'è®¢å•çŠ¶æ€ã€0->å¾…ä»˜æ¬¾ï¼›1->å¾…å‘è´§ï¼›2->å·²å‘è´§ï¼›3->å·²å®Œæˆï¼›4->å·²å…³é—­ï¼›5->æ— æ•ˆè®¢å•ã€‘',
+  `delivery_company` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç‰©æµå…¬å¸(é…é€æ–¹å¼)',
+  `delivery_sn` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ç‰©æµå•å·',
+  `auto_confirm_day` int(11) NULL DEFAULT NULL COMMENT 'è‡ªåŠ¨ç¡®è®¤æ—¶é—´ï¼ˆå¤©ï¼‰',
+  `integration` int(11) NULL DEFAULT NULL COMMENT 'å¯ä»¥è·å¾—çš„ç§¯åˆ†',
+  `growth` int(11) NULL DEFAULT NULL COMMENT 'å¯ä»¥è·å¾—çš„æˆé•¿å€¼',
+  `bill_type` tinyint(4) NULL DEFAULT NULL COMMENT 'å‘ç¥¨ç±»å‹[0->ä¸å¼€å‘ç¥¨ï¼›1->ç”µå­å‘ç¥¨ï¼›2->çº¸è´¨å‘ç¥¨]',
+  `bill_header` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å‘ç¥¨æŠ¬å¤´',
+  `bill_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å‘ç¥¨å†…å®¹',
+  `bill_receiver_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶ç¥¨äººç”µè¯',
+  `bill_receiver_email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶ç¥¨äººé‚®ç®±',
+  `receiver_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äººå§“å',
+  `receiver_phone` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äººç”µè¯',
+  `receiver_post_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äººé‚®ç¼–',
+  `receiver_province` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'çœä»½/ç›´è¾–å¸‚',
+  `receiver_city` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'åŸå¸‚',
+  `receiver_region` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'åŒº',
+  `receiver_detail_address` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è¯¦ç»†åœ°å€',
+  `note` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è®¢å•å¤‡æ³¨',
+  `confirm_status` tinyint(4) NULL DEFAULT NULL COMMENT 'ç¡®è®¤æ”¶è´§çŠ¶æ€[0->æœªç¡®è®¤ï¼›1->å·²ç¡®è®¤]',
+  `delete_status` tinyint(4) NULL DEFAULT NULL COMMENT 'åˆ é™¤çŠ¶æ€ã€0->æœªåˆ é™¤ï¼›1->å·²åˆ é™¤ã€‘',
+  `use_integration` int(11) NULL DEFAULT NULL COMMENT 'ä¸‹å•æ—¶ä½¿ç”¨çš„ç§¯åˆ†',
+  `payment_time` datetime(0) NULL DEFAULT NULL COMMENT 'æ”¯ä»˜æ—¶é—´',
+  `delivery_time` datetime(0) NULL DEFAULT NULL COMMENT 'å‘è´§æ—¶é—´',
+  `receive_time` datetime(0) NULL DEFAULT NULL COMMENT 'ç¡®è®¤æ”¶è´§æ—¶é—´',
+  `comment_time` datetime(0) NULL DEFAULT NULL COMMENT 'è¯„ä»·æ—¶é—´',
+  `modify_time` datetime(0) NULL DEFAULT NULL COMMENT 'ä¿®æ”¹æ—¶é—´',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `order_sn`(`order_sn`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'è®¢å•' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: order_operate_history                             */
-/*==============================================================*/
-create table order_operate_history
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_id             bigint comment '¶©µ¥id',
-   operate_man          varchar(100) comment '²Ù×÷ÈË[ÓÃ»§£»ÏµÍ³£»ºóÌ¨¹ÜÀíÔ±]',
-   create_time          datetime comment '²Ù×÷Ê±¼ä',
-   order_status         tinyint comment '¶©µ¥×´Ì¬¡¾0->´ı¸¶¿î£»1->´ı·¢»õ£»2->ÒÑ·¢»õ£»3->ÒÑÍê³É£»4->ÒÑ¹Ø±Õ£»5->ÎŞĞ§¶©µ¥¡¿',
-   note                 varchar(500) comment '±¸×¢',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for payment_info
+-- ----------------------------
+DROP TABLE IF EXISTS `payment_info`;
+CREATE TABLE `payment_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_sn` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'è®¢å•å·ï¼ˆå¯¹å¤–ä¸šåŠ¡å·ï¼‰',
+  `order_id` bigint(20) NULL DEFAULT NULL COMMENT 'è®¢å•id',
+  `alipay_trade_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¯ä»˜å®äº¤æ˜“æµæ°´å·',
+  `total_amount` decimal(18, 4) NULL DEFAULT NULL COMMENT 'æ”¯ä»˜æ€»é‡‘é¢',
+  `subject` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'äº¤æ˜“å†…å®¹',
+  `payment_status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'æ”¯ä»˜çŠ¶æ€',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT 'åˆ›å»ºæ—¶é—´',
+  `confirm_time` datetime(0) NULL DEFAULT NULL COMMENT 'ç¡®è®¤æ—¶é—´',
+  `callback_content` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'å›è°ƒå†…å®¹',
+  `callback_time` datetime(0) NULL DEFAULT NULL COMMENT 'å›è°ƒæ—¶é—´',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `order_sn`(`order_sn`) USING BTREE,
+  UNIQUE INDEX `alipay_trade_no`(`alipay_trade_no`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'æ”¯ä»˜ä¿¡æ¯è¡¨' ROW_FORMAT = Dynamic;
 
-alter table order_operate_history comment '¶©µ¥²Ù×÷ÀúÊ·¼ÇÂ¼';
+-- ----------------------------
+-- Table structure for refund_info
+-- ----------------------------
+DROP TABLE IF EXISTS `refund_info`;
+CREATE TABLE `refund_info`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `order_return_id` bigint(20) NULL DEFAULT NULL COMMENT 'é€€æ¬¾çš„è®¢å•',
+  `refund` decimal(18, 4) NULL DEFAULT NULL COMMENT 'é€€æ¬¾é‡‘é¢',
+  `refund_sn` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'é€€æ¬¾äº¤æ˜“æµæ°´å·',
+  `refund_status` tinyint(1) NULL DEFAULT NULL COMMENT 'é€€æ¬¾çŠ¶æ€',
+  `refund_channel` tinyint(4) NULL DEFAULT NULL COMMENT 'é€€æ¬¾æ¸ é“[1-æ”¯ä»˜å®ï¼Œ2-å¾®ä¿¡ï¼Œ3-é“¶è”ï¼Œ4-æ±‡æ¬¾]',
+  `refund_content` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'é€€æ¬¾ä¿¡æ¯' ROW_FORMAT = Dynamic;
 
-/*==============================================================*/
-/* Table: order_return_apply                                */
-/*==============================================================*/
-create table order_return_apply
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_id             bigint comment 'order_id',
-   sku_id               bigint comment 'ÍË»õÉÌÆ·id',
-   order_sn             char(32) comment '¶©µ¥±àºÅ',
-   create_time          datetime comment 'ÉêÇëÊ±¼ä',
-   member_username      varchar(64) comment '»áÔ±ÓÃ»§Ãû',
-   return_amount        decimal(18,4) comment 'ÍË¿î½ğ¶î',
-   return_name          varchar(100) comment 'ÍË»õÈËĞÕÃû',
-   return_phone         varchar(20) comment 'ÍË»õÈËµç»°',
-   status               tinyint(1) comment 'ÉêÇë×´Ì¬[0->´ı´¦Àí£»1->ÍË»õÖĞ£»2->ÒÑÍê³É£»3->ÒÑ¾Ü¾ø]',
-   handle_time          datetime comment '´¦ÀíÊ±¼ä',
-   sku_img              varchar(500) comment 'ÉÌÆ·Í¼Æ¬',
-   sku_name             varchar(200) comment 'ÉÌÆ·Ãû³Æ',
-   sku_brand            varchar(200) comment 'ÉÌÆ·Æ·ÅÆ',
-   sku_attrs_vals       varchar(500) comment 'ÉÌÆ·ÏúÊÛÊôĞÔ(JSON)',
-   sku_count            int comment 'ÍË»õÊıÁ¿',
-   sku_price            decimal(18,4) comment 'ÉÌÆ·µ¥¼Û',
-   sku_real_price       decimal(18,4) comment 'ÉÌÆ·Êµ¼ÊÖ§¸¶µ¥¼Û',
-   reason               varchar(200) comment 'Ô­Òò',
-   descriptionÊö         varchar(500) comment 'ÃèÊö',
-   desc_pics            varchar(2000) comment 'Æ¾Ö¤Í¼Æ¬£¬ÒÔ¶ººÅ¸ô¿ª',
-   handle_note          varchar(500) comment '´¦Àí±¸×¢',
-   handle_man           varchar(200) comment '´¦ÀíÈËÔ±',
-   receive_man          varchar(100) comment 'ÊÕ»õÈË',
-   receive_time         datetime comment 'ÊÕ»õÊ±¼ä',
-   receive_note         varchar(500) comment 'ÊÕ»õ±¸×¢',
-   receive_phone        varchar(20) comment 'ÊÕ»õµç»°',
-   company_address      varchar(500) comment '¹«Ë¾ÊÕ»õµØÖ·',
-   primary key (id)
-);
+-- ----------------------------
+-- Table structure for undo_log
+-- ----------------------------
+DROP TABLE IF EXISTS `undo_log`;
+CREATE TABLE `undo_log`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint(20) NOT NULL,
+  `xid` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `context` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int(11) NOT NULL,
+  `log_created` datetime(0) NOT NULL,
+  `log_modified` datetime(0) NOT NULL,
+  `ext` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `ux_undo_log`(`xid`, `branch_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-alter table order_return_apply comment '¶©µ¥ÍË»õÉêÇë';
-
-/*==============================================================*/
-/* Table: order_return_reason                               */
-/*==============================================================*/
-create table order_return_reason
-(
-   id                   bigint not null auto_increment comment 'id',
-   name                 varchar(200) comment 'ÍË»õÔ­ÒòÃû',
-   sort                 int comment 'ÅÅĞò',
-   status               tinyint(1) comment 'ÆôÓÃ×´Ì¬',
-   create_time          datetime comment 'create_time',
-   primary key (id)
-);
-
-alter table order_return_reason comment 'ÍË»õÔ­Òò';
-
-/*==============================================================*/
-/* Table: order_setting                                     */
-/*==============================================================*/
-create table order_setting
-(
-   id                   bigint not null auto_increment comment 'id',
-   flash_order_overtime int comment 'ÃëÉ±¶©µ¥³¬Ê±¹Ø±ÕÊ±¼ä(·Ö)',
-   normal_order_overtime int comment 'Õı³£¶©µ¥³¬Ê±Ê±¼ä(·Ö)',
-   confirm_overtime     int comment '·¢»õºó×Ô¶¯È·ÈÏÊÕ»õÊ±¼ä£¨Ìì£©',
-   finish_overtime      int comment '×Ô¶¯Íê³É½»Ò×Ê±¼ä£¬²»ÄÜÉêÇëÍË»õ£¨Ìì£©',
-   comment_overtime     int comment '¶©µ¥Íê³Éºó×Ô¶¯ºÃÆÀÊ±¼ä£¨Ìì£©',
-   member_level         tinyint(2) comment '»áÔ±µÈ¼¶¡¾0-²»ÏŞ»áÔ±µÈ¼¶£¬È«²¿Í¨ÓÃ£»ÆäËû-¶ÔÓ¦µÄÆäËû»áÔ±µÈ¼¶¡¿',
-   primary key (id)
-);
-
-alter table order_setting comment '¶©µ¥ÅäÖÃĞÅÏ¢';
-
-/*==============================================================*/
-/* Table: payment_info                                      */
-/*==============================================================*/
-create table payment_info
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_sn             char(32) comment '¶©µ¥ºÅ£¨¶ÔÍâÒµÎñºÅ£©',
-   order_id             bigint comment '¶©µ¥id',
-   alipay_trade_no      varchar(50) comment 'Ö§¸¶±¦½»Ò×Á÷Ë®ºÅ',
-   total_amount         decimal(18,4) comment 'Ö§¸¶×Ü½ğ¶î',
-   subject              varchar(200) comment '½»Ò×ÄÚÈİ',
-   payment_status       varchar(20) comment 'Ö§¸¶×´Ì¬',
-   create_time          datetime comment '´´½¨Ê±¼ä',
-   confirm_time         datetime comment 'È·ÈÏÊ±¼ä',
-   callback_content     varchar(4000) comment '»Øµ÷ÄÚÈİ',
-   callback_time        datetime comment '»Øµ÷Ê±¼ä',
-   primary key (id)
-);
-
-alter table payment_info comment 'Ö§¸¶ĞÅÏ¢±í';
-
-/*==============================================================*/
-/* Table: refund_info                                       */
-/*==============================================================*/
-create table refund_info
-(
-   id                   bigint not null auto_increment comment 'id',
-   order_return_id      bigint comment 'ÍË¿îµÄ¶©µ¥',
-   refund               decimal(18,4) comment 'ÍË¿î½ğ¶î',
-   refund_sn            varchar(64) comment 'ÍË¿î½»Ò×Á÷Ë®ºÅ',
-   refund_status        tinyint(1) comment 'ÍË¿î×´Ì¬',
-   refund_channel       tinyint comment 'ÍË¿îÇşµÀ[1-Ö§¸¶±¦£¬2-Î¢ĞÅ£¬3-ÒøÁª£¬4-»ã¿î]',
-   refund_content       varchar(5000),
-   primary key (id)
-);
-
-alter table refund_info comment 'ÍË¿îĞÅÏ¢';
+SET FOREIGN_KEY_CHECKS = 1;

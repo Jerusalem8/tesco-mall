@@ -24,6 +24,7 @@
         <module>tesco-oauth2</module>
         <module>tesco-third-services</module>
         <module>tesco-cart</module>
+        <module>tesco-seckill</module>
     </modules>
 
     <!-- 引入SpringBoot的相关依赖 -->
