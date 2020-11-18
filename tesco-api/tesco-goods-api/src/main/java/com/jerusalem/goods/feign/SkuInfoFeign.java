@@ -19,10 +19,10 @@ import java.math.BigDecimal;
 public interface SkuInfoFeign {
 
     /***
-     * 查询
+     * 查询sku的详细信息
      * @return
      */
-    @RequestMapping("/info/{skuId}")
+    @GetMapping("/info/{skuId}")
     R getSkuInfo(@PathVariable("skuId") Long skuId);
 
     /****

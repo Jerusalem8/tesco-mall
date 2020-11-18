@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.coupon.entity.SeckillSessionEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /****
@@ -21,5 +22,11 @@ public interface SeckillSessionService extends IService<SeckillSessionEntity> {
     * @return
     */
     PageUtils queryPage(Map<String, Object> params);
+
+    /***
+     * 获取最近三天的秒杀商品
+     * @return
+     */
+    List<SeckillSessionEntity> getLatest3DaysSession();
 }
 

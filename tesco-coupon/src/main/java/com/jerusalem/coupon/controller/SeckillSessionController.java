@@ -3,15 +3,12 @@ package com.jerusalem.coupon.controller;
 import com.jerusalem.coupon.entity.SeckillSessionEntity;
 import com.jerusalem.coupon.service.SeckillSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.common.utils.R;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,6 +25,18 @@ public class SeckillSessionController {
 
     @Autowired
     private SeckillSessionService seckillSessionService;
+
+    /***
+     * 获取最近三天的秒杀商品
+     * @return
+     */
+    @GetMapping("/latest3DaysSession")
+    public R getLatest3DaysSession(){
+        List<SeckillSessionEntity> list = seckillSessionService.getLatest3DaysSession();
+        return R.ok().setData(list);
+    }
+
+
 
     /***
     * 分页查询

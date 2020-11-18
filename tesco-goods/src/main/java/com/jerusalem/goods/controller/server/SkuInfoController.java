@@ -51,7 +51,7 @@ public class SkuInfoController {
     * 获取sku的详细信息
     * @return
     */
-    @RequestMapping("/info/{skuId}")
+    @GetMapping("/info/{skuId}")
     public R info(@PathVariable("skuId") Long skuId){
 		SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
         return R.ok().put("skuInfo", skuInfo);

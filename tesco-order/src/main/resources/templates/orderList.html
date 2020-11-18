@@ -200,7 +200,7 @@
 			<table class="table" th:each="order:${orders.list}">
 				<tr>
 					<td colspan="7" style="background:#F7F7F7">
-						<span style="color:#AAAAAA">[[${order.modifyTime}]]</span>
+						<span style="color:#AAAAAA">[[${#dates.format(new java.util.Date(order.modifyTime),"yyyy-MM-dd HH:mm:ss")}]]</span>
 						<span><ruby style="color:#AAAAAA">订单号:</ruby>[[${order.orderSn}]]</span>
 						<span>乐购官方旗舰店<i class="table_i"></i></span>
 						<i class="table_i5 isShow"></i>

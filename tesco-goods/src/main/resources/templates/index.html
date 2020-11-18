@@ -456,32 +456,8 @@
       <div class="swiper-container swiper_section_second_list_left">
         <div class="swiper-wrapper">
           <div class="swiper-slide">
-            <ul>
-              <li>
-                <img src="/static/index/img/section_second_list_img1.jpg" alt="">
-                <p>花王 (Merries) 妙而舒 纸尿裤 大号 L54片 尿不湿（9-14千克） （日本官方直采） 花王 (Merries) 妙而舒 纸尿裤 大号 L54片 尿不湿（9-14千</p>
-                <span>¥83.9</span><s>¥99.9</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img2.jpg" alt="">
-                <p>华为mate9 4GB+32GB版 月光银 移动联通电信4G手机 双卡</p>
-                <span>¥17.90</span><s>¥29.90</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img3.jpg" alt="">
-                <p>超能 植翠低泡洗衣液（鲜艳亮丽）2kg/袋装（新老包装随机</p>
-                <span>¥20.70</span><s>¥44.90</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img4.jpg" alt="">
-                <p>长城（GreatWall）红酒 特选5年橡木桶解百纳干红葡萄酒 整</p>
-                <span>¥399.00</span><s>¥599.00</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img5.jpg" alt="">
-                <p>惠普(HP)暗影精灵2代Pro 15.6英寸游戏笔记本电脑(i5-7300H</p>
-                <span>¥5999.00</span><s>¥6499.00</s>
-              </li>
+            <ul id="seckillSkuContent">
+              <!--通过js实现遍历-->
             </ul>
           </div>
           <div class="swiper-slide">
@@ -490,27 +466,6 @@
                 <img src="/static/index/img/section_second_list_img6.jpg" alt="">
                 <p>Apple iMac 21.5英寸一体机（2017新款四核Core i5 处理器/8GB内存/1TB/RP555显卡/4K屏 MNDY2CH/A） Apple iMac 21.5英寸一体机（2017新款四核Core i5 处理</p>
                 <span>¥9588.00</span><s>¥10288.00</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img7.jpg" alt="">
-                <p>中柏（Jumper）EZpad 4S Pro 10.6英寸二合一平板电脑（X5 z</p>
-                <span>¥848.00</span><s>¥899.00</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img8.jpg" alt="">
-                <p>飞利浦（PHILIPS）电动牙刷HX6761/03亮白型成人充电式声波震动牙刷粉色 飞利浦（PHILIPS）电动牙刷HX6761/03亮白型成人充电式声波
-                </p>
-                <span>¥379.00</span><s>¥698.00</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img9.jpg" alt="">
-                <p>美的(Midea) 258升 变频智能三门冰箱 一级能效 风冷无霜 中门</p>
-                <span>¥3088.00</span><s>¥3299.00</s>
-              </li>
-              <li>
-                <img src="/static/index/img/section_second_list_img10.jpg" alt="">
-                <p>【第二件减50元】蒙羊 内蒙古羔羊羊肋排 2.4斤</p>
-                <span>¥99.90</span><s>¥199.00</s>
               </li>
             </ul>
           </div>
@@ -707,6 +662,21 @@
       var keyword=$("#searchText").val()
       window.location.href="http://search.tesco.com/search.html?keyword="+keyword;
   }
+  function to_href(skuId){
+    location.href = "http://item.tesco.com/"+skuId+".html";
+  }
+  $.get("http://seckill.tesco.com/seckill/currentSeckillSkus",function (response) {
+    if (response.data.length > 0){
+      response.data.forEach(function (item) {
+              $("<li onclick='to_href("+item.skuId+")'></li>")
+                      .append($("<img style='width: 130px;height: 130px' src='"+item.skuInfo.skuDefaultImg+"'/>"))
+                      .append($("<p>"+item.skuInfo.skuTitle+"</p>"))
+                      .append($("<span>"+item.seckillPrice+"</span>"))
+                      .append($("<s>"+item.skuInfo.price+"</s>"))
+                      .appendTo("#seckillSkuContent");
+      })
+    }
+  });
 </script>
 <script type="text/javascript" src="/static/index/js/text.js"></script>
 <script type="text/javascript" src="/static/index/js/header.js"></script>

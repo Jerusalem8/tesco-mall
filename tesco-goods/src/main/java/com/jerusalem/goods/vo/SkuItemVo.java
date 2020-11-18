@@ -31,6 +31,9 @@ public class SkuItemVo {
     //5.sku的规格参数
     private List<SpuBaseAttrGroupVo> spuBaseAttrGroupVos;
 
+    //6.sku的秒杀信息
+    private SeckillSkuInfoVo seckillSkuInfo;
+
     //6.是否有货
-    boolean hasStock = true;
+    boolean hasStock;
 }

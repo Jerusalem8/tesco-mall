@@ -386,8 +386,8 @@
 					</div>
 				<!--商品主体内容-->
 					<div class="box-two">
-						<div class="box-name" th:text="${item.skuInfo.skuTitle}">华为 HUAWEI Mate 10 6GB+128GB 亮黑色 移动联通电信4G手机 双卡双待</div>
-						<div class="box-hide" th:text="${item.skuInfo.skuSubtitle}">预订用户预计11月30日左右陆续发货！麒麟970芯片！AI智能拍照！</div>
+						<div class="box-name" th:text="${item.skuInfo.skuTitle}"></div>
+						<div class="box-hide" th:text="${item.skuInfo.skuSubtitle}"></div>
 						<div class="box-yuyue">
 							<div class="yuyue-one">
 								<img src="/static/item/img/7270ffc3baecdd448958f9f5e69cf60f.png" alt="" /> 预约抢购
@@ -410,10 +410,15 @@
 								<li>乐购价</li>
 								<li>
 									<span>￥</span>
-									<span th:text="${#numbers.formatDecimal(item.skuInfo.price,3,2)}">4499.00</span>
+									<span th:text="${#numbers.formatDecimal(item.skuInfo.price,1,2)}">4499.00</span>
 								</li>
-								<li>
-									预约享资格
+								<li style="color: red" th:if="${item.seckillSkuInfo!=null}">
+									<span th:if="${#dates.createNow().getTime() < item.seckillSkuInfo.startTime}">
+										<b>商品将在&nbsp;[[${#dates.format(new java.util.Date(item.seckillSkuInfo.startTime),"yyyy-MM-dd HH:mm:ss")}]]&nbsp;开始秒杀！</b>
+									</span>
+									<span th:if="${#dates.createNow().getTime() >= item.seckillSkuInfo.startTime && #dates.createNow().getTime() <= item.seckillSkuInfo.endTime}">
+										<b>秒杀价：￥[[${#numbers.formatDecimal(item.seckillSkuInfo.seckillPrice,1,2)}]]</b>
+									</span>
 								</li>
 								<li>
 									<a href="">
@@ -690,15 +695,15 @@
 								<div class="shanpinsssss">
 							<li class="baozhuang actives" id="li2">
 								<div class="guiGebox">
-									<div class="guiGe" th:each="baseAttrGroup:${item.spuBaseAttrGroupVos}">
-										<h3 th:text="${baseAttrGroup.groupName}">主体</h3>
-										<dl>
-											<div th:each="baseAttr:${baseAttrGroup.attrs}">
-												<dt th:text="${baseAttr.attrName}">品牌</dt>
-												<dd th:text="${baseAttr.attrValue}">华为</dd>
-											</div>
-										</dl>
-									</div>
+<!--									<div class="guiGe" th:each="baseAttrGroup:${item.spuBaseAttrGroupVos}">-->
+<!--										<h3 th:text="${baseAttrGroup.groupName}">主体</h3>-->
+<!--										<dl>-->
+<!--											<div th:each="baseAttr:${baseAttrGroup.attrs}">-->
+<!--												<dt th:text="${baseAttr.attrName}">品牌</dt>-->
+<!--												<dd th:text="${baseAttr.attrValue}">华为</dd>-->
+<!--											</div>-->
+<!--										</dl>-->
+<!--									</div>-->
 									<div class="package-list">
 										<h3>包装清单</h3>
 										<p>手机（含内置电池） X 1、5A大电流华为SuperCharge充电器X 1、5A USB数据线 X 1、半入耳式线控耳机 X 1、快速指南X 1、三包凭证 X 1、取卡针 X 1、保护壳 X 1</p>

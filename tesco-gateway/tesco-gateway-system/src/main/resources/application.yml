@@ -90,5 +90,11 @@ spring:
           predicates:
             # 根据域名进行断言
             - Host=ware.tesco.com
+        # 秒杀服务（前端）
+        - id: tesco-seckill-route
+          uri: lb://seckill-service
+          predicates:
+            # 根据域名进行断言
+            - Host=seckill.tesco.com
   main:
     allow-bean-definition-overriding: true

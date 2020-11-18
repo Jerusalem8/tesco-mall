@@ -8,11 +8,22 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+  redis:
+    host: 192.168.75.140
+    port: 6379
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   main:
     allow-bean-definition-overriding: true
-
+  #设置定时任务线程池
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 50
+#    scheduling:
+#      pool:
+#        size: 5
 logging:
   level:
     com.jerusalem.order: info
