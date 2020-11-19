@@ -11,6 +11,14 @@ spring:
   redis:
     host: 192.168.75.140
     port: 6379
+  session:
+    store-type: redis
+  rabbitmq:
+    host: 192.168.75.156
+    port: 5672
+    virtual-host: /
+  thymeleaf:
+    cache: false
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
   main:

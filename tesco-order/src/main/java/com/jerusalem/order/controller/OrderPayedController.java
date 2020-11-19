@@ -1,4 +1,4 @@
-package com.jerusalem.order.listener;
+package com.jerusalem.order.controller;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -17,12 +17,12 @@ import java.util.Map;
 
 /****
  * @Author: jerusalem
- * @Description: OrderPayedListener
+ * @Description: OrderPayedController
  * 监听并处理支付宝支付成功的异步通知
  * @Date 2020/11/16 18:41
  *****/
 @RestController
-public class OrderPayedListener {
+public class OrderPayedController {
 
     @Autowired
     OrdersService ordersService;

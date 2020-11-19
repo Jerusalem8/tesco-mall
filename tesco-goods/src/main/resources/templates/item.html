@@ -533,8 +533,13 @@
 
 								</div>
 							</div>
-							<div class="box-btns-two">
-								<a href="#" id="addToCartA" th:attr="skuId=${item.skuInfo.skuId}">
+							<div class="box-btns-two" th:if="${item.seckillSkuInfo != null && (#dates.createNow().getTime() >= item.seckillSkuInfo.startTime && #dates.createNow().getTime() <= item.seckillSkuInfo.endTime)}">
+								<a href="" id="seckillA" th:attr="skuId=${item.skuInfo.skuId},sessionId=${item.seckillSkuInfo.promotionSessionId},code=${item.seckillSkuInfo.randomCode}">
+									立即抢购
+								</a>
+							</div>
+							<div class="box-btns-two" th:if="${item.seckillSkuInfo == null || (#dates.createNow().getTime() < item.seckillSkuInfo.startTime || #dates.createNow().getTime() > item.seckillSkuInfo.endTime)}">
+								<a href="" id="addToCartA" th:attr="skuId=${item.skuInfo.skuId}">
 									加入购物车
 								</a>
 							</div>
@@ -1094,14 +1099,26 @@
 	});
 	$(function() {
 		$(".sku_attr_value").parent.css({"border":"solid 1px #CCC"});
-		$("a[class='sku_attr_value checked']").css({"border":"solid 1px red"});
-
-	});
+		$("a[class='sku_attr_value checked']").parent().css({"border":"solid 1px red"});
+	})
 	$("#addToCartA").click(function() {
 		var num = $("#numInput").val();
 		var skuId = $(this).attr("skuId");
 		location.href = "http://cart.tesco.com/addToCart?skuId="+skuId+"&num="+num;
 		return false;
+	});
+	$("#seckillA").click(function() {
+		//秒杀业务要做登陆检查，防止恶刷
+		var isLogin = [[${session.loginUser!=null}]];
+		if (isLogin){
+			var seckillId = $(this).attr("sessionid")+"-"+$(this).attr("skuid");
+			var key = $(this).attr("code");
+			var num = $("#numInput").val();
+			location.href = "http://seckill.tesco.com/seckill/kill?seckillId="+seckillId+"&key="+key+"&num="+num;
+			return false;
+		}else {
+			alert("秒杀商品请先登录！")
+		}
 	});
 </script>
 </html>

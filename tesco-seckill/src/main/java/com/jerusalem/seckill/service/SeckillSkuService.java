@@ -29,4 +29,13 @@ public interface SeckillSkuService {
      * @return
      */
     SeckillSkuRedisTo getSkuSeckillInfo(Long skuId);
+
+    /***
+     * 秒杀商品完整的业务逻辑 -》立即抢购
+     * @param seckillId
+     * @param key
+     * @param num
+     * @return
+     */
+    String kill(String seckillId, String key, Integer num);
 }

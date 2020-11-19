@@ -82,7 +82,7 @@
                 '_href':href
             };
             //修改链接内容的情况太特殊了，所以先做到这里了
-            //todo:情况多的时候，做到command里
+            //TODO 情况多的时候，做到command里
             if(orgText && text.value != orgText){
                 link[browser.ie ? 'innerText' : 'textContent'] =  obj.textValue = text.value;
                 range.selectNode(link).select()

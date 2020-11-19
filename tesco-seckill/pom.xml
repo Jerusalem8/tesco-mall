@@ -32,5 +32,17 @@
             <artifactId>tesco-goods-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- SpringSession -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+        <!-- RabbitMq -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
     </dependencies>
 </project>

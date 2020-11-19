@@ -7,6 +7,7 @@ import com.jerusalem.cart.feign.CartFeign;
 import com.jerusalem.common.enume.OrderStatusEnum;
 import com.jerusalem.common.exception.NoStockException;
 import com.jerusalem.common.to.OrderTo;
+import com.jerusalem.common.to.SeckillOrderTo;
 import com.jerusalem.common.utils.R;
 import com.jerusalem.common.vo.*;
 import com.jerusalem.goods.feign.SpuInfoFeign;
@@ -339,6 +340,27 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersDao, OrdersEntity> impl
             this.update(updateWrapper);
         }
         return "success";
+    }
+
+    /****
+     * 创建秒杀订单的详细信息
+     * //TODO 保存秒杀订单的详细信息 订单、订单项（此处简略设置几项属性即可）
+     * @param seckillOrderTo
+     */
+    @Override
+    public void createSeckillOrder(SeckillOrderTo seckillOrderTo) {
+        OrdersEntity ordersEntity = new OrdersEntity();
+        ordersEntity.setOrderSn(seckillOrderTo.getOrderSn());
+        ordersEntity.setMemberId(seckillOrderTo.getUserId());
+        ordersEntity.setStatus(OrderStatusEnum.CREATE_NEW.getCode());
+        BigDecimal payAmount = seckillOrderTo.getSeckillPrice().multiply(new BigDecimal("" + seckillOrderTo.getNum()));
+        ordersEntity.setPayAmount(payAmount);
+        this.save(ordersEntity);
+        OrderItemEntity orderItemEntity = new OrderItemEntity();
+        orderItemEntity.setOrderSn(seckillOrderTo.getOrderSn());
+        orderItemEntity.setRealAmount(payAmount);
+        orderItemEntity.setSkuQuantity(seckillOrderTo.getNum());
+        orderItemService.save(orderItemEntity);
     }
 
     /***

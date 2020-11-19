@@ -1,6 +1,7 @@
 package com.jerusalem.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jerusalem.common.to.SeckillOrderTo;
 import com.jerusalem.common.utils.PageUtils;
 import com.jerusalem.order.entity.OrdersEntity;
 import com.jerusalem.order.vo.*;
@@ -70,5 +71,11 @@ public interface OrdersService extends IService<OrdersEntity> {
      * @return
      */
     String handlePayResult(PayAsyncVo payAsyncVo);
+
+    /****
+     * 创建秒杀订单的详细信息
+     * @param seckillOrderTo
+     */
+    void createSeckillOrder(SeckillOrderTo seckillOrderTo);
 }
 

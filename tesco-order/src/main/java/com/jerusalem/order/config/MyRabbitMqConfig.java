@@ -65,6 +65,16 @@ public class MyRabbitMqConfig {
     public Queue orderReleaseQueue(){
         return new Queue("order.release.queue", true, false, false);
     }
+    /***
+     * 秒杀队列
+     * 作用：削峰
+     * @return
+     */
+    @Bean
+    public Queue orderSeckillQueue(){
+        return new Queue("order.seckill.queue", true, false, false);
+    }
+
     @Bean
     public Binding orderCreateBinding(){
         return new Binding("order.delay.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.create", null);
@@ -72,6 +82,10 @@ public class MyRabbitMqConfig {
     @Bean
     public Binding orderReleaseBinding(){
         return new Binding("order.release.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.release", null);
+    }
+    @Bean
+    public Binding orderSeckillBinding(){
+        return new Binding("order.seckill.queue", Binding.DestinationType.QUEUE, "order-event-exchange", "order.seckill", null);
     }
 
     /***
