@@ -16,6 +16,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130
+    sentinel:
+      transport:
+        # 数据传输端口
+        port: 8719
+        # 控制台端口
+        dashboard: 192.168.75.158:8858
   # 环境 dev|test|prod
   profiles:
     active: dev

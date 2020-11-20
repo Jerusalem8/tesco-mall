@@ -1,5 +1,9 @@
 package com.jerusalem.seckill.service.impl;
 
+import com.alibaba.csp.sentinel.Entry;
+import com.alibaba.csp.sentinel.SphU;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -14,6 +18,7 @@ import com.jerusalem.seckill.to.SeckillSkuRedisTo;
 import com.jerusalem.seckill.vo.SeckillSessionWithSkusVo;
 import com.jerusalem.seckill.vo.SkuDetailInfoVo;
 import jodd.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
@@ -34,6 +39,7 @@ import java.util.stream.Collectors;
  * @Description: SeckillSkuService
  * @Date 2020/11/17 11:15
  *****/
+@Slf4j
 @Service
 public class SeckillSkuServiceImpl implements SeckillSkuService {
 
@@ -79,34 +85,56 @@ public class SeckillSkuServiceImpl implements SeckillSkuService {
     /***
      * 获取当前时间可以参与的秒杀商品信息
      * .getTime()：获得数字时间
+     * blockHandler 函数会在原方法被限流/降级/系统保护的时候调用
+     * fallback 函数会针对所有类型的异常
      * @return
      */
+    @SentinelResource(value = "currentSeckillSkus",blockHandler = "blockHandler")
     @Override
     public List<SeckillSkuRedisTo> getCurrentSeckillSkus() {
         //1.确定当前时间的秒杀场次
         long time = new Date().getTime();
-        Set<String> keys = stringRedisTemplate.keys(SESSION_CACHE_PREFIX + "*");
-        for (String key : keys) {
-            String replace = key.replace(SESSION_CACHE_PREFIX, "");
-            String[] s = replace.split("_");
-            long startTime = Long.parseLong(s[0]);
-            long endTime = Long.parseLong(s[1]);
-            if (time>=startTime && time<=endTime){
-                //2.查询该秒杀场次的秒杀商品
-                List<String> range = stringRedisTemplate.opsForList().range(key, -10000, 10000);
-                BoundHashOperations<String, String, String> hashOps =  stringRedisTemplate.boundHashOps(SKUS_CACHE_PREFIX);
-                List<String> list = hashOps.multiGet(range);
-                if (list != null){
-                    List<SeckillSkuRedisTo> collect = list.stream().map(item -> {
-                        SeckillSkuRedisTo redisTo = JSON.parseObject(item.toString(), SeckillSkuRedisTo.class);
+        /**
+         * TODO 自定义受保护资源
+         * 1.抛出异常的方式
+         * 2.注解方式
+         * 无论哪种方式，都要配置资源被限流后的默认返回！
+         * URL请求可以统一返回
+         */
+        try(Entry entry = SphU.entry("seckillSkus")){
+            Set<String> keys = stringRedisTemplate.keys(SESSION_CACHE_PREFIX + "*");
+            for (String key : keys) {
+                String replace = key.replace(SESSION_CACHE_PREFIX, "");
+                String[] s = replace.split("_");
+                long startTime = Long.parseLong(s[0]);
+                long endTime = Long.parseLong(s[1]);
+                if (time>=startTime && time<=endTime){
+                    //2.查询该秒杀场次的秒杀商品
+                    List<String> range = stringRedisTemplate.opsForList().range(key, -10000, 10000);
+                    BoundHashOperations<String, String, String> hashOps =  stringRedisTemplate.boundHashOps(SKUS_CACHE_PREFIX);
+                    List<String> list = hashOps.multiGet(range);
+                    if (list != null){
+                        List<SeckillSkuRedisTo> collect = list.stream().map(item -> {
+                            SeckillSkuRedisTo redisTo = JSON.parseObject(item.toString(), SeckillSkuRedisTo.class);
 //                        redisTo.setRandomCode(null);
-                        return redisTo;
-                    }).collect(Collectors.toList());
-                    return collect;
+                            return redisTo;
+                        }).collect(Collectors.toList());
+                        return collect;
+                    }
+                    break;
                 }
-                break;
             }
+        }catch (BlockException e){
+//            log.info("资源被限流：{}",e.getMessage());
         }
+        return null;
+    }
+    /***
+     * 限流回调方法
+     * @return
+     */
+    public List<SeckillSkuRedisTo> blockHandler(BlockException e) {
+        log.error("方法getCurrentSeckillSkus被限流啦！");
         return null;
     }
 

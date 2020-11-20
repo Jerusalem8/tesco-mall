@@ -13,6 +13,15 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+    sentinel:
+      transport:
+        # 数据传输端口
+        port: 8719
+        # 控制台端口
+        dashboard: 192.168.75.158:8858
+      filter:
+        #打开/关闭掉对Spring MVC端点的保护(//TODO 如果不加这一句，启动报错)
+        enabled: false
   rabbitmq:
     host: 192.168.75.156
     port: 5672

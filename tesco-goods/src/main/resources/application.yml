@@ -16,6 +16,12 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.75.130:8848
+    sentinel:
+      transport:
+        # 数据传输端口
+        port: 8719
+        # 控制台端口
+        dashboard: 192.168.75.158:8858
   session:
     store-type: redis
   # 日期格式设置
@@ -34,7 +40,19 @@ mybatis-plus:
       logic-delete-value: 1     //已删除
       logic-not-delete-value: 0     //未删除
 
+##//TODO #开启Sentinel远程调用熔断机制
+#feign:
+#  sentinel:
+#    enabled: true
+#（1）调用方的熔断保护
+#（2）调用方手动指定远程服务的降级策略，远程服务被降级，出发本服务熔断回调机制
+#（3）超大流量时，在服务提供方（远程服务）指定降级策略，提供方虽然在运行，但是不运行自己的业务逻辑，返回的默认的降级数据
 
 logging:
   level:
+    org:
+      springframework:
+        cloud:
+          openfeign: debug
+          sleuth: debug
     com.jerusalem.goods: debug
