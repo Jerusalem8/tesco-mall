@@ -17,6 +17,17 @@ spring:
         port: 8719
         # 控制台端口
         dashboard: 192.168.75.158:8858
+  #链路追踪可视化
+  zipkin:
+    base-url: http://192.168.75.160:9411/
+    #关闭服务发现，否则springCloud会把zipkin的url当作服务名称
+    discovery-client-enabled: false
+    #设置http方式传输数据
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1    # 设置抽样采集率为100%
   session:
     store-type: redis
   redis:

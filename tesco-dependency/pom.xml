@@ -56,6 +56,22 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lettuce-core</artifactId>
+                    <groupId>io.lettuce</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- jedis客户端 -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- spring2.X集成redis所需common-pool2，使用jedis必须依赖它-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <!--服务注册中心Nacos相关依赖-->
@@ -97,10 +113,10 @@
 <!--            <version>0.9.0</version>-->
 <!--        </dependency>-->
 
-        <!-- Sleuth 链路追踪-->
+        <!-- 链路追踪可视化zipkin（包含了Sleuth的依赖 ） -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
 
         <!-- Redisson -->

@@ -47,5 +47,12 @@
 <!--            <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>-->
 <!--            <version>2.2.0.RELEASE</version>-->
 <!--        </dependency>-->
+
+        <!-- 链路追踪可视化zipkin（包含了Sleuth的依赖 ） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
