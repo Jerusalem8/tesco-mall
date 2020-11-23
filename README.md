@@ -172,6 +172,8 @@ Notepad|好用的记事本
 
 - **[个人博客](http://www.nm83.com)**
 
+- **[码云](https://gitee.com/jerusalem01/tesco)**
+
 - **[GitHub](https://github.com/Jerusalem01/tesco-mall)**
 
 #### 参与贡献
