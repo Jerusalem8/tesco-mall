@@ -170,12 +170,10 @@ Notepad|好用的记事本
 
 #### 友情链接
 
-- **个人博客**
+- **[个人博客](http://www.nm83.com)**
 
-[个人博客](47.93.227.147)
-
-- **码云**
+- **[GitHub](https://github.com/Jerusalem01/tesco-mall)**
 
 #### 参与贡献
 
-感谢人人开源
+- **感谢[人人开源](https://gitee.com/renrenio)，后台管理系统部分基于[renren-fast](https://gitee.com/renrenio/renren-fast)+[renren-fast-vue](https://gitee.com/renrenio/renren-fast-vue)进行快速二次开发。**
