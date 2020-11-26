@@ -26,5 +26,3 @@ rebel.xml
 ## Other ##
 logs/
 temp/
-tesco-third-services/src/main/resources
-tesco-order/src/main/resources/application.yml
