@@ -1,0 +1,39 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: third-service
+  #链路追踪可视化
+  zipkin:
+    base-url: http://192.168.75.160:9411/
+    #关闭服务发现，否则springCloud会把zipkin的url当作服务名称
+    discovery-client-enabled: false
+    #设置http方式传输数据
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1    # 设置抽样采集率为100%
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.75.130:8848
+    sentinel:
+      transport:
+        # 数据传输端口
+        port: 8719
+        # 控制台端口
+        dashboard: 192.168.75.158:8858
+    alicloud:
+      access-key: LTAI4FibE9GHYLSkWS1caFsk
+      secret-key: 6fgpnYdXGiGgRrrzMjs4Z3xkXgCWpQ
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: tesco-mall
+      sms:
+        host: https://feginesms.market.alicloudapi.com
+        path: /codeNotice
+        appcode: 9f52a37138e64affbcadd1044167a588
+        sign: 1
+        skin: 5
