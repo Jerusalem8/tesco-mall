@@ -16,6 +16,7 @@ target/
 *.ipr
 *.key
 *.jks
+*.yml
 
 ## JRebel ##
 rebel.xml
@@ -26,3 +27,4 @@ rebel.xml
 ## Other ##
 logs/
 temp/
+tesco-admin-vue/node_modules/
