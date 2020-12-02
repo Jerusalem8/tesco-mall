@@ -34,6 +34,7 @@
         <version>2.2.2.RELEASE</version>
     </parent>
 
+
     <!--跳过测试-->
     <properties>
         <skipTests>true</skipTests>
