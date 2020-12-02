@@ -6,10 +6,10 @@
 涵盖Restful接口、数据校验、网关、注册发现、配置中心、熔断、限流、降级、链路追踪、性能监控、压力测试、系统预警、集群部署、持续集成、持续部署等技术点，均采用当前最流行的技术栈。
 #### 项目架构
 ##### 系统架构图
-![系统架构图](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/560FF643A44949069CDFB524A1178894/9027)
+![系统架构图](http://jerusalem01.gitee.io/images-bed/images/tesco/架构图.png)
 
 ##### 微服务划分图
-![微服务划分图](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/A8EE6D156CFC43C18BE6FD56CD9E28FB/9035)
+![微服务划分图](http://jerusalem01.gitee.io/images-bed/images/tesco/服务划分图.png)
 
 ##### 模块说明
 ```text
@@ -130,42 +130,42 @@ Notepad|好用的记事本
 ##### 后台管理系统
 
 - **登录页**
-![登录页](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/1377F40C8A2E43F9A3EF6C7CD60572B8/9322)
+![登录页](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211901.png)
 
 - **统计管理**
-![统计管理](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/8CE64B5C12224353AD40DCC820F7B0AD/9323)
+![统计管理](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211939.png)
 
 - **品牌管理**
-![品牌管理](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/2171F5A09AAB48969AAA23990F772D5E/9324)
+![品牌管理](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122212011.png)
 
 - **属性管理**
-![属性管理](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/68D292BE3C934D3F92E78CDF87E9E255/9325)
+![属性管理](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122212040.png)
 
 - **商品管理**
-![商品管理](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/4C9A50D8EF444DD4AB22F6A1730CC02C/9326)
+![商品管理](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122212114.png)
 
 - **发布商品**
-![登录页](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/C507660A6028422DA5CDB9E6E106571E/9327)
+![登录页](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122212134.png)
 
 - **秒杀系统**
-![秒杀系统](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/F149CFBA5FC54C93AA3397EA9F627086/9330)
+![秒杀系统](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122212343.png)
 
 ##### 前台商城系统
 
 - **首页门户**
-![首页门户](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/2351F3F534194367BBA656D56D51D290/9317)
+![首页门户](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211436.png)
 
 - **商品搜索**
-![商品搜索](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/88F318A74C0942C797086570C3F38991/9318)
+![商品搜索](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211519.png)
 
 - **购物车**
-![购物车](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/0A5C4279716C40D3A8F396BC14B8608B/9319)
+![购物车](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211558.png)
 
 - **结算页**
-![结算页](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/1BB3A4A9A0044BB6B30CCC120F3B6F9B/9320)
+![结算页](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211749.png)
 
 - **支付页**
-![支付页](http://note.youdao.com/yws/public/resource/1561600496a5d7e07960743d570d4898/xmlnote/1D3EB6C77D4B45768F05DDE110547201/9321)
+![支付页](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211820.png)
 
 
 #### 友情链接
