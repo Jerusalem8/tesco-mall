@@ -172,7 +172,7 @@ Notepad|好用的记事本
 
 - **[个人博客](http://www.nm83.com)**
 
-- **[码云](https://gitee.com/jerusalem01/tesco)**
+- **[码云](https://gitee.com/jerusalem01/tesco-mall)**
 
 - **[GitHub](https://github.com/Jerusalem01/tesco-mall)**
 
