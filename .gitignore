@@ -28,3 +28,4 @@ rebel.xml
 logs/
 temp/
 tesco-admin-vue/node_modules/
+tesco-third-services/src/main/resources/application.yml
