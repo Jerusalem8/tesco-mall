@@ -129,6 +129,10 @@ Notepad|好用的记事本
 #### 效果演示
 ##### 后台管理系统
 
+​	**测试账号：**
+
+​	登录名：admin123		密码：123456
+
 - **登录页**
 ![登录页](http://jerusalem01.gitee.io/images-bed/images/tesco/QQ图片20201122211901.png)
 
